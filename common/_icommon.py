@@ -20,6 +20,7 @@ from _initDriver import *
 from _cnEncode import *
 
 from selenium.webdriver.support.ui import Select
+from selenium.webdriver.support.ui import WebDriverWait
 
 #获取定位元素
 class getElement(object):
@@ -29,10 +30,10 @@ class getElement(object):
     
     '''查找元素
         parameter:
-            - elem:定位的类型，如id,name,tag name,class name,css,xpath等
+            - type:定位的类型，如id,name,tag name,class name,css,xpath等
             - value：页面的元素值
     '''
-    def find_element(self,elem,value):
+    def find_element(self,type,value):
         return {
             "id" : lambda value:self.driver.find_element_by_id(value),
             "name" : lambda value:self.driver.find_element_by_name(value),
@@ -42,15 +43,15 @@ class getElement(object):
             "xpath" : lambda value:self.driver.find_element_by_xpath(value),
             "link" : lambda value:self.driver.find_element_by_link_text(value),
             "plt" : lambda value:self.driver.find_element_by_partial_link_text(value)
-        }[elem](value)
+        }[type](value)
         
     '''查找元素并发送键值
         Parameters:
-             - elem:定位的类型，如id,name,tag name,class name,css,xpath等
+             - type:定位的类型，如id,name,tag name,class name,css,xpath等
              - value：页面的元素值
              - key：发送的字符或者键盘的键值
     '''
-    def find_element_and_sendkeys(self,elem,value,key):
+    def find_element_and_sendkeys(self,type,value,key):
         return {
             "id" : lambda value:self.driver.find_element_by_id(value).send_keys(key),
             "name" : lambda value:self.driver.find_element_by_name(value).send_keys(key),
@@ -60,14 +61,14 @@ class getElement(object):
             "xpath" : lambda value:self.driver.find_element_by_xpath(value).send_keys(key),
             "link" : lambda value:self.driver.find_element_by_link_text(value).send_keys(key),
             "plt" : lambda value:self.driver.find_element_by_partial_link_text(value).send_keys(key)
-        }[elem](value)
+        }[type](value)
     
     '''查找元素并单击
         Parameters:
-            - elem:定位的类型，如id,name,tag name,class name,css,xpath等
+            - type:定位的类型，如id,name,tag name,class name,css,xpath等
             - value：页面的元素值
     '''
-    def find_element_and_click(self,elem,value):
+    def find_element_and_click(self,type,value):
         return {
             "id" : lambda value:self.driver.find_element_by_id(value).click(),
             "name" : lambda value:self.driver.find_element_by_name(value).click(),
@@ -77,7 +78,7 @@ class getElement(object):
             "xpath" : lambda value:self.driver.find_element_by_xpath(value).click(),
             "link" : lambda value:self.driver.find_element_by_link_text(value).click(),
             "plt" : lambda value:self.driver.find_element_by_partial_link_text(value).click()
-        }[elem](value)
+        }[type](value)
         
 
 #select元素相关处理
@@ -160,9 +161,50 @@ class selectElement(object):
 
 #frame元素
 class frameElement(object):
-    pass
+    def __init__(self,driver):
+        #selenium驱动
+        self.driver = driver
+    
+    '''定位到topFrame'''
+    def switch_to_top(self):
+        self.driver.switch_to_frame("content1")
+        self.driver.switch_to_frame("topFrame")
 
+    '''定位到mainFrame'''
+    def switch_to_main(self):
+        self.driver.switch_to_frame("content1")
+        self.driver.switch_to_frame("mainFrame")
+        
+    '''定位到mainFrame'''
+    def switch_to_bottom(self):
+        self.driver.switch_to_frame("content1")
+        self.driver.switch_to_frame("bottomFrame")
 
+    '''返回上级frame'''
+    def switch_to_content(self):
+        self.driver.switch_to_default_content()
+    
+    '''从top跳转到其他frame
+        Parameters:
+            - frameName:起始frame的名字      
+    '''
+    def from_frame_to_otherFrame(self,frameName):
+        #实例化frameElement
+        frameElt = frameElement(self.driver)
+        frameElt.switch_to_content()
+        
+        if frameName == "mainFrame":
+            #定位到mainFrame
+            frameElt.switch_to_main()
+            
+        elif frameName == "bottomFrame":
+            #定位到bottomFrame
+            frameElt.switch_to_bottom()
+            
+        elif frameName == "topFrame":
+            #定位到topFrame            
+            frameElt.switch_to_top()
+        
 #table元素
 class tableElement(object):
     pass
@@ -185,14 +227,21 @@ if __name__ == "__main__" :
     #print cnEncode().cnCode(selectElem.get_option_text(a,0))
     #print cnEncode().cnCode(selectElem.get_all_option_text(a)[0])
     #print cnEncode().cnCode(selectElem.get_all_option_text(a)[1])
-#    
-#    a = getElem.find_element("id","username")
-#    a.send_keys("isomper")
+
     pwd = "html/body/div[2]/div[3]/form/table/tbody[2]/tr[4]/td/input"
     getElem.find_element_and_sendkeys("id","username","isomper")
     getElem.find_element_and_sendkeys("xpath",pwd,"1")
     getElem.find_element_and_click("id","do_login")
     
+    frameElem = frameElement(browers)
+    frameElem.switch_to_bottom()
+    aa = getElem.find_element("classname","lt")
+    frameElem.from_frame_to_otherFrame("topFrame")
+    print getElem.find_element("id","hostName").text
+    frameElem.from_frame_to_otherFrame("mainFrame")
+    getElem.find_element_and_sendkeys("id","fortUserAccountOrName","a")
+    b = getElem.find_element("id","fortRoleId")
+    selectElem.select_element_by_index(b,2)
     
     
     
