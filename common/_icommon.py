@@ -17,9 +17,10 @@ sys.setdefaultencoding('utf-8')
 
 sys.path.append("/testIsomp/common/")
 from _initDriver import *
-from _cnEncode import *
+from _cnEncode import cnEncode
 
 from selenium.webdriver.support.ui import Select
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 
 #获取定位元素
@@ -299,10 +300,10 @@ class tableElement(object):
         #selenium驱动
         self.driver = driver
 
-    '''获取表格中的所有
+    '''获取表格中的所有行对象
         Parameters:
             - table_xpath:定位table的xpath
-           
+        Return: table的所有行对象
     '''
     def get_table_rows(self,table_xpath):
         get_elem = getElement(self.driver)
@@ -314,11 +315,12 @@ class tableElement(object):
              
         return row_elems
 
-    '''获取表格中的文本内容
+    '''获取表格中一列的文本内容
         Parameters:
             - table_xpath:定位table的xpath
             - row:行号
-            - col:列号            
+            - col:列号  
+        Return: table列中的文本,table列的列对象
     '''
     def get_table_cell_text(self,table_xpath,row,col):
         
@@ -330,12 +332,13 @@ class tableElement(object):
         #获取行中的所有列
         col_elems = row_elems[row].find_elements_by_tag_name("td")               
             
-        return col_elems[col].text
+        return col_elems[col].text,col_elems[col]
+
         
     '''获取表格中的行数
         Parameters:
             - table_xpath:定位table的xpath
-           
+        Return: table的行数
     '''
     def get_table_rows_count(self,table_xpath):
         
@@ -348,9 +351,41 @@ class tableElement(object):
 
 
 
-#通用函数，等待元素显示，checkbox，radiobutton的操作
+#通用函数
 class commonFun(object):
-    pass
+    
+    def __init__(self,driver):
+        #selenium驱动
+        self.driver = driver
+
+    '''选择角色
+        Parameters:
+            - index:下拉列表的索引（0,1,2）
+    '''
+    def select_role(self,index):
+        getElem = getElement(self.driver)
+        getElem.find_element_wait_and_click("id","js_z")
+        role = getElem.find_element("id","js_x")
+        selectElem.select_element_by_index(role,index)
+        
+        
+    '''获取开关的状态
+        return: 0代表开关关闭，1代表开关打开
+    '''
+    def switch_status(self,elem):
+        status = 1
+        
+        switch = elem.find_element_by_id("btn_qh")
+        
+        #获取开关class的属性
+        switch_value = switch.get_attribute('class')
+        
+        if switch_value == "switch_off":
+            status = 0
+        
+        return status
+        
+    
 
 
 
@@ -378,12 +413,19 @@ if __name__ == "__main__" :
 
     frameElem = frameElement(browers)
     frameElem.switch_to_bottom()
-    aa = getElem.find_element("classname","lt")
+    #aa = getElem.find_element("classname","lt")
     frameElem.from_frame_to_otherFrame("topFrame")
-    getElem.find_element_and_click("xpath","html/body/div[1]/div/div[2]/ul/li[2]/span/a")
-    getElem.find_element_and_click("xpath","html/body/div[1]/div/div[2]/ul/li[2]/p/a[1]")
+#    getElem.find_element_and_click("xpath","html/body/div[1]/div/div[2]/ul/li[2]/span/a")
+#    getElem.find_element_and_click("xpath","html/body/div[1]/div/div[2]/ul/li[2]/p/a[1]")
     frameElem.from_frame_to_otherFrame("mainFrame")
     
+    #登陆后选择用户角色
+    common = commonFun(browers)
+#    common.select_role(1)
+#    common.select_role(2)
+#    common.select_role(0)
+#    swithvalue = common.switch_status()
+#    print swithvalue
     
 #    print getElem.find_element("id","hostName").text
 #    frameElem.from_frame_to_otherFrame("mainFrame")
@@ -404,6 +446,26 @@ if __name__ == "__main__" :
     
     #用户页面的表格
     table_elem = tableElement(browers)
-    tx = "html/body/form/div/div[6]/div[2]/div/table"
-    print table_elem.get_table_cell_text(tx,0,1)
-    print table_elem.get_table_rows_count(tx)
+    tx = "html/body/form/div/div[7]/div[2]/div/table"
+    
+    #返回两个返回值的第一个
+    #cell_text = table_elem.get_table_cell_text(tx,0,6)[0]
+    
+    #返回两个返回值的第二个
+#    cell_elem = table_elem.get_table_cell_text(tx,1,7)[1]
+#    switch_status = common.switch_status(cell_elem)
+#    print switch_status
+    
+    #返回两个返回值分别放进cell_text和cell_elem
+    #cell_text,cell_elem = table_elem.get_table_cell_text(tx,0,6)
+    
+    
+
+    #print cell_elem
+#    print cnEncode().cnCode(table_elem.get_table_cell_text(tx,0,7))
+#    print table_elem.get_table_rows_count(tx)
+
+
+
+#退出操作
+    #getElem.find_element_wait_and_click("id","logout")
