@@ -103,7 +103,7 @@ class getElement(object):
         elif type == "name":
             return WebDriverWait(self.driver,timeout).until(lambda x:x.find_element_by_name(value))
         elif type == "tagname":
-            return WebDriverWait(self.driver,timeout).until(lambda x:x.find_element_by_tag_name(value))
+            return WebDriverWait(self.driver,timeout).until(lambda x:x.find_elements_by_tag_name(value))
         elif type == "classname":
             return WebDriverWait(self.driver,timeout).until(lambda x:x.find_element_by_class_name(value))
         elif type == "css":
@@ -129,7 +129,7 @@ class getElement(object):
         elif type == "name":
             return WebDriverWait(self.driver,timeout).until(lambda x:x.find_element_by_name(value)).send_keys(key)
         elif type == "tagname":
-            return WebDriverWait(self.driver,timeout).until(lambda x:x.find_element_by_tag_name(value)).send_keys(key)
+            return WebDriverWait(self.driver,timeout).until(lambda x:x.find_elements_by_tag_name(value)).send_keys(key)
         elif type == "classname":
             return WebDriverWait(self.driver,timeout).until(lambda x:x.find_element_by_class_name(value)).send_keys(key)
         elif type == "css":
@@ -154,7 +154,7 @@ class getElement(object):
         elif type == "name":
             return WebDriverWait(self.driver,timeout).until(lambda x:x.find_element_by_name(value)).click()
         elif type == "tagname":
-            return WebDriverWait(self.driver,timeout).until(lambda x:x.find_element_by_tag_name(value)).click()
+            return WebDriverWait(self.driver,timeout).until(lambda x:x.find_elements_by_tag_name(value)).click()
         elif type == "classname":
             return WebDriverWait(self.driver,timeout).until(lambda x:x.find_element_by_class_name(value)).click()
         elif type == "css":
@@ -260,6 +260,19 @@ class frameElement(object):
     def switch_to_main(self):
         self.driver.switch_to_frame("content1")
         self.driver.switch_to_frame("mainFrame")
+    
+    '''定位到leftFrame'''
+    def switch_to_left(self):
+        self.driver.switch_to_frame("content1")
+        self.driver.switch_to_frame("mainFrame")
+        self.driver.switch_to_frame("leftFrame")
+        
+    '''定位到rightFrame'''
+    def switch_to_right(self):
+        self.driver.switch_to_frame("content1")
+        self.driver.switch_to_frame("mainFrame")
+        self.driver.switch_to_frame("rightFrame")
+    
         
     '''定位到bottomFrame'''
     def switch_to_bottom(self):
@@ -290,6 +303,14 @@ class frameElement(object):
         elif frameName == "topFrame":
             #定位到topFrame            
             frameElt.switch_to_top()
+            
+        elif frameName == "leftFrame":
+            #定位到topFrame            
+            frameElt.switch_to_left()
+        
+        elif frameName == "rightFrame":
+            #定位到topFrame            
+            frameElt.switch_to_right()
         
 
 
@@ -385,8 +406,71 @@ class commonFun(object):
         
         return status
         
-    
-
+    '''点击列表页面中的操作项
+        Parameters:
+            - elem：定位到table中对应的列对象
+            - index: 点击索引（0,1,2代表操作列内的项目）
+    '''
+    def click_operate(self,elem,index):
+        op = cell_elem.find_elements_by_tag_name("input")[index]
+        op.click()
+        
+    '''点击分页中的按钮
+        Parameters:
+            - type：first表示首页，last表示尾页，up表示上一页，
+                    down表示下一页，jump表示跳转按钮
+    '''
+    def click_paging(self,type):
+        time.sleep(1)
+        
+        getElem = getElement(self.driver)
+        pageDiv = getElem.find_element_with_wait("id","pager")
+        pagerBtn = pageDiv.find_elements_by_tag_name("input")
+        
+        #点击首页
+        if type == "first":
+            pagerBtn[2].click()
+            
+        #点击上一页
+        elif type == "up":
+            pagerBtn[3].click()
+            
+        #点击下一页
+        elif type == "down":
+            pagerBtn[4].click()
+        
+        #点击尾页
+        elif type == "last":
+            pagerBtn[5].click()
+        
+        #点击跳转
+        elif type == "jump":
+            pagerBtn[0].click()
+        
+    '''菜单选择
+        Parameters:
+            - levelText1：1级菜单文本
+            - levelText2：2级菜单文本 
+            - levelText3：3级菜单文本           
+    '''
+    def select_menu(self,levelText1,levelText2='no',levelText3='no'):
+        #进入topframe
+        frameElem = frameElement(self.driver)
+        frameElem.from_frame_to_otherFrame("topFrame")
+        
+        getElem = getElement(self.driver)
+        #点击一级菜单
+        getElem.find_element_wait_and_click("link",levelText1)
+        
+        #如果有2级菜单，再点击2级菜单
+        if levelText2 != 'no':
+            getElem.find_element_wait_and_click("link",levelText2)
+        
+        #如果有3级菜单，根据名称点击3级菜单
+        if levelText3 != 'no':
+            frameElem.from_frame_to_otherFrame("leftFrame")
+            getElem.find_element_wait_and_click("link",levelText3)
+        
 
 
 if __name__ == "__main__" :
@@ -406,7 +490,7 @@ if __name__ == "__main__" :
 
     pwd = "html/body/div[2]/div[3]/form/table/tbody[2]/tr[4]/td/input"
     #getElem.find_element_and_sendkeys("id","username","isomper")
-    getElem.find_element_wait_and_sendkeys("id","username","isomper")
+    getElem.find_element_wait_and_sendkeys("id","username","a")
     getElem.find_element_wait_and_sendkeys("xpath",pwd,"1")
     getElem.find_element_wait_and_click("id","do_login")
 #登陆操作结束
@@ -417,7 +501,7 @@ if __name__ == "__main__" :
     frameElem.from_frame_to_otherFrame("topFrame")
 #    getElem.find_element_and_click("xpath","html/body/div[1]/div/div[2]/ul/li[2]/span/a")
 #    getElem.find_element_and_click("xpath","html/body/div[1]/div/div[2]/ul/li[2]/p/a[1]")
-    frameElem.from_frame_to_otherFrame("mainFrame")
+    #frameElem.from_frame_to_otherFrame("mainFrame")
     
     #登陆后选择用户角色
     common = commonFun(browers)
@@ -445,14 +529,23 @@ if __name__ == "__main__" :
 
     
     #用户页面的表格
-    table_elem = tableElement(browers)
-    tx = "html/body/form/div/div[7]/div[2]/div/table"
+#    table_elem = tableElement(browers)
+#    tx = "html/body/form/div/div[7]/div[2]/div/table"
     
     #返回两个返回值的第一个
     #cell_text = table_elem.get_table_cell_text(tx,0,6)[0]
     
     #返回两个返回值的第二个
-#    cell_elem = table_elem.get_table_cell_text(tx,1,7)[1]
+    #cell_elem = table_elem.get_table_cell_text(tx,1,8)[1]
+    #print table_elem.get_table_cell_text(tx,1,1)[0]
+    
+    #用户页面的角色选择开始
+#    common.click_operate(cell_elem,1)
+#    se = getElem.find_element("id","Roles")
+#    selectElem.select_element_by_index(se,1)
+#    #用户页面的角色选择结束
+    
+    #用户列表的锁定开关
 #    switch_status = common.switch_status(cell_elem)
 #    print switch_status
     
@@ -465,7 +558,25 @@ if __name__ == "__main__" :
 #    print cnEncode().cnCode(table_elem.get_table_cell_text(tx,0,7))
 #    print table_elem.get_table_rows_count(tx)
 
+    #部门选择
+#    getElem.find_element_wait_and_click("id","department_name")
+#    #getElem.find_element_wait_and_click("id","query_zijiedian")
+#    getElem.find_element_wait_and_click("id","tree_1_switch")
+#    getElem.find_element_wait_and_click("link",u"测试部门a")
+    
+    #点击分页的首页，上一页，下一页，尾页，跳转
+#    getElem.find_element_with_wait("id","goto_text").clear()
+#    getElem.find_element_wait_and_sendkeys("id","goto_text","2")
+#    common.click_paging("jump")
+#    common.click_paging("up")
+#    common.click_paging("down")
+#    common.click_paging("first")    
+#    common.click_paging("last") 
 
-
+    #选择菜单
+#    common.select_menu(u"系统配置",u"关联服务",u"邮件")
+#    common.select_menu(u"系统配置",u"系统状态",u"关机重启")
+#    common.select_menu(u"运维管理",u"用户")
+    
 #退出操作
     #getElem.find_element_wait_and_click("id","logout")
