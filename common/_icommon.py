@@ -289,19 +289,13 @@ class frameElement(object):
     
     '''定位到leftFrame'''
     def switch_to_left(self):
-        if self.getElem.is_element_exsit("id","content1"):
-            self.driver.switch_to_frame("content1")
-        if self.getElem.is_element_exsit("id","mainFrame"):
-            self.driver.switch_to_frame("mainFrame")
+        self.switch_to_main()
         if self.getElem.is_element_exsit("id","leftFrame"):
             self.driver.switch_to_frame("leftFrame")
         
     '''定位到rightFrame'''
     def switch_to_right(self):
-        if self.getElem.is_element_exsit("id","content1"):
-            self.driver.switch_to_frame("content1")
-        if self.getElem.is_element_exsit("id","mainFrame"):
-            self.driver.switch_to_frame("mainFrame")
+        self.switch_to_main()
         if self.getElem.is_element_exsit("id","rightFrame"):
             self.driver.switch_to_frame("rightFrame")
     
