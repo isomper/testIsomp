@@ -164,6 +164,25 @@ class getElement(object):
         elif type == "plt":
             return WebDriverWait(self.driver,timeout).until(lambda x:x.find_element_by_partial_link_text(value)).click()
 
+    '''元素是否存在
+        parameter:
+            - type:定位的类型，如id,name,tag name,class name,css,xpath等
+            - value：页面的元素值
+            - timeout:超时前等待的时间
+        return:true代表元素出现，false代表找不到元素
+    '''
+    def is_element_exsit(self,type,value,timeout=3):
+        isExsit = False
+        
+        try:
+            element = self.find_element_with_wait(type,value)
+            
+            if element != False:
+                isExsit = True
+        except Exception as e:
+            print value + " element is not exsit."
+        
+        return isExsit
 
 #select元素
 class selectElement(object):
@@ -250,34 +269,49 @@ class frameElement(object):
     def __init__(self,driver):
         #selenium驱动
         self.driver = driver
+        self.getElem = getElement(driver)
     
     '''定位到topFrame'''
     def switch_to_top(self):
-        self.driver.switch_to_frame("content1")
-        self.driver.switch_to_frame("topFrame")
+        #如果content1的frame加载完毕，定位到content1的frame
+        if self.getElem.is_element_exsit("id","content1"):
+            self.driver.switch_to_frame("content1")
+            
+        if self.getElem.is_element_exsit("id","topFrame"):    
+            self.driver.switch_to_frame("topFrame")
 
     '''定位到mainFrame'''
     def switch_to_main(self):
-        self.driver.switch_to_frame("content1")
-        self.driver.switch_to_frame("mainFrame")
+        if self.getElem.is_element_exsit("id","content1"):
+            self.driver.switch_to_frame("content1")
+        if self.getElem.is_element_exsit("id","mainFrame"):
+            self.driver.switch_to_frame("mainFrame")
     
     '''定位到leftFrame'''
     def switch_to_left(self):
-        self.driver.switch_to_frame("content1")
-        self.driver.switch_to_frame("mainFrame")
-        self.driver.switch_to_frame("leftFrame")
+        if self.getElem.is_element_exsit("id","content1"):
+            self.driver.switch_to_frame("content1")
+        if self.getElem.is_element_exsit("id","mainFrame"):
+            self.driver.switch_to_frame("mainFrame")
+        if self.getElem.is_element_exsit("id","leftFrame"):
+            self.driver.switch_to_frame("leftFrame")
         
     '''定位到rightFrame'''
     def switch_to_right(self):
-        self.driver.switch_to_frame("content1")
-        self.driver.switch_to_frame("mainFrame")
-        self.driver.switch_to_frame("rightFrame")
+        if self.getElem.is_element_exsit("id","content1"):
+            self.driver.switch_to_frame("content1")
+        if self.getElem.is_element_exsit("id","mainFrame"):
+            self.driver.switch_to_frame("mainFrame")
+        if self.getElem.is_element_exsit("id","rightFrame"):
+            self.driver.switch_to_frame("rightFrame")
     
         
     '''定位到bottomFrame'''
     def switch_to_bottom(self):
-        self.driver.switch_to_frame("content1")
-        self.driver.switch_to_frame("bottomFrame")
+        if self.getElem.is_element_exsit("id","content1"):
+            self.driver.switch_to_frame("content1")
+        if self.getElem.is_element_exsit("id","bottomFrame"):
+            self.driver.switch_to_frame("bottomFrame")
 
     '''返回上级frame'''
     def switch_to_content(self):
@@ -288,29 +322,27 @@ class frameElement(object):
             - frameName:要跳转到的frame的名字      
     '''
     def from_frame_to_otherFrame(self,frameName):
-        #实例化frameElement
-        frameElt = frameElement(self.driver)
-        frameElt.switch_to_content()
+        self.switch_to_content()
         
         if frameName == "mainFrame":
             #定位到mainFrame
-            frameElt.switch_to_main()
+            self.switch_to_main()
             
         elif frameName == "bottomFrame":
             #定位到bottomFrame
-            frameElt.switch_to_bottom()
+            self.switch_to_bottom()
             
         elif frameName == "topFrame":
             #定位到topFrame            
-            frameElt.switch_to_top()
+            self.switch_to_top()
             
         elif frameName == "leftFrame":
             #定位到topFrame            
-            frameElt.switch_to_left()
+            self.switch_to_left()
         
         elif frameName == "rightFrame":
             #定位到topFrame            
-            frameElt.switch_to_right()
+            self.switch_to_right()
         
 
 
@@ -490,7 +522,7 @@ if __name__ == "__main__" :
 
     pwd = "html/body/div[2]/div[3]/form/table/tbody[2]/tr[4]/td/input"
     #getElem.find_element_and_sendkeys("id","username","isomper")
-    getElem.find_element_wait_and_sendkeys("id","username","a")
+    getElem.find_element_wait_and_sendkeys("id","username","isomper")
     getElem.find_element_wait_and_sendkeys("xpath",pwd,"1")
     getElem.find_element_wait_and_click("id","do_login")
 #登陆操作结束
@@ -501,7 +533,7 @@ if __name__ == "__main__" :
     frameElem.from_frame_to_otherFrame("topFrame")
 #    getElem.find_element_and_click("xpath","html/body/div[1]/div/div[2]/ul/li[2]/span/a")
 #    getElem.find_element_and_click("xpath","html/body/div[1]/div/div[2]/ul/li[2]/p/a[1]")
-    #frameElem.from_frame_to_otherFrame("mainFrame")
+    frameElem.from_frame_to_otherFrame("mainFrame")
     
     #登陆后选择用户角色
     common = commonFun(browers)
@@ -518,8 +550,8 @@ if __name__ == "__main__" :
 #    selectElem.select_element_by_index(b,2)
     
     #用户页面的添加按钮
-    #userAdd_xpath = r"html/body/form/div/div[5]/input[1]"
-    #getElem.find_element_wait_and_click("xpath",userAdd_xpath)
+    userAdd_xpath = r"html/body/form/div/div[5]/input[1]"
+    getElem.find_element_wait_and_click("xpath",userAdd_xpath)
     
 #    #用户页面的表格
 #    table_elem = tableElement(browers)
