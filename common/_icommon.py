@@ -299,6 +299,12 @@ class frameElement(object):
         if self.getElem.is_element_exsit("id","rightFrame"):
             self.driver.switch_to_frame("rightFrame")
     
+    '''定位到rigthFrame'''
+    def switch_to_right(self):
+        self.switch_to_main()
+        if self.getElem.is_element_exsit("id","rigthFrame"):
+            self.driver.switch_to_frame("rigthFrame")
+    
         
     '''定位到bottomFrame'''
     def switch_to_bottom(self):
@@ -335,6 +341,10 @@ class frameElement(object):
             self.switch_to_left()
         
         elif frameName == "rightFrame":
+            #定位到topFrame            
+            self.switch_to_right()
+            
+        elif frameName == "rigthFrame":
             #定位到topFrame            
             self.switch_to_right()
         
@@ -497,8 +507,99 @@ class commonFun(object):
             frameElem.from_frame_to_otherFrame("leftFrame")
             getElem.find_element_wait_and_click("link",levelText3)
         
+    '''操作时间控件
+        Parameters:
+            - wdateId：日期控件的ID值
+            - fxpath：frame的xpath路径
+            - txpath：时间控件table的xpath路径
+            - time：设定的日期，格式为2016-9-7 11:42:42
+            - type：t代表今天，c代表clear，q代表确定，默认选择今天 
+    '''
+    def select_time(self,wdateId,fxpath,type='t',txpath = None,time = None):
+        
+        getElem = getElement(self.driver)
+        getElem.find_element_wait_and_click("id",wdateId)
+        
+        frame = browers.find_element_by_xpath(fxpath)
+        browers.switch_to_frame(frame)
+    
+        if type == 't':
+            getElem.find_element_wait_and_click("id","dpTodayInput")
+        elif type == 'c':
+            getElem.find_element_wait_and_click("id","dpClearInput")
+        elif type == 'q':
+            if time is not None:
+                list = time.split()
+                ymdList = list[0].split("-")
+                hmsList = list[1].split(":") 
+                #年
+                tYear = ymdList[0]
+                #月
+                tMon = ymdList[1]
+                #日
+                tDay = ymdList[2]
+                #时
+                tHour = hmsList[0]
+                #分
+                tMin = hmsList[1]
+                #秒
+                tSen = hmsList[2]
+                
+                dTitle = getElem.find_element_with_wait("id","dpTitle").find_elements_by_tag_name("input")
+                
+                #设定年
+                dTitle[1].clear()
+                dTitle[1].send_keys(tYear)
+                #设定月
+                dTitle[0].clear()
+                dTitle[0].send_keys(tMon)
+                
+                dTime = getElem.find_element_with_wait("id","dpTime").find_elements_by_tag_name("input")
+                #设定小时
+                dTime[0].clear()
+                dTime[0].send_keys(tHour)
+                #设定分钟
+                dTime[2].clear()
+                dTime[2].send_keys(tMin)
+                #设定秒
+                dTime[4].clear()
+                dTime[4].send_keys(tSen)
+                
+                if txpath is not None:
 
+                    table_elem = tableElement(self.driver)
+                    
+                    iStatus = False
+                   
+                    for itr in range(7):
+                        if itr != 0:
+                            for itd in range(7):
+                                ct = table_elem.get_table_cell_text(txpath,itr,itd)[0]
+                                
+                                #排除第一行大于7的
+                                if itr == 1 and int(ct) > 7:
+                                    continue
+                                
+                                #排除倒数第二行小于15的
+                                if itr == 5 and int(ct) < 15:
+                                    continue
+                                
+                                #排除最后一行小于15的
+                                if itr == 6 and int(ct) < 15:
+                                    continue
+                                
+                                #如果跟给定的日期一直，点击日期
+                                if int(ct) == int(tDay):
+                                    table_elem.get_table_cell_text(txpath,itr,itd)[1].click()
+                                    iStatus = True
+                                    break
 
+                        if iStatus:
+                            break
+                
+            getElem.find_element_wait_and_click("id","dpOkInput")
+        
+    
 if __name__ == "__main__" :
 #    #启动页面
     browers = initDriver().open_driver()
@@ -516,7 +617,7 @@ if __name__ == "__main__" :
 
     pwd = "html/body/div[2]/div[3]/form/table/tbody[2]/tr[4]/td/input"
     #getElem.find_element_and_sendkeys("id","username","isomper")
-    getElem.find_element_wait_and_sendkeys("id","username","isomper")
+    getElem.find_element_wait_and_sendkeys("id","username","a")
     getElem.find_element_wait_and_sendkeys("xpath",pwd,"1")
     getElem.find_element_wait_and_click("id","do_login")
 #登陆操作结束
@@ -527,11 +628,11 @@ if __name__ == "__main__" :
     frameElem.from_frame_to_otherFrame("topFrame")
 #    getElem.find_element_and_click("xpath","html/body/div[1]/div/div[2]/ul/li[2]/span/a")
 #    getElem.find_element_and_click("xpath","html/body/div[1]/div/div[2]/ul/li[2]/p/a[1]")
-    frameElem.from_frame_to_otherFrame("mainFrame")
+#    frameElem.from_frame_to_otherFrame("mainFrame")
     
     #登陆后选择用户角色
     common = commonFun(browers)
-#    common.select_role(1)
+    common.select_role(1)
 #    common.select_role(2)
 #    common.select_role(0)
 #    swithvalue = common.switch_status()
@@ -544,8 +645,8 @@ if __name__ == "__main__" :
 #    selectElem.select_element_by_index(b,2)
     
     #用户页面的添加按钮
-    userAdd_xpath = r"html/body/form/div/div[5]/input[1]"
-    getElem.find_element_wait_and_click("xpath",userAdd_xpath)
+#    userAdd_xpath = r"html/body/form/div/div[5]/input[1]"
+#    getElem.find_element_wait_and_click("xpath",userAdd_xpath)
     
 #    #用户页面的表格
 #    table_elem = tableElement(browers)
@@ -600,9 +701,26 @@ if __name__ == "__main__" :
 #    common.click_paging("last") 
 
     #选择菜单
-#    common.select_menu(u"系统配置",u"关联服务",u"邮件")
+    common.select_menu(u"系统配置",u"备份还原")
 #    common.select_menu(u"系统配置",u"系统状态",u"关机重启")
 #    common.select_menu(u"运维管理",u"用户")
+    
+    #时间控件
+#    frameElem.from_frame_to_otherFrame("rigthFrame")
+#    common.select_time("backUpTime","html/body/div[2]/iframe",'c')
+#    frameElem.from_frame_to_otherFrame("rigthFrame")
+#    common.select_time("backUpTime","html/body/div[2]/iframe",'t')
+    
+#    frameElem.from_frame_to_otherFrame("rigthFrame")
+#    frame_xpath = "html/body/div[2]/iframe"
+#    table_xpath = "html/body/div/div[3]/table"
+#    #默认选择今天
+#    common.select_time("backUpTime",frame_xpath)
+#    
+#    frameElem.from_frame_to_otherFrame("rigthFrame")
+#    #根据日期来设定
+#    common.select_time("backUpTime",frame_xpath,'q',table_xpath,"2016-10-31 12:30:10")
+
     
 #退出操作
     #getElem.find_element_wait_and_click("id","logout")
