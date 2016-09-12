@@ -87,9 +87,9 @@ class loginPage(object):
         
     #用户名口令认证登录
     def login(self,list):
-        self.set_login_method(int(list[0]))
-        self.set_login_username(list[1])
-        self.set_login_pwd(str(int(list[2])))
+        self.set_login_method(int(list[2]))
+        self.set_login_username(list[3])
+        self.set_login_pwd(str(int(list[4])))
         self.click_login_button()
     
     #登陆成功

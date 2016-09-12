@@ -437,6 +437,7 @@ class commonFun(object):
     def __init__(self,driver):
         #selenium驱动
         self.driver = driver
+        self.cn = cnEncode()
 
     '''选择角色
         Parameters:
@@ -621,7 +622,42 @@ class commonFun(object):
                             break
                 
             getElem.find_element_wait_and_click("id","dpOkInput")
+
+    '''弹窗类检查点
+        Parameters:
+            - type：定位弹窗中元素的类型
+            - elem：弹窗元素的名字或者路径
+            - data：excel一行的数据
+            - bs:没有检查点的测试项通过标识。Ture为通过，False为未通过           
+    '''
+    def test_win_check_point(self,type,elem,data,bs):
         
+        getElem = getElement(self.driver)
+        #获取弹框中的文本内容
+        elemText = getElem.find_element_with_wait(type,elem).text
+        
+#        print self.cn.cnCode(elemText)
+#        print self.cn.cnCode(data[1])       
+        
+        #检查点为空
+        if data[1] == "":
+            if bs:
+                #如果测试项目通过
+                print self.cn.cnCode(data[0]) + self.cn.cnCode(u"---------测试通过")
+            else:
+                #如果测试项目没通过
+                print self.cn.cnCode(data[0]) + self.cn.cnCode(u"---------测试未通过")
+        else:
+            if elemText == data[1]:
+                #页面的内容与检查点内容一致
+                print self.cn.cnCode(data[0]) + self.cn.cnCode(u"---------测试通过")
+            else:
+                #页面抓取到的内容与检查点不一致
+                print self.cn.cnCode(data[0]) + self.cn.cnCode(u"---------测试未通过")
+        
+        
+        
+
     
 if __name__ == "__main__" :
 #    #启动页面
