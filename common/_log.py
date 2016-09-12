@@ -14,16 +14,55 @@ import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
+import time
 from _fileRead import *
+from _cnEncode import cnEncode
 
-class log:
+class log(object):
     
-    def add_log(self ,caseName ,msg):
-        #添加日志到log目录下的log.txt文件，记录测试过程
-        fileWrite().file_write(caseName + "----start")
-        fileWrite().file_write(msg)
-        fileWrite().file_write(caseName + "----stop")
+    def __init__(self):
+        self.cn = cnEncode()
 
+    #日志记录开始
+    def log_start(self ,caseName):
+        #获取当前时间
+        startTime = time.strftime('%Y-%m-%d %X',time.localtime())
+        
+        fileWrite().file_write("[" + startTime + "]" + caseName + "----start")
+        print "[" + startTime + "]" + caseName + "---------start"
+
+    #日志记录结束
+    def log_end(self ,caseName):
+        #获取当前时间
+        endTime = time.strftime('%Y-%m-%d %X',time.localtime())
+        
+        fileWrite().file_write("[" + endTime + "]" + caseName + "----end")
+        print "[" + endTime + "]" + caseName + "---------end"
+        
+    '''日志的详细内容
+        Parameters:
+            - msg：日志信息
+            - flag：判定通过或未通过的标识，True代表通过，False代表未通过
+    '''
+    def log_detail(self,msg,flag):
+        #获取当前时间
+        iTime = time.strftime('%Y-%m-%d %X',time.localtime())
+        
+        #通过信息
+        passMsg = "["+ iTime +"]"+self.cn.cnCode(msg) + self.cn.cnCode(u"---------测试通过")
+        #未通过信息
+        unPassMsg = "["+ iTime +"]"+self.cn.cnCode(msg) + self.cn.cnCode(u"---------测试未通过")
+        
+        if flag:
+            #写通过信息进日志
+            fileWrite().file_write(passMsg)
+            print passMsg
+            
+        else:
+            #写未通过信息进日志
+            fileWrite().file_write(unPassMsg)
+            print unPassMsg
+            
 
 if __name__ == "__main__":
     log().add_log("login_test","test")

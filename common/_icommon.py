@@ -18,6 +18,7 @@ sys.setdefaultencoding('utf-8')
 sys.path.append("/testIsomp/common/")
 from _initDriver import *
 from _cnEncode import cnEncode
+from _log import log
 
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.keys import Keys
@@ -438,6 +439,7 @@ class commonFun(object):
         #selenium驱动
         self.driver = driver
         self.cn = cnEncode()
+        self.log = log()
 
     '''选择角色
         Parameters:
@@ -628,32 +630,30 @@ class commonFun(object):
             - type：定位弹窗中元素的类型
             - elem：弹窗元素的名字或者路径
             - data：excel一行的数据
-            - bs:没有检查点的测试项通过标识。Ture为通过，False为未通过           
+            - flag:没有检查点的测试项通过标识。Ture为通过，False为未通过           
     '''
-    def test_win_check_point(self,type,elem,data,bs):
+    def test_win_check_point(self,type,elem,data,flag):
         
         getElem = getElement(self.driver)
         #获取弹框中的文本内容
         elemText = getElem.find_element_with_wait(type,elem).text
-        
-#        print self.cn.cnCode(elemText)
-#        print self.cn.cnCode(data[1])       
-        
+
         #检查点为空
         if data[1] == "":
-            if bs:
-                #如果测试项目通过
-                print self.cn.cnCode(data[0]) + self.cn.cnCode(u"---------测试通过")
+            if flag:
+                #测试点通过
+                self.log.log_detail(data[0],True)
             else:
-                #如果测试项目没通过
-                print self.cn.cnCode(data[0]) + self.cn.cnCode(u"---------测试未通过")
+                #测试点没通过
+                self.log.log_detail(data[0],False)
         else:
+        #检查点不为空
             if elemText == data[1]:
-                #页面的内容与检查点内容一致
-                print self.cn.cnCode(data[0]) + self.cn.cnCode(u"---------测试通过")
+                #页面的内容与检查点内容一致，测试点通过
+                self.log.log_detail(data[0],True)
             else:
-                #页面抓取到的内容与检查点不一致
-                print self.cn.cnCode(data[0]) + self.cn.cnCode(u"---------测试未通过")
+                #页面抓取到的内容与检查点不一致，测试点不通过
+                self.log.log_detail(data[0],False)
         
         
         
