@@ -8,7 +8,7 @@ sys.path.append("/testIsomp/common/")
 from _initDriver import *
 
 #导入登录
-sys.path.append("/testIsomp/testCase/")
+sys.path.append("/testIsomp/testCase/login")
 from test_login import *
 
 import unittest
@@ -19,7 +19,7 @@ class testLoginSuite(unittest.TestCase):
         
     def test_login(self):
         #登录
-        testLogin().login_test(self.browser)
+        testLogin(self.browser).login()
     
     def tearDown(self):
         initDriver().close_driver(self.browser)

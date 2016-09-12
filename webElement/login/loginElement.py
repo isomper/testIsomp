@@ -20,10 +20,10 @@ from selenium.webdriver.support.ui import Select
 
 sys.path.append("/testIsomp/common/")
 from _initDriver import *
-from _icommon import getElement
+from _icommon import getElement,selectElement,frameElement
 
  
-class loginPage:
+class loginPage(object):
     #登录方式
     LOGIN_METHOD = "loginMethod"
     #用户名
@@ -38,57 +38,46 @@ class loginPage:
     LOGIN_DOWNLOAD = "/html/body/div[2]/div[5]/a"
     #版权所有
     LOGIN_COPYRIGHT = "/html/body/div[2]/div[5]/text()[2]"
+    #退出
+    QUIT = "logout"
     
     def __init__(self,driver):
         #selenuim驱动
         self.driver = driver
         self.getElem = getElement(driver)
+        self.selectElem = selectElement(driver)
     
     #获取登录方式
     def get_login_method(self):
-        #loginMethod = driver.find_element_by_id(self.LOGIN_METHOD)
-        loginMethod = getElem.find_element('id',self.LOGIN_METHOD)
+        loginMethod = self.getElem.find_element_with_wait('id',self.LOGIN_METHOD)
+        return self.selectElem.get_option_text(loginMethod,0)
         
     #设定登录方式
-    def set_login_method(self,driver,index): 
+    def set_login_method(self,index): 
         try:
-            loginMethod = driver.find_element_by_id(self.LOGIN_METHOD)
-            Select(loginMethod).select_by_index(index)
+            loginMethod = self.getElem.find_element_with_wait('id',self.LOGIN_METHOD)
+            self.selectElem.select_element_by_index(loginMethod,index)
         except Exception as e:
             print "login type error:" + str(e)
         
     #填写用户名
     def set_login_username(self,username):
         try:
-            getElem = getElement(self.driver)
-            name = getElem.find_element('id',loginPage().LOGIN_USERNAME)
-            #name = driver.find_element_by_id(loginPage().LOGIN_USERNAME)
-            name.send_keys(username)
+            self.getElem.find_element_wait_and_sendkeys('id',self.LOGIN_USERNAME,username)
         except Exception as e:
             print "login name error:" + str(e)
         
     #填写口令
-    def set_login_pwd(self,driver,pwd):
+    def set_login_pwd(self,pwd):
         try:
-            password = driver.find_element_by_id(self.LOGIN_PWD)
-            password.send_keys(pwd)
+            self.getElem.find_element_wait_and_sendkeys('id',self.LOGIN_PWD,pwd)
         except Exception as e:
             print "login password error:" + str(e)
     
-    #填写用户名
-    def set_login_element(self,element):
-        try:
-            name = self.getElem.find_element('id',loginPage().LOGIN_USERNAME)
-            #name = driver.find_element_by_id(loginPage().LOGIN_USERNAME)
-            name.send_keys(element)
-        except Exception as e:
-            print "login name error:" + str(e)
-    
     #点击登录按钮
-    def click_login_button(self,driver):
+    def click_login_button(self):
         try:
-            login_button = driver.find_element_by_id(self.LOGIN_BUTTON)
-            login_button.click()
+            self.getElem.find_element_wait_and_click('id',self.LOGIN_BUTTON) 
         except Exception as e:
             print "login button error:" + str(e)
     
@@ -97,13 +86,21 @@ class loginPage:
         pass
         
     #用户名口令认证登录
-    def login(self,index,username,pwd):
-        #self.set_login_method(self.driver,index)
-        #self.set_login_username(username)
-        #self.set_login_pwd(self.driver,pwd)
-        self.set_login_element(username)
-        self.set_login_element(pwd)
-        self.click_login_button(self.driver)
+    def login(self,list):
+        self.set_login_method(int(list[0]))
+        self.set_login_username(list[1])
+        self.set_login_pwd(str(int(list[2])))
+        self.click_login_button()
+    
+    #登陆成功
+    def is_login_success(self):
+        success = False
+        
+        if self.driver.title == "圣博润堡垒系统":
+            success = True
+
+        return success
+        
         
     #AD域认证登录
     def ad_login(self,driver,loginMethod,username,pwd):
@@ -114,15 +111,23 @@ class loginPage:
         pass
 
     #RADIUS认证登录
-    def ad_pwd_login(self,driver,loginMethod,username,pwd):
+    def otp_pwd_login(self,driver,loginMethod,username,pwd):
         pass
 
     
-if __name__ == "__main__":
-    #启动页面
-    browers = initDriver().open_driver()
+    #点击退出
+    def quit(self):
+        frameElem = frameElement(self.driver)
+        frameElem.switch_to_top()
+        self.getElem.find_element_wait_and_click('id',self.QUIT)
     
-    loginPage(browers).login(5,"isomper","1")
+#if __name__ == "__main__":
+#    #启动页面
+#    browers = initDriver().open_driver()
     
+#    login_page = loginPage(browers)
+#    login_page.login(0,"isomper","1")
+#    login_page.quit()
+
     #关闭页面
     #initDriver().close_driver(browers)

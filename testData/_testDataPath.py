@@ -4,6 +4,9 @@ import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
+sys.path.append("/testIsomp/common/")
+from _excelRead import excelRead
+
 #登陆excel数据文件
 LOGIN_TEST_DATA_URL = "/testIsomp/testData/login_test_data.xlsx"
 
@@ -28,30 +31,8 @@ LOCAL_TEST_DATA_URL = "/testSimp/testData/local_test_data.xlsx"
 #网络设备local资源账号excel数据位置
 LOCAL_USER_TEST_DATA_URL = "/testSimp/testData/local_user_test_data.xlsx"
 
+class dataFileName(object):
 
-#sheet1
-SHEET_1 = "Sheet1"
-#sheet2
-SHEET_2 = "Sheet2"
-#sheet3
-SHEET_3 = "Sheet3"
-#sheet4
-SHEET_4 = "Sheet4"
-
-class dataFileName:
-    #获取excel中页的名称
-    def GET_SHEET1(self):
-        return SHEET_1
-    
-    def GET_SHEET2(self):
-        return SHEET_2
-    
-    def GET_SHEET3(self):
-        return SHEET_3
-    
-    def GET_SHEET4(self):
-        return SHEET_4
-    
     def get_login_test_data_url(self):
         return LOGIN_TEST_DATA_URL
     
@@ -83,5 +64,12 @@ class dataFileName:
     #获取网络设备local资源账号excel中的数据
     def get_local_user_test_data_url(self):
         return LOCAL_USER_TEST_DATA_URL
+
+    #从sheet名称获取登陆数据
+    def get_login_data(self,dataPath,sheetName):
+        #获取excel数据
+        loginData = excelRead().get_excel_data(dataPath,sheetName)
+        
+        return loginData
 
 #print dataFileName().getLogin_Test_Data()

@@ -29,8 +29,6 @@ class getElement(object):
         #selenium驱动
         self.driver = driver
     
-    
-    
     '''查找元素
         parameter:
             - type:定位的类型，如id,name,tag name,class name,css,xpath等
@@ -163,6 +161,31 @@ class getElement(object):
             return WebDriverWait(self.driver,timeout).until(lambda x:x.find_element_by_link_text(value)).click()
         elif type == "plt":
             return WebDriverWait(self.driver,timeout).until(lambda x:x.find_element_by_partial_link_text(value)).click()
+
+    '''等待元素出现后再定位元素并获取元素的文本
+        parameter:
+            - type:定位的类型，如id,name,tag name,class name,css,xpath等
+            - value：页面的元素值
+            - timeout:超时前等待的时间        
+    '''    
+    def find_element_wait_and_get_text(self,type,value,timeout=1):
+        if type == "xpath":
+            return WebDriverWait(self.driver,timeout).until(lambda x:x.find_element_by_xpath(value)).text
+        elif type == "id":
+            return WebDriverWait(self.driver,timeout).until(lambda x:x.find_element_by_id(value)).text
+        elif type == "name":
+            return WebDriverWait(self.driver,timeout).until(lambda x:x.find_element_by_name(value)).text
+        elif type == "tagname":
+            return WebDriverWait(self.driver,timeout).until(lambda x:x.find_elements_by_tag_name(value)).text
+        elif type == "classname":
+            return WebDriverWait(self.driver,timeout).until(lambda x:x.find_element_by_class_name(value)).text
+        elif type == "css":
+            return WebDriverWait(self.driver,timeout).until(lambda x:x.find_element_by_css_selector(value)).text
+        elif type == "link":
+            return WebDriverWait(self.driver,timeout).until(lambda x:x.find_element_by_link_text(value)).text
+        elif type == "plt":
+            return WebDriverWait(self.driver,timeout).until(lambda x:x.find_element_by_partial_link_text(value)).text
+
 
     '''元素是否存在
         parameter:
@@ -701,7 +724,7 @@ if __name__ == "__main__" :
 #    common.click_paging("last") 
 
     #选择菜单
-    common.select_menu(u"系统配置",u"备份还原")
+    #common.select_menu(u"系统配置",u"备份还原")
 #    common.select_menu(u"系统配置",u"系统状态",u"关机重启")
 #    common.select_menu(u"运维管理",u"用户")
     
@@ -714,9 +737,9 @@ if __name__ == "__main__" :
 #    frameElem.from_frame_to_otherFrame("rigthFrame")
 #    frame_xpath = "html/body/div[2]/iframe"
 #    table_xpath = "html/body/div/div[3]/table"
+
 #    #默认选择今天
 #    common.select_time("backUpTime",frame_xpath)
-#    
 #    frameElem.from_frame_to_otherFrame("rigthFrame")
 #    #根据日期来设定
 #    common.select_time("backUpTime",frame_xpath,'q',table_xpath,"2016-10-31 12:30:10")
