@@ -6,6 +6,7 @@ sys.setdefaultencoding('utf-8')
 import unittest
 import HTMLTestRunner
 import time
+import os
 
 sys.path.append("/testIsomp/common/")
 from _mail import *
@@ -13,6 +14,10 @@ from _mail import *
 class testSuite(unittest.TestCase):
     u'''测试test_personsuite的所有测试用例'''
     if __name__ == "__main__":
+        
+        #删除上一次的日志文件
+        if os.path.exists(r'/testIsomp/log/log.txt'):
+            os.remove(r'/testIsomp/log/log.txt')
         
         timeFormat = '%Y-%m-%d %X'
         isTitle = time.strftime(timeFormat, time.localtime())

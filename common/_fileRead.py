@@ -16,9 +16,10 @@ reload(sys)
 sys.setdefaultencoding('utf-8')
 
 import os
+import time
 from _cnEncode import cnEncode
 
-class fileRead:
+class fileRead(object):
     u'''读取文本文件'''
     def get_ip_address(self):
         u'''获取文本文件test.conf中的IP地址'''
@@ -48,16 +49,19 @@ class fileRead:
         finally:
             fileObj.close()
 
-class fileWrite:
+class fileWrite(object):
+    
     u'''写入文本文件'''
     def file_write(self,message):
-        try:                
-            #打开文件
-            fileWriteObj = open("/testIsomp/log/log.txt","a")
+        
+        #打开文件
+        fileWriteObj = open("/testIsomp/log/log.txt","a")
+        
+        try:
             fileWriteObj.write(message + '\n')
             
         except Exception as e:
-            print cnEcod.cnCode("log.txt文件不存在！") + str(e)
+            print cnEcod.cnCode("日志文件不存在！") + str(e)
             
         finally:
             fileWriteObj.close()
@@ -68,5 +72,5 @@ class fileWrite:
 #    print addressList[1]
 #    print addressList[2]
 #    print addressList[3]      
-    
-    #fileWrite().file_write("123456")
+#    
+#    fileWrite().file_write("123456")

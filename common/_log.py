@@ -24,20 +24,24 @@ class log(object):
         self.cn = cnEncode()
 
     #日志记录开始
-    def log_start(self ,caseName):
+    def log_start(self,caseName):
         #获取当前时间
         startTime = time.strftime('%Y-%m-%d %X',time.localtime())
         
-        fileWrite().file_write("[" + startTime + "]" + caseName + "----start")
+        msg = "[" + startTime + "]" + caseName + "----start"
+        
+        fileWrite().file_write(msg)
         print "[" + startTime + "]" + caseName + "---------start"
 
     #日志记录结束
-    def log_end(self ,caseName):
+    def log_end(self,caseName):
         #获取当前时间
         endTime = time.strftime('%Y-%m-%d %X',time.localtime())
         
-        fileWrite().file_write("[" + endTime + "]" + caseName + "----end")
-        print "[" + endTime + "]" + caseName + "---------end"
+        msg = "[" + endTime + "]" + caseName + "----end"
+        
+        fileWrite().file_write(msg)
+        print "[" + endTime + "]" + caseName + "---------end\n"
         
     '''日志的详细内容
         Parameters:
@@ -49,9 +53,10 @@ class log(object):
         iTime = time.strftime('%Y-%m-%d %X',time.localtime())
         
         #通过信息
-        passMsg = "["+ iTime +"]"+self.cn.cnCode(msg) + self.cn.cnCode(u"---------测试通过")
+        passMsg = "["+ iTime + "]" + self.cn.cnCode(msg) + self.cn.cnCode(u"---------测试通过")
+
         #未通过信息
-        unPassMsg = "["+ iTime +"]"+self.cn.cnCode(msg) + self.cn.cnCode(u"---------测试未通过")
+        unPassMsg = "[" + iTime + "]" + self.cn.cnCode(msg) + self.cn.cnCode(u"---------测试未通过")
         
         if flag:
             #写通过信息进日志
@@ -64,5 +69,4 @@ class log(object):
             print unPassMsg
             
 
-if __name__ == "__main__":
-    log().add_log("login_test","test")
+#if __name__ == "__main__":
