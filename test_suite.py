@@ -12,7 +12,7 @@ sys.path.append("/testIsomp/common/")
 from _mail import *
 
 class testSuite(unittest.TestCase):
-    u'''测试test_personsuite的所有测试用例'''
+    u'''运行所有测试用例集'''
     if __name__ == "__main__":
         
         #删除上一次的日志文件
