@@ -18,8 +18,10 @@ class testLoginSuite(unittest.TestCase):
         self.browser = initDriver().open_driver()
         
     def test_login(self):
+        
+        test_login = testLogin(self.browser)
         #登录
-        testLogin(self.browser).login()
+        test_login.login()
     
     def tearDown(self):
         initDriver().close_driver(self.browser)

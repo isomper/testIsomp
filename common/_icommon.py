@@ -30,63 +30,6 @@ class getElement(object):
         #selenium驱动
         self.driver = driver
     
-    '''查找元素
-        parameter:
-            - type:定位的类型，如id,name,tag name,class name,css,xpath等
-            - value：页面的元素值
-    '''
-    def find_element(self,type,value):
-        return {
-            "id" : lambda value:self.driver.find_element_by_id(value),
-            "name" : lambda value:self.driver.find_element_by_name(value),
-            "tagname" : lambda value:self.driver.find_elements_by_tag_name(value),
-            "classname" : lambda value:self.driver.find_element_by_class_name(value),
-            "css" : lambda value:self.driver.find_element_by_css_selector(value),
-            "xpath" : lambda value:self.driver.find_element_by_xpath(value),
-            "link" : lambda value:self.driver.find_element_by_link_text(value),
-            "plt" : lambda value:self.driver.find_element_by_partial_link_text(value)
-        }[type](value)
-    
-    
-    
-    '''查找元素并发送键值
-        Parameters:
-             - type:定位的类型，如id,name,tag name,class name,css,xpath等
-             - value：页面的元素值
-             - key：发送的字符或者键盘的键值
-    '''
-    def find_element_and_sendkeys(self,type,value,key):
-        return {
-            "id" : lambda value:self.driver.find_element_by_id(value).send_keys(key),
-            "name" : lambda value:self.driver.find_element_by_name(value).send_keys(key),
-            "tagname" : lambda value:self.driver.find_elements_by_tag_name(value).send_keys(key),
-            "classname" : lambda value:self.driver.find_element_by_class_name(value).send_keys(key),
-            "css" : lambda value:self.driver.find_element_by_css_selector(value).send_keys(key),
-            "xpath" : lambda value:self.driver.find_element_by_xpath(value).send_keys(key),
-            "link" : lambda value:self.driver.find_element_by_link_text(value).send_keys(key),
-            "plt" : lambda value:self.driver.find_element_by_partial_link_text(value).send_keys(key)
-        }[type](value)
-    
-    
-    
-    '''查找元素并单击
-        Parameters:
-            - type:定位的类型，如id,name,tag name,class name,css,xpath等
-            - value：页面的元素值
-    '''
-    def find_element_and_click(self,type,value):
-        return {
-            "id" : lambda value:self.driver.find_element_by_id(value).click(),
-            "name" : lambda value:self.driver.find_element_by_name(value).click(),
-            "tagname" : lambda value:self.driver.find_elements_by_tag_name(value).click(),
-            "classname" : lambda value:self.driver.find_element_by_class_name(value).click(),
-            "css" : lambda value:self.driver.find_element_by_css_selector(value).click(),
-            "xpath" : lambda value:self.driver.find_element_by_xpath(value).click(),
-            "link" : lambda value:self.driver.find_element_by_link_text(value).click(),
-            "plt" : lambda value:self.driver.find_element_by_partial_link_text(value).click()
-        }[type](value)
-        
-    
     
     '''等待元素出现后再定位元素
         parameter:
@@ -216,7 +159,7 @@ class selectElement(object):
 
     '''根据索引选择
         Parameters:
-            - selem:定位到的元素
+            - selem:定位到的select元素
             - index:select的索引，例0,1,2,从0开始计数
     '''
     def select_element_by_index(self, selem, index):
@@ -453,6 +396,9 @@ class commonFun(object):
         
         
     '''获取开关的状态
+        Parameters:
+            - elem:定位到开关的元素
+    
         return: 0代表开关关闭，1代表开关打开
     '''
     def switch_status(self,elem):
