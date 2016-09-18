@@ -361,15 +361,15 @@ class frameElement(object):
             self.switch_to_top()
             
         elif frameName == "leftFrame":
-            #定位到topFrame            
+            #定位到leftFrame            
             self.switch_to_left()
         
         elif frameName == "rightFrame":
-            #定位到topFrame            
+            #定位到rightFrame            
             self.switch_to_right()
             
         elif frameName == "rigthFrame":
-            #定位到topFrame            
+            #定位到rightFrame            
             self.switch_to_right()
         
 
@@ -614,12 +614,13 @@ class commonFun(object):
                                 if itr == 6 and int(ct) < 15:
                                     continue
                                 
-                                #如果跟给定的日期一直，点击日期
+                                #如果跟给定的日期一致，点击日期
                                 if int(ct) == int(tDay):
                                     table_elem.get_table_cell_text(txpath,itr,itd)[1].click()
                                     iStatus = True
                                     break
-
+                        
+                        #找到日期后跳出循环
                         if iStatus:
                             break
                 
