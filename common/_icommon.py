@@ -374,6 +374,33 @@ class tableElement(object):
         return len(row_elems)
 
 
+    '''定位表格中的某一列的select对象
+        Parameters:
+            - row:表格的行
+            - col:某一个行的一列
+            - index:select选择账号的索引号
+    '''
+    def get_table_td_select(self,row,col,index):
+        
+        frameElem = frameElement(self.driver)
+        #定位到mainFrame上
+        frameElem.switch_to_main()
+        frameElem.from_frame_to_otherFrame("rightFrame")
+        
+        tx = "html/body/div[1]/div[7]/div[2]/div[1]/table"
+        
+        #定位到列
+        tdElem = self.get_table_cell_text(tx,row,col)[1]
+        tdElem.click()
+        
+        #定位列的select
+        seElem = tdElem.find_elements_by_tag_name("select")
+
+        selectElem = selectElement(self.driver)
+        #选择账号
+        selectElem.select_element_by_index(seElem[0],index)
+        
+
 
 #通用函数
 class commonFun(object):
