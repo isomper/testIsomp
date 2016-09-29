@@ -66,10 +66,10 @@ class dataFileName(object):
         return LOCAL_USER_TEST_DATA_URL
 
     #从sheet名称获取登陆数据
-    def get_login_data(self,dataPath,sheetName):
+    def get_data(self,dataPath,sheetName):
         #获取excel数据
-        loginData = excelRead().get_excel_data(dataPath,sheetName)
+        data = excelRead().get_excel_data(dataPath,sheetName)
         
-        return loginData
+        return data
 
 #print dataFileName().getLogin_Test_Data()

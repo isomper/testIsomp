@@ -30,7 +30,7 @@ class testLogin(object):
         u'''可以循环设定数据测试系统登录'''
         dataFile = dataFileName()
         loginPath = dataFile.get_login_test_data_url()
-        loginData = dataFile.get_login_data(loginPath,"Sheet1")
+        loginData = dataFile.get_data(loginPath,"Sheet1")
         
         #实例化login
         loginFun = loginPage(self.driver)

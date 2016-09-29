@@ -267,7 +267,7 @@ class frameElement(object):
             self.driver.switch_to_frame("rightFrame")
     
     '''定位到rigthFrame'''
-    def switch_to_right(self):
+    def switch_to_rigth(self):
         self.switch_to_main()
         if self.getElem.is_element_exsit("id","rigthFrame"):
             self.driver.switch_to_frame("rigthFrame")
@@ -313,7 +313,7 @@ class frameElement(object):
             
         elif frameName == "rigthFrame":
             #定位到rightFrame            
-            self.switch_to_right()
+            self.switch_to_rigth()
         
 
 
