@@ -31,7 +31,7 @@ class getElement(object):
         self.driver = driver
     
     
-    '''等待元素出现后再定位元素
+    u'''等待元素出现后再定位元素
         parameter:
             - type:定位的类型，如id,name,tag name,class name,css,xpath等
             - value：页面的元素值
@@ -56,7 +56,7 @@ class getElement(object):
             return WebDriverWait(self.driver,timeout).until(lambda x:x.find_element_by_partial_link_text(value))
     
     
-    '''等待元素出现后再定位元素并发送键值
+    u'''等待元素出现后再定位元素并发送键值
         parameter:
             - type:定位的类型，如id,name,tag name,class name,css,xpath等
             - value：页面的元素值
@@ -82,7 +82,7 @@ class getElement(object):
             return WebDriverWait(self.driver,timeout).until(lambda x:x.find_element_by_partial_link_text(value)).send_keys(key)
 
     
-    '''等待元素出现后再定位元素并点击
+    u'''等待元素出现后再定位元素并点击
         parameter:
             - type:定位的类型，如id,name,tag name,class name,css,xpath等
             - value：页面的元素值
@@ -106,7 +106,7 @@ class getElement(object):
         elif type == "plt":
             return WebDriverWait(self.driver,timeout).until(lambda x:x.find_element_by_partial_link_text(value)).click()
 
-    '''等待元素出现后再定位元素并获取元素的文本
+    u'''等待元素出现后再定位元素并获取元素的文本
         parameter:
             - type:定位的类型，如id,name,tag name,class name,css,xpath等
             - value：页面的元素值
@@ -131,7 +131,7 @@ class getElement(object):
             return WebDriverWait(self.driver,timeout).until(lambda x:x.find_element_by_partial_link_text(value)).text
 
 
-    '''元素是否存在
+    u'''元素是否存在
         parameter:
             - type:定位的类型，如id,name,tag name,class name,css,xpath等
             - value：页面的元素值
@@ -157,7 +157,7 @@ class selectElement(object):
         #selenium驱动
         self.driver = driver
 
-    '''根据索引选择
+    u'''根据索引选择
         Parameters:
             - selem:定位到的select元素
             - index:select的索引，例0,1,2,从0开始计数
@@ -165,7 +165,7 @@ class selectElement(object):
     def select_element_by_index(self, selem, index):
         return Select(selem).select_by_index(index)
     
-    '''获取select中的option数量
+    u'''获取select中的option数量
         Parameters:
             - selem:定位到的select元素
         Return:返回select元素的option数量
@@ -176,7 +176,7 @@ class selectElement(object):
 
         return len(options_list)
     
-    '''获取select选中的option文本
+    u'''获取select选中的option文本
         Parameters:
             - selem:定位到的select元素
             - index:选择的option的索引
@@ -191,7 +191,7 @@ class selectElement(object):
                 
         return selem_text
     
-    '''获取select所有option文本
+    u'''获取select所有option文本
         Parameters:
             - selem:定位到的select元素
         Return: select元素中的所有option的text列表
@@ -202,7 +202,7 @@ class selectElement(object):
         return [option_text_list.text for option_text_list in options_list]
     
     
-    '''获取select选中的option的value
+    u'''获取select选中的option的value
         Parameters:
             - selem:定位到的select元素
             - index:选择的option的索引
@@ -217,7 +217,7 @@ class selectElement(object):
                 
         return selem_value
         
-    '''获取select中的所有option的value
+    u'''获取select中的所有option的value
         Parameters:
             - selem:定位到的select元素
         Return: select元素中的所有option的value列表
@@ -238,7 +238,7 @@ class frameElement(object):
         self.driver = driver
         self.getElem = getElement(driver)
     
-    '''定位到topFrame'''
+    u'''定位到topFrame'''
     def switch_to_top(self):
         #如果content1的frame加载完毕，定位到content1的frame
         if self.getElem.is_element_exsit("id","content1"):
@@ -247,44 +247,44 @@ class frameElement(object):
         if self.getElem.is_element_exsit("id","topFrame"):    
             self.driver.switch_to_frame("topFrame")
 
-    '''定位到mainFrame'''
+    u'''定位到mainFrame'''
     def switch_to_main(self):
         if self.getElem.is_element_exsit("id","content1"):
             self.driver.switch_to_frame("content1")
         if self.getElem.is_element_exsit("id","mainFrame"):
             self.driver.switch_to_frame("mainFrame")
     
-    '''定位到leftFrame'''
+    u'''定位到leftFrame'''
     def switch_to_left(self):
         self.switch_to_main()
         if self.getElem.is_element_exsit("id","leftFrame"):
             self.driver.switch_to_frame("leftFrame")
         
-    '''定位到rightFrame'''
+    u'''定位到rightFrame'''
     def switch_to_right(self):
         self.switch_to_main()
         if self.getElem.is_element_exsit("id","rightFrame"):
             self.driver.switch_to_frame("rightFrame")
     
-    '''定位到rigthFrame'''
+    u'''定位到rigthFrame'''
     def switch_to_rigth(self):
         self.switch_to_main()
         if self.getElem.is_element_exsit("id","rigthFrame"):
             self.driver.switch_to_frame("rigthFrame")
     
         
-    '''定位到bottomFrame'''
+    u'''定位到bottomFrame'''
     def switch_to_bottom(self):
         if self.getElem.is_element_exsit("id","content1"):
             self.driver.switch_to_frame("content1")
         if self.getElem.is_element_exsit("id","bottomFrame"):
             self.driver.switch_to_frame("bottomFrame")
 
-    '''返回上级frame'''
+    u'''返回上级frame'''
     def switch_to_content(self):
         self.driver.switch_to_default_content()
     
-    '''从一个frame跳转到其他frame
+    u'''从一个frame跳转到其他frame
         Parameters:
             - frameName:要跳转到的frame的名字      
     '''
@@ -324,7 +324,7 @@ class tableElement(object):
         #selenium驱动
         self.driver = driver
 
-    '''获取表格中的所有行对象
+    u'''获取表格中的所有行对象
         Parameters:
             - table_xpath:定位table的xpath
         Return: table的所有行对象
@@ -339,7 +339,7 @@ class tableElement(object):
              
         return row_elems
 
-    '''获取表格中一列的文本内容
+    u'''获取表格中一列的文本内容
         Parameters:
             - table_xpath:定位table的xpath
             - row:行号
@@ -359,7 +359,7 @@ class tableElement(object):
         return col_elems[col].text,col_elems[col]
 
         
-    '''获取表格中的行数
+    u'''获取表格中的行数
         Parameters:
             - table_xpath:定位table的xpath
         Return: table的行数
@@ -374,7 +374,7 @@ class tableElement(object):
         return len(row_elems)
 
 
-    '''定位表格中的某一列的select对象
+    u'''定位表格中的某一列的select对象
         Parameters:
             - row:表格的行
             - col:某一个行的一列
@@ -411,7 +411,7 @@ class commonFun(object):
         self.cn = cnEncode()
         self.log = log()
 
-    '''选择角色
+    u'''选择角色
         Parameters:
             - index:下拉列表的索引（0,1,2）
     '''
@@ -422,7 +422,7 @@ class commonFun(object):
         selectElem.select_element_by_index(role,index)
         
         
-    '''获取开关的状态
+    u'''获取开关的状态
         Parameters:
             - elem:定位到开关的元素
     
@@ -441,7 +441,7 @@ class commonFun(object):
         
         return status
         
-    '''点击列表页面中的操作项
+    u'''点击列表页面中的操作项
         Parameters:
             - elem：定位到table中对应的列对象
             - index: 点击索引（0,1,2代表操作列内的项目）
@@ -450,7 +450,7 @@ class commonFun(object):
         op = cell_elem.find_elements_by_tag_name("input")[index]
         op.click()
         
-    '''点击分页中的按钮
+    u'''点击分页中的按钮
         Parameters:
             - type：first表示首页，last表示尾页，up表示上一页，
                     down表示下一页，jump表示跳转按钮
@@ -482,7 +482,7 @@ class commonFun(object):
         elif type == "jump":
             pagerBtn[0].click()
         
-    '''菜单选择
+    u'''菜单选择
         Parameters:
             - levelText1：1级菜单文本
             - levelText2：2级菜单文本 
@@ -506,7 +506,7 @@ class commonFun(object):
             frameElem.from_frame_to_otherFrame("leftFrame")
             getElem.find_element_wait_and_click("link",levelText3)
         
-    '''操作时间控件
+    u'''操作时间控件
         Parameters:
             - wdateId：日期控件的ID值
             - fxpath：frame的xpath路径
@@ -599,7 +599,7 @@ class commonFun(object):
                 
             getElem.find_element_wait_and_click("id","dpOkInput")
 
-    '''弹窗类检查点
+    u'''弹窗类检查点
         Parameters:
             - type：定位弹窗中元素的类型
             - elem：弹窗元素的名字或者路径
