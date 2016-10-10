@@ -418,7 +418,7 @@ class commonFun(object):
     def select_role(self,index):
         getElem = getElement(self.driver)
         getElem.find_element_wait_and_click("id","js_z")
-        role = getElem.find_element("id","js_x")
+        role = getElem.find_element_with_wait("id","js_x")
         selectElem.select_element_by_index(role,index)
         
         
@@ -639,7 +639,7 @@ if __name__ == "__main__" :
    
 #登陆操作开始
     getElem = getElement(browers)
-    a = getElem.find_element("id","loginMethod")
+    a = getElem.find_element_with_wait("id","loginMethod")
     
     selectElem = selectElement(browers)
     selectElem.select_element_by_index(a,0)
@@ -736,10 +736,26 @@ if __name__ == "__main__" :
     #选择菜单
     #common.select_menu(u"系统配置",u"备份还原")
 #    common.select_menu(u"系统配置",u"系统状态",u"关机重启")
-#    common.select_menu(u"运维管理",u"用户")
+    common.select_menu(u"运维管理",u"用户")
     
-    #时间控件
-#    frameElem.from_frame_to_otherFrame("rigthFrame")
+#    #用户导入开始
+#    #时间控件
+#    frameElem.from_frame_to_otherFrame("rightFrame")
+#    #点击导入
+#    getElem.find_element_wait_and_click("id","importTemp")
+#    #在浏览上传中输入文件名
+#    getElem.find_element_wait_and_sendkeys("name","filePath","user_import_temp.xls")
+#    #点上传按钮
+#    getElem.find_element_wait_and_click("id","btn_sc")
+#    #起始行
+#    getElem.find_element_wait_and_sendkeys("id","st","1")
+#    #结束行
+#    getElem.find_element_wait_and_sendkeys("id","en","2")
+#    #点提交按钮
+#    getElem.find_element_wait_and_click("id","btn_tj")
+#    #用户导入结束
+    
+    
 #    common.select_time("backUpTime","html/body/div[2]/iframe",'c')
 #    frameElem.from_frame_to_otherFrame("rigthFrame")
 #    common.select_time("backUpTime","html/body/div[2]/iframe",'t')
