@@ -35,7 +35,8 @@ class getElement(object):
         parameter:
             - type:定位的类型，如id,name,tag name,class name,css,xpath等
             - value：页面的元素值
-            - timeout:超时前等待的时间        
+            - timeout:超时前等待的时间
+        return：查找的元素对象
     '''    
     def find_element_with_wait(self,type,value,timeout=1):
         if type == "xpath":
@@ -61,7 +62,8 @@ class getElement(object):
             - type:定位的类型，如id,name,tag name,class name,css,xpath等
             - value：页面的元素值
             - key：发送的字符或者键盘的键值
-            - timeout:超时前等待的时间        
+            - timeout:超时前等待的时间 
+        return：定位元素并发送键值
     '''    
     def find_element_wait_and_sendkeys(self,type,value,key,timeout=1):
         if type == "xpath":
@@ -86,7 +88,8 @@ class getElement(object):
         parameter:
             - type:定位的类型，如id,name,tag name,class name,css,xpath等
             - value：页面的元素值
-            - timeout:超时前等待的时间        
+            - timeout:超时前等待的时间
+        return：定位元素并点击该元素
     '''    
     def find_element_wait_and_click(self,type,value,timeout=1):
         if type == "xpath":
@@ -110,7 +113,8 @@ class getElement(object):
         parameter:
             - type:定位的类型，如id,name,tag name,class name,css,xpath等
             - value：页面的元素值
-            - timeout:超时前等待的时间        
+            - timeout:超时前等待的时间  
+        return：获取定位元素的文本
     '''    
     def find_element_wait_and_get_text(self,type,value,timeout=1):
         if type == "xpath":
@@ -180,7 +184,7 @@ class selectElement(object):
         Parameters:
             - selem:定位到的select元素
             - index:选择的option的索引
-        Return：select元素中的index对应的text列表
+        Return：select元素中的index对应的text
     '''
     def get_option_text(self,selem,index):
         options_list = selem.find_elements_by_tag_name("option")
@@ -206,7 +210,7 @@ class selectElement(object):
         Parameters:
             - selem:定位到的select元素
             - index:选择的option的索引
-        Return：select元素中的index对应的value列表
+        Return：select元素中的index对应的value值
     '''
     def get_option_value(self,selem,index):
         options_list = selem.find_elements_by_tag_name("option")
@@ -424,7 +428,7 @@ class commonFun(object):
         
     u'''获取开关的状态
         Parameters:
-            - elem:定位到开关的元素
+            - elem:开关对应的元素对象
     
         return: 0代表开关关闭，1代表开关打开
     '''
@@ -441,7 +445,7 @@ class commonFun(object):
         
         return status
         
-    u'''点击列表页面中的操作项
+    u'''用户列表中的操作项选择，可以选择操作列中某一个项目    
         Parameters:
             - elem：定位到table中对应的列对象
             - index: 点击索引（0,1,2代表操作列内的项目）
@@ -509,8 +513,8 @@ class commonFun(object):
     u'''操作时间控件
         Parameters:
             - wdateId：日期控件的ID值
-            - fxpath：frame的xpath路径
-            - txpath：时间控件table的xpath路径
+            - fxpath：日期控件frame的xpath路径
+            - txpath：日期控件table的xpath路径
             - time：设定的日期，格式为2016-9-7 11:42:42
             - type：t代表今天，c代表clear，q代表确定，默认选择今天 
     '''
