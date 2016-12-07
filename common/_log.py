@@ -15,6 +15,9 @@ reload(sys)
 sys.setdefaultencoding('utf-8')
 
 import time
+import logging
+import logging.config
+
 from _fileRead import *
 from _cnEncode import cnEncode
 
@@ -43,7 +46,7 @@ class log(object):
         fileWrite().file_write(msg)
         print "[" + endTime + "]" + caseName + "---------end\n"
         
-    '''日志的详细内容
+    u'''日志的详细内容
         Parameters:
             - msg：日志信息
             - flag：判定通过或未通过的标识，True代表通过，False代表未通过
@@ -68,5 +71,29 @@ class log(object):
             fileWrite().file_write(unPassMsg)
             print unPassMsg
             
+
+    u'''日志的详细内容
+        Parameters:
+            - msg：日志信息
+            - flag：判定通过或未通过的标识，True代表通过，False代表未通过
+    '''
+    def log_detail1(self,msg,flag):
+        
+        logging.config.fileConfig("logging.conf")
+        logger = logging.getLogger('simpleExample')
+              
+        #通过信息
+        passMsg = self.cn.cnCode(msg) + self.cn.cnCode(u"---------测试通过")
+
+        #未通过信息
+        unPassMsg = self.cn.cnCode(msg) + self.cn.cnCode(u"---------测试未通过")
+        
+        if flag:
+            #通过信息写入日志
+            logger.info(passMsg)
+            
+        else:
+            #未通过信息写入日志
+            logger.info(unPassMsg)
 
 #if __name__ == "__main__":

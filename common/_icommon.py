@@ -610,11 +610,24 @@ class commonFun(object):
             - data：excel一行的数据
             - flag:没有检查点的测试项通过标识。Ture为通过，False为未通过           
     '''
+    def click_login_msg_button(self,elem):
+        #确定按钮
+        OKBTN = "//div[@id='aui_buttons']/button"
+        return elem.find_element_wait_and_click('xpath',OKBTN) 
+
+
+    u'''弹窗类检查点
+        Parameters:
+            - type：定位弹窗中元素的类型
+            - elem：弹窗元素的名字或者路径
+            - data：excel一行的数据
+            - flag:没有检查点的测试项通过标识。Ture为通过，False为未通过           
+    '''
     def test_win_check_point(self,type,elem,data,flag):
         
         getElem = getElement(self.driver)
         #获取弹框中的文本内容
-        elemText = getElem.find_element_with_wait(type,elem).text
+        elemText = getElem.find_element_wait_and_get_text(type,elem)
 
         #检查点为空
         if data[1] == "":
@@ -627,13 +640,22 @@ class commonFun(object):
         else:
         #检查点不为空
             if elemText == data[1]:
+                self.click_login_msg_button(getElem)
                 #页面的内容与检查点内容一致，测试点通过
                 self.log.log_detail(data[0],True)
             else:
                 #页面抓取到的内容与检查点不一致，测试点不通过
                 self.log.log_detail(data[0],False)
         
-        
+    u'''表格内容存在类检查点
+        Parameters:
+            - type：定位表格中元素的类型
+            - elem：弹窗元素的名字或者路径
+            - data：excel一行的数据
+            - flag:没有检查点的测试项通过标识。Ture为通过，False为未通过           
+    '''
+    def table_check_point(self,type,elem,data,flag):
+        pass
         
 
     

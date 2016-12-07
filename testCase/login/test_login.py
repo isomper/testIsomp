@@ -65,7 +65,7 @@ class testLogin(object):
                     flag = False
                     
             except Exception as e: 
-                cmf.test_win_check_point("xpath",loginMes,data,flag)
+                #cmf.test_win_check_point("xpath",loginMes,data,flag)
                 print "login type error:" + str(e)
         
         self.log.log_end("login")

@@ -52,8 +52,8 @@ class initDriver:
         #打开IP地址对应的网页
         driver.get("https://" + ipAdd + "/fort")
         
-        #https访问时弹出安全警告页面后点击继续
-        if "0" in fileList[1]:
+        #https访问时弹出安全警告页面后点击继续，0代表有安全警告，1代表没有安全警告
+        if "0" in fileList[4]:
             driver.get("javascript:document.getElementById('overridelink').click();")
         
         return driver

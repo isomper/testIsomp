@@ -40,12 +40,13 @@ class loginPage(object):
     LOGIN_COPYRIGHT = "/html/body/div[2]/div[5]/text()[2]"
     #退出
     QUIT = "logout"
-    
+
     def __init__(self,driver):
         #selenuim驱动
         self.driver = driver
         self.getElem = getElement(driver)
         self.selectElem = selectElement(driver)
+        self.frameElem = frameElement(self.driver)
     
     #获取登录方式
     def get_login_method(self):
@@ -63,6 +64,7 @@ class loginPage(object):
     #填写用户名
     def set_login_username(self,username):
         try:
+            self.getElem.find_element_with_wait('id',self.LOGIN_USERNAME).clear()
             self.getElem.find_element_wait_and_sendkeys('id',self.LOGIN_USERNAME,username)
         except Exception as e:
             print "login name error:" + str(e)
@@ -70,6 +72,7 @@ class loginPage(object):
     #填写口令
     def set_login_pwd(self,pwd):
         try:
+            self.getElem.find_element_with_wait('id',self.LOGIN_PWD).clear()
             self.getElem.find_element_wait_and_sendkeys('id',self.LOGIN_PWD,pwd)
         except Exception as e:
             print "login password error:" + str(e)
@@ -80,7 +83,8 @@ class loginPage(object):
             self.getElem.find_element_wait_and_click('id',self.LOGIN_BUTTON) 
         except Exception as e:
             print "login button error:" + str(e)
-    
+
+
     #点击版权所有
     def click_login_copyright(self,driver): 
         pass
@@ -96,7 +100,13 @@ class loginPage(object):
     def is_login_success(self):
         success = False
         
-        if self.driver.title == "圣博润堡垒系统":
+        try:
+            self.frameElem.switch_to_top()
+            text = self.getElem.find_element_wait_and_get_text("id","message")
+        except Exception as e:
+            text = ""
+        
+        if text == "个人信息维护":
             success = True
 
         return success
@@ -117,17 +127,18 @@ class loginPage(object):
     
     #点击退出
     def quit(self):
-        frameElem = frameElement(self.driver)
-        frameElem.switch_to_top()
+        self.frameElem.switch_to_top()
         self.getElem.find_element_wait_and_click('id',self.QUIT)
     
 #if __name__ == "__main__":
 #    #启动页面
 #    browers = initDriver().open_driver()
-    
+#    
 #    login_page = loginPage(browers)
-#    login_page.login(0,"isomper","1")
-#    login_page.quit()
-
+#    list = ["","","0","aaaa","1"]
+#    login_page.login(list)
+#    #login_page.quit()
+#    login_page.click_msg_button()
+    
     #关闭页面
     #initDriver().close_driver(browers)

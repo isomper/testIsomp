@@ -18,7 +18,6 @@ class testLoginSuite(unittest.TestCase):
         self.browser = initDriver().open_driver()
         
     def test_login(self):
-        
         test_login = testLogin(self.browser)
         #登录
         test_login.login()
