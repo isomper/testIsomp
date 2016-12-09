@@ -646,6 +646,7 @@ class commonFun(object):
             else:
                 #页面抓取到的内容与检查点不一致，测试点不通过
                 self.log.log_detail(data[0],False)
+
         
     u'''表格内容存在类检查点
         Parameters:

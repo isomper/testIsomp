@@ -25,63 +25,56 @@ class log(object):
     
     def __init__(self):
         self.cn = cnEncode()
+        logging.config.fileConfig("/testIsomp/common/logging.conf")
+        self.logger = logging.getLogger('simpleExample')
+        
 
     #日志记录开始
-    def log_start(self,caseName):
-        #获取当前时间
-        startTime = time.strftime('%Y-%m-%d %X',time.localtime())
+    def log_start(self,caseName): 
+        msg = caseName + "----start"
         
-        msg = "[" + startTime + "]" + caseName + "----start"
-        
-        fileWrite().file_write(msg)
-        print "[" + startTime + "]" + caseName + "---------start"
+        self.logger.info(msg)
+
 
     #日志记录结束
-    def log_end(self,caseName):
-        #获取当前时间
-        endTime = time.strftime('%Y-%m-%d %X',time.localtime())
+    def log_end(self,caseName):    
+        msg = caseName + "----end\n"
         
-        msg = "[" + endTime + "]" + caseName + "----end"
+        self.logger.info(msg)
+
         
-        fileWrite().file_write(msg)
-        print "[" + endTime + "]" + caseName + "---------end\n"
-        
+#    u'''日志的详细内容
+#        Parameters:
+#            - msg：日志信息
+#            - flag：判定通过或未通过的标识，True代表通过，False代表未通过
+#    '''
+#    def log_detail(self,msg,flag):
+#        #获取当前时间
+#        iTime = time.strftime('%Y-%m-%d %X',time.localtime())
+#        
+#        #通过信息
+#        passMsg = "["+ iTime + "]" + self.cn.cnCode(msg) + self.cn.cnCode(u"---------测试通过")
+#
+#        #未通过信息
+#        unPassMsg = "[" + iTime + "]" + self.cn.cnCode(msg) + self.cn.cnCode(u"---------测试未通过")
+#        
+#        if flag:
+#            #写通过信息进日志
+#            fileWrite().file_write(passMsg)
+#            print passMsg
+#            
+#        else:
+#            #写未通过信息进日志
+#            fileWrite().file_write(unPassMsg)
+#            print unPassMsg
+            
+
     u'''日志的详细内容
         Parameters:
             - msg：日志信息
             - flag：判定通过或未通过的标识，True代表通过，False代表未通过
     '''
     def log_detail(self,msg,flag):
-        #获取当前时间
-        iTime = time.strftime('%Y-%m-%d %X',time.localtime())
-        
-        #通过信息
-        passMsg = "["+ iTime + "]" + self.cn.cnCode(msg) + self.cn.cnCode(u"---------测试通过")
-
-        #未通过信息
-        unPassMsg = "[" + iTime + "]" + self.cn.cnCode(msg) + self.cn.cnCode(u"---------测试未通过")
-        
-        if flag:
-            #写通过信息进日志
-            fileWrite().file_write(passMsg)
-            print passMsg
-            
-        else:
-            #写未通过信息进日志
-            fileWrite().file_write(unPassMsg)
-            print unPassMsg
-            
-
-    u'''日志的详细内容
-        Parameters:
-            - msg：日志信息
-            - flag：判定通过或未通过的标识，True代表通过，False代表未通过
-    '''
-    def log_detail1(self,msg,flag):
-        
-        logging.config.fileConfig("logging.conf")
-        logger = logging.getLogger('simpleExample')
-              
         #通过信息
         passMsg = self.cn.cnCode(msg) + self.cn.cnCode(u"---------测试通过")
 
@@ -90,10 +83,10 @@ class log(object):
         
         if flag:
             #通过信息写入日志
-            logger.info(passMsg)
+            self.logger.info(passMsg)
             
         else:
             #未通过信息写入日志
-            logger.info(unPassMsg)
+            self.logger.info(unPassMsg)
 
 #if __name__ == "__main__":

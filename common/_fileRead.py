@@ -55,7 +55,7 @@ class fileWrite(object):
     def file_write(self,message):
         
         #打开文件
-        fileWriteObj = open("/testIsomp/log/log.txt","a")
+        fileWriteObj = open("/testIsomp/log/isomp.log","a")
         
         try:
             fileWriteObj.write(message + '\n')
