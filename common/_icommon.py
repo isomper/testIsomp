@@ -348,7 +348,7 @@ class tableElement(object):
             - table_xpath:定位table的xpath
             - row:行号
             - col:列号  
-        Return: table列中的文本,table列的列对象
+        Return: table指定行的列中的文本,table列的列对象
     '''
     def get_table_cell_text(self,table_xpath,row,col):
         
@@ -414,15 +414,16 @@ class commonFun(object):
         self.driver = driver
         self.cn = cnEncode()
         self.log = log()
+        self.getElem = getElement(driver)
 
     u'''选择角色
         Parameters:
             - index:下拉列表的索引（0,1,2）
     '''
     def select_role(self,index):
-        getElem = getElement(self.driver)
-        getElem.find_element_wait_and_click("id","js_z")
-        role = getElem.find_element_with_wait("id","js_x")
+        self.getElem.find_element_wait_and_click("id","js_z")
+        role = self.getElem.find_element_with_wait("id","js_x")
+        selectElem = selectElement(self.driver)
         selectElem.select_element_by_index(role,index)
         
         
@@ -432,10 +433,10 @@ class commonFun(object):
     
         return: 0代表开关关闭，1代表开关打开
     '''
-    def switch_status(self,elem):
+    def switch_status(self,type,value):
         status = 1
         
-        switch = elem.find_element_by_id("btn_qh")
+        switch = self.getElem.find_element_with_wait(type,value)
         
         #获取开关class的属性
         switch_value = switch.get_attribute('class')
@@ -445,13 +446,15 @@ class commonFun(object):
         
         return status
         
-    u'''用户列表中的操作项选择，可以选择操作列中某一个项目    
+    u'''列表中的操作项选择，可以选择操作列中某一个项目    
         Parameters:
             - elem：定位到table中对应的列对象
             - index: 点击索引（0,1,2代表操作列内的项目）
     '''
-    def click_operate(self,elem,index):
-        op = elem.find_elements_by_tag_name("input")[index]
+    def click_operate(self,table_xpath,row,col,index):
+        table_elem = tableElement(self.driver)
+        cell_elem = table_elem.get_table_cell_text(table_xpath,row,col)[1]
+        op = cell_elem.find_elements_by_tag_name("input")[index]
         op.click()
         
     u'''点击分页中的按钮
@@ -462,8 +465,7 @@ class commonFun(object):
     def click_paging(self,type):
         time.sleep(1)
         
-        getElem = getElement(self.driver)
-        pageDiv = getElem.find_element_with_wait("id","pager")
+        pageDiv = self.getElem.find_element_with_wait("id","pager")
         pagerBtn = pageDiv.find_elements_by_tag_name("input")
         
         #点击首页
@@ -497,39 +499,37 @@ class commonFun(object):
         frameElem = frameElement(self.driver)
         frameElem.from_frame_to_otherFrame("topFrame")
         
-        getElem = getElement(self.driver)
         #点击一级菜单
-        getElem.find_element_wait_and_click("link",levelText1)
+        self.getElem.find_element_wait_and_click("link",levelText1)
         
         #如果有2级菜单，再点击2级菜单
         if levelText2 != 'no':
-            getElem.find_element_wait_and_click("link",levelText2)
+            self.getElem.find_element_wait_and_click("link",levelText2)
         
         #如果有3级菜单，根据名称点击3级菜单
         if levelText3 != 'no':
             frameElem.from_frame_to_otherFrame("leftFrame")
-            getElem.find_element_wait_and_click("link",levelText3)
+            self.getElem.find_element_wait_and_click("link",levelText3)
         
     u'''操作时间控件
         Parameters:
-            - wdateId：日期控件的ID值
+            - wdateId：日期控件input控件的ID值
             - fxpath：日期控件frame的xpath路径
             - txpath：日期控件table的xpath路径
             - time：设定的日期，格式为2016-9-7 11:42:42
             - type：t代表今天，c代表clear，q代表确定，默认选择今天 
     '''
-    def select_time(self,wdateId,fxpath,type='t',txpath = None,time = None):
+    def select_time(self,wdateId,fxpath,status='0',type='t',txpath = None,time = None):
         
-        getElem = getElement(self.driver)
-        getElem.find_element_wait_and_click("id",wdateId)
+        self.getElem.find_element_wait_and_click("id",wdateId)
         
-        frame = browers.find_element_by_xpath(fxpath)
-        browers.switch_to_frame(frame)
+        frame = self.driver.find_element_by_xpath(fxpath)
+        self.driver.switch_to_frame(frame)
     
         if type == 't':
-            getElem.find_element_wait_and_click("id","dpTodayInput")
+            self.getElem.find_element_wait_and_click("id","dpTodayInput")
         elif type == 'c':
-            getElem.find_element_wait_and_click("id","dpClearInput")
+            self.getElem.find_element_wait_and_click("id","dpClearInput")
         elif type == 'q':
             if time is not None:
                 list = time.split()
@@ -548,7 +548,7 @@ class commonFun(object):
                 #秒
                 tSen = hmsList[2]
                 
-                dTitle = getElem.find_element_with_wait("id","dpTitle").find_elements_by_tag_name("input")
+                dTitle = self.getElem.find_element_with_wait("id","dpTitle").find_elements_by_tag_name("input")
                 
                 #设定年
                 dTitle[1].clear()
@@ -556,52 +556,54 @@ class commonFun(object):
                 #设定月
                 dTitle[0].clear()
                 dTitle[0].send_keys(tMon)
-                
-                dTime = getElem.find_element_with_wait("id","dpTime").find_elements_by_tag_name("input")
-                #设定小时
-                dTime[0].clear()
-                dTime[0].send_keys(tHour)
-                #设定分钟
-                dTime[2].clear()
-                dTime[2].send_keys(tMin)
-                #设定秒
-                dTime[4].clear()
-                dTime[4].send_keys(tSen)
-                
                 if txpath is not None:
-
-                    table_elem = tableElement(self.driver)
-                    
-                    iStatus = False
-                   
-                    for itr in range(7):
-                        if itr != 0:
-                            for itd in range(7):
-                                ct = table_elem.get_table_cell_text(txpath,itr,itd)[0]
-                                
-                                #排除第一行大于7的
-                                if itr == 1 and int(ct) > 7:
-                                    continue
-                                
-                                #排除倒数第二行小于15的
-                                if itr == 5 and int(ct) < 15:
-                                    continue
-                                
-                                #排除最后一行小于15的
-                                if itr == 6 and int(ct) < 15:
-                                    continue
-                                
-                                #如果跟给定的日期一致，点击日期
-                                if int(ct) == int(tDay):
-                                    table_elem.get_table_cell_text(txpath,itr,itd)[1].click()
-                                    iStatus = True
-                                    break
-                        
-                        #找到日期后跳出循环
-                        if iStatus:
-                            break
                 
-            getElem.find_element_wait_and_click("id","dpOkInput")
+                                    table_elem = tableElement(self.driver)
+                                    
+                                    iStatus = False
+                                   
+                                    for itr in range(7):
+                                        if itr != 0:
+                                            for itd in range(7):
+                                                ct = table_elem.get_table_cell_text(txpath,itr,itd)[0]
+                                                
+                                                #排除第一行大于7的
+                                                if itr == 1 and int(ct) > 7:
+                                                    continue
+                                                
+                                                #排除倒数第二行小于15的
+                                                if itr == 5 and int(ct) < 15:
+                                                    continue
+                                                
+                                                #排除最后一行小于15的
+                                                if itr == 6 and int(ct) < 15:
+                                                    continue
+                                                
+                                                #如果跟给定的日期一致，点击日期
+                                                if int(ct) == int(tDay):
+                                                    table_elem.get_table_cell_text(txpath,itr,itd)[1].click()
+                                                    iStatus = True
+                                                    break
+                                        
+                                        #找到日期后跳出循环
+                                        if iStatus:
+                                            break
+                
+                if status == '1':
+                    dTime = self.getElem.find_element_with_wait("id","dpTime").find_elements_by_tag_name("input")
+                    #设定小时
+                    dTime[0].clear()
+                    dTime[0].send_keys(tHour)
+                    #设定分钟
+                    dTime[2].clear()
+                    dTime[2].send_keys(tMin)
+                    #设定秒
+                    dTime[4].clear()
+                    dTime[4].send_keys(tSen)
+                    self.getElem.find_element_wait_and_click("id","dpOkInput")
+                
+                
+            
 
     u'''弹窗类检查点
         Parameters:
@@ -610,10 +612,10 @@ class commonFun(object):
             - data：excel一行的数据
             - flag:没有检查点的测试项通过标识。Ture为通过，False为未通过           
     '''
-    def click_login_msg_button(self,elem):
+    def click_login_msg_button(self):
         #确定按钮
         OKBTN = "//div[@id='aui_buttons']/button"
-        return elem.find_element_wait_and_click('xpath',OKBTN) 
+        return self.getElem.find_element_wait_and_click('xpath',OKBTN)
 
 
     u'''弹窗类检查点
@@ -625,9 +627,8 @@ class commonFun(object):
     '''
     def test_win_check_point(self,type,elem,data,flag):
         
-        getElem = getElement(self.driver)
         #获取弹框中的文本内容
-        elemText = getElem.find_element_wait_and_get_text(type,elem)
+        elemText = self.getElem.find_element_wait_and_get_text(type,elem)
 
         #检查点为空
         if data[1] == "":
@@ -670,56 +671,29 @@ if __name__ == "__main__" :
     
     selectElem = selectElement(browers)
     selectElem.select_element_by_index(a,0)
-    c=cnEncode().cnCode(selectElem.get_all_option_text(a)[0])
-    d=selectElem.get_all_option_value(a)[0]
-    e=cnEncode().cnCode(selectElem.get_option_text(a,0))
-    f=selectElem.get_options_count(a)
-    g=selectElem.get_option_value(a,0)
-    print(c)
-    print(d)
-    print(e)
-    print(f)
-    print(g)
+    #print selectElem.get_options_count(a)
+    #print cnEncode().cnCode(selectElem.get_option_text(a,0))
+    #print cnEncode().cnCode(selectElem.get_all_option_text(a)[0])
+    #print cnEncode().cnCode(selectElem.get_all_option_text(a)[1])
 
-    # print selectElem.get_options_count(a)
-    # print cnEncode().cnCode(selectElem.get_option_text(a,0))
-    # print cnEncode().cnCode(selectElem.get_all_option_text(a)[0])
-    # print cnEncode().cnCode(selectElem.get_all_option_text(a)[1])
-
-   # pwd = "html/body/div[2]/div[3]/form/table/tbody[2]/tr[4]/td/input"
+    pwd = "html/body/div[2]/div[3]/form/table/tbody[2]/tr[4]/td/input"
     #getElem.find_element_and_sendkeys("id","username","isomper")
     getElem.find_element_wait_and_sendkeys("id","username","a")
-    getElem.find_element_wait_and_sendkeys("id","pwd","1")
-    getElem.find_element_wait_and_click("id","do_login",8)
-
-
-
+    getElem.find_element_wait_and_sendkeys("xpath",pwd,"1")
+    getElem.find_element_wait_and_click("id","do_login")
 #登陆操作结束
 
     frameElem = frameElement(browers)
-    frameElem.switch_to_top()
-    # #aa = getElem.find_element("classname","lt")
-    # # frameElem.from_frame_to_otherFrame("topFrame")
-    # getElem.find_element_wait_and_click("link",u"系统配置",5)
-    # getElem.find_element_wait_and_click("link",u"集中管理",5)
+    frameElem.switch_to_bottom()
+    #aa = getElem.find_element("classname","lt")
+    frameElem.from_frame_to_otherFrame("topFrame")
+#    getElem.find_element_and_click("xpath","html/body/div[1]/div/div[2]/ul/li[2]/span/a")
+#    getElem.find_element_and_click("xpath","html/body/div[1]/div/div[2]/ul/li[2]/p/a[1]")
 #    frameElem.from_frame_to_otherFrame("mainFrame")
-#     h=getElem.is_element_exsit("id","js_z")
-#     if h == True:
-#       y=getElem.find_element_wait_and_get_text("id","js_z")
-#       print(y)
-#     else:
-#         h
-#     frameElem.switch_to_main()
-#     frameElem.switch_to_left()
-#     frameElem.switch_to_right()
-#     frameElem.from_frame_to_otherFrame("mainFrame")
-#     frameElem.switch_to_content()
-#     frameElem.switch_to_bottom()
-
-
+    
     #登陆后选择用户角色
     common = commonFun(browers)
-    common.select_role("1")
+    common.select_role(2)
 #    common.select_role(2)
 #    common.select_role(0)
 #    swithvalue = common.switch_status()
@@ -790,8 +764,8 @@ if __name__ == "__main__" :
     #选择菜单
     #common.select_menu(u"系统配置",u"备份还原")
 #    common.select_menu(u"系统配置",u"系统状态",u"关机重启")
-#   common.select_menu(u"运维管理",u"用户")
-
+    common.select_menu(u"运维管理",u"用户")
+    
 #    #用户导入开始
 #    #时间控件
 #    frameElem.from_frame_to_otherFrame("rightFrame")
