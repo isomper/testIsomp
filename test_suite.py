@@ -8,7 +8,7 @@ import HTMLTestRunner
 import time
 import os
 
-sys.path.append("/testIsomp/common/")
+sys.path.append("G:/test/testIsomp/common/")
 from _mail import *
 
 class testSuite(unittest.TestCase):

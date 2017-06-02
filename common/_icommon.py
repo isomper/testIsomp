@@ -451,7 +451,7 @@ class commonFun(object):
             - index: 点击索引（0,1,2代表操作列内的项目）
     '''
     def click_operate(self,elem,index):
-        op = cell_elem.find_elements_by_tag_name("input")[index]
+        op = elem.find_elements_by_tag_name("input")[index]
         op.click()
         
     u'''点击分页中的按钮
@@ -670,29 +670,56 @@ if __name__ == "__main__" :
     
     selectElem = selectElement(browers)
     selectElem.select_element_by_index(a,0)
-    #print selectElem.get_options_count(a)
-    #print cnEncode().cnCode(selectElem.get_option_text(a,0))
-    #print cnEncode().cnCode(selectElem.get_all_option_text(a)[0])
-    #print cnEncode().cnCode(selectElem.get_all_option_text(a)[1])
+    c=cnEncode().cnCode(selectElem.get_all_option_text(a)[0])
+    d=selectElem.get_all_option_value(a)[0]
+    e=cnEncode().cnCode(selectElem.get_option_text(a,0))
+    f=selectElem.get_options_count(a)
+    g=selectElem.get_option_value(a,0)
+    print(c)
+    print(d)
+    print(e)
+    print(f)
+    print(g)
 
-    pwd = "html/body/div[2]/div[3]/form/table/tbody[2]/tr[4]/td/input"
+    # print selectElem.get_options_count(a)
+    # print cnEncode().cnCode(selectElem.get_option_text(a,0))
+    # print cnEncode().cnCode(selectElem.get_all_option_text(a)[0])
+    # print cnEncode().cnCode(selectElem.get_all_option_text(a)[1])
+
+   # pwd = "html/body/div[2]/div[3]/form/table/tbody[2]/tr[4]/td/input"
     #getElem.find_element_and_sendkeys("id","username","isomper")
     getElem.find_element_wait_and_sendkeys("id","username","a")
-    getElem.find_element_wait_and_sendkeys("xpath",pwd,"1")
-    getElem.find_element_wait_and_click("id","do_login")
+    getElem.find_element_wait_and_sendkeys("id","pwd","1")
+    getElem.find_element_wait_and_click("id","do_login",8)
+
+
+
 #登陆操作结束
 
     frameElem = frameElement(browers)
-    frameElem.switch_to_bottom()
-    #aa = getElem.find_element("classname","lt")
-    frameElem.from_frame_to_otherFrame("topFrame")
-#    getElem.find_element_and_click("xpath","html/body/div[1]/div/div[2]/ul/li[2]/span/a")
-#    getElem.find_element_and_click("xpath","html/body/div[1]/div/div[2]/ul/li[2]/p/a[1]")
+    frameElem.switch_to_top()
+    # #aa = getElem.find_element("classname","lt")
+    # # frameElem.from_frame_to_otherFrame("topFrame")
+    # getElem.find_element_wait_and_click("link",u"系统配置",5)
+    # getElem.find_element_wait_and_click("link",u"集中管理",5)
 #    frameElem.from_frame_to_otherFrame("mainFrame")
-    
+#     h=getElem.is_element_exsit("id","js_z")
+#     if h == True:
+#       y=getElem.find_element_wait_and_get_text("id","js_z")
+#       print(y)
+#     else:
+#         h
+#     frameElem.switch_to_main()
+#     frameElem.switch_to_left()
+#     frameElem.switch_to_right()
+#     frameElem.from_frame_to_otherFrame("mainFrame")
+#     frameElem.switch_to_content()
+#     frameElem.switch_to_bottom()
+
+
     #登陆后选择用户角色
     common = commonFun(browers)
-    common.select_role(1)
+    common.select_role("1")
 #    common.select_role(2)
 #    common.select_role(0)
 #    swithvalue = common.switch_status()
@@ -763,8 +790,8 @@ if __name__ == "__main__" :
     #选择菜单
     #common.select_menu(u"系统配置",u"备份还原")
 #    common.select_menu(u"系统配置",u"系统状态",u"关机重启")
-    common.select_menu(u"运维管理",u"用户")
-    
+#   common.select_menu(u"运维管理",u"用户")
+
 #    #用户导入开始
 #    #时间控件
 #    frameElem.from_frame_to_otherFrame("rightFrame")

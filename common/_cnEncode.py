@@ -24,3 +24,6 @@ class cnEncode:
             return cnStr.encode('GBK')
         else:
             return cnStr.decode('utf-8').encode('GBK')
+
+#yu=cnEncode().cnCode("陈圆圆")
+#print(yu)

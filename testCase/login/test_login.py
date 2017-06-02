@@ -3,17 +3,17 @@ import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
-sys.path.append("/testIsomp/common/")
+sys.path.append("G:/test/testIsomp/common/")
 from _excelRead import excelRead
 from _cnEncode import cnEncode
 
-sys.path.append("/testIsomp/testData/")
+sys.path.append("G:/test/testIsomp/testData/")
 from _testDataPath import dataFileName
 
-sys.path.append("/testIsomp/webElement/login/")
+sys.path.append("G:/test/testIsomp/webElement/login/")
 from loginElement import *
 
-sys.path.append("/testIsomp/common")
+sys.path.append("G:/test/testIsomp/common")
 from _icommon import commonFun
 from _icommon import log
 

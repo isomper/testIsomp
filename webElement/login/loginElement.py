@@ -18,7 +18,7 @@ sys.setdefaultencoding('utf-8')
 from selenium import webdriver
 from selenium.webdriver.support.ui import Select
 
-sys.path.append("/testIsomp/common/")
+sys.path.append("G:/test/testIsomp/common/")
 from _initDriver import *
 from _icommon import getElement,selectElement,frameElement
 
@@ -47,7 +47,6 @@ class loginPage(object):
         self.getElem = getElement(driver)
         self.selectElem = selectElement(driver)
         self.frameElem = frameElement(self.driver)
-    
     #获取登录方式
     def get_login_method(self):
         loginMethod = self.getElem.find_element_with_wait('id',self.LOGIN_METHOD)

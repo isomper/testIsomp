@@ -28,11 +28,9 @@ class fileRead(object):
         
         #实例化chiEncode
         cnEcod = cnEncode()
-        
+        #打开文件
+        fileObj = open("G:/test/testIsomp/common/test.conf","r")
         try:
-            #打开文件
-            fileObj = open("/testIsomp/common/test.conf","r")
-            
             #读取文件所有行
             allLines = fileObj.readlines()
             
@@ -53,7 +51,8 @@ class fileWrite(object):
     
     u'''写入文本文件'''
     def file_write(self,message):
-        
+        #实例化chiEncode
+        cnEcod = cnEncode()
         #打开文件
         fileWriteObj = open("/testIsomp/log/isomp.log","a")
         

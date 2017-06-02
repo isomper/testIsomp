@@ -4,32 +4,32 @@ import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
-sys.path.append("/testIsomp/common/")
+sys.path.append("G:/test/testIsomp/common/")
 from _excelRead import excelRead
 
 #登陆excel数据文件
-LOGIN_TEST_DATA_URL = "/testIsomp/testData/login_test_data.xlsx"
+LOGIN_TEST_DATA_URL = "G:/test/testIsomp/testData/login_test_data.xlsx"
 
 #自然人excel数据位置
-PERSON_TEST_DATA_URL = "/testSimp/testData/person_test_data.xlsx"
+PERSON_TEST_DATA_URL = "G:/test/testIsomp/testData/person_test_data.xlsx"
 
 #unix资源excel数据位置
-UNIX_TEST_DATA_URL = "/testSimp/testData/unix_test_data.xlsx"
+UNIX_TEST_DATA_URL = "G:/test/testIsomp/testData/unix_test_data.xlsx"
 
 #unix资源账号excel数据位置
-UNIX_USER_TEST_DATA_URL = "/testSimp/testData/unix_user_test_data.xlsx"
+UNIX_USER_TEST_DATA_URL = "G:/test/testIsomp/testData/unix_user_test_data.xlsx"
 
 #windows资源excel数据位置
-RESOURCE_TEST_DATA_URL = "/testSimp/testData/windows_test_data.xlsx"
+RESOURCE_TEST_DATA_URL = "G:/test/testIsomp/testData/windows_test_data.xlsx"
 
 #windows资源账号excel数据位置
-RESOURCE_TEST_USER_DATA_URL = "/testSimp/testData/windows_user_test_data.xlsx"
+RESOURCE_TEST_USER_DATA_URL = "G:/test/testIsomp/testData/windows_user_test_data.xlsx"
 
 #网络设备local资源excel数据位置
-LOCAL_TEST_DATA_URL = "/testSimp/testData/local_test_data.xlsx"
+LOCAL_TEST_DATA_URL = "G:/test/testIsomp/testData/local_test_data.xlsx"
 
 #网络设备local资源账号excel数据位置
-LOCAL_USER_TEST_DATA_URL = "/testSimp/testData/local_user_test_data.xlsx"
+LOCAL_USER_TEST_DATA_URL = "G:/test/testIsomp/testData/local_user_test_data.xlsx"
 
 class dataFileName(object):
 

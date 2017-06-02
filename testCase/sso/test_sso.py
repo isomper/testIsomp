@@ -4,13 +4,13 @@ reload(sys)
 sys.setdefaultencoding('utf-8')
 
 #导入通用方法和日志模块
-sys.path.append("/testIsomp/common")
+sys.path.append("G:/test/testIsomp/common")
 from _icommon import commonFun
 from _icommon import tableElement,getElement,frameElement
 
 
 #导入登录
-sys.path.append("/testIsomp/webElement/login/")
+sys.path.append("G:/test/testIsomp/webElement/login/")
 from loginElement import *
 
 class testSSO(object):

@@ -53,7 +53,7 @@ class initDriver:
         driver.get("https://" + ipAdd + "/fort")
         
         #https访问时弹出安全警告页面后点击继续，0代表有安全警告，1代表没有安全警告
-        if "0" in fileList[4]:
+        if "0"  in fileList[4]:
             driver.get("javascript:document.getElementById('overridelink').click();")
         
         return driver
@@ -62,7 +62,5 @@ class initDriver:
         u'''关闭驱动以及所有被关联的windows进程'''
         driver.close()
         driver.quit()
-        
-#if __name__ == "__main__":
-#    browers = initDriver().open_driver()
-#    initDriver().close_driver(browers)
+#yu=initDriver().open_driver()
+#initDriver().close_driver(yu)
