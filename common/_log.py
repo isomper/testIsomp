@@ -25,7 +25,7 @@ class log(object):
     
     def __init__(self):
         self.cn = cnEncode()
-        logging.config.fileConfig("G:/test/testIsomp/common/logging.conf")
+        logging.config.fileConfig("/testIsomp/common/logging.conf")
         self.logger = logging.getLogger('simpleExample')
         
 
