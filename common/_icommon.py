@@ -20,9 +20,11 @@ from _initDriver import *
 from _cnEncode import cnEncode
 from _log import log
 
+from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
+
 
 #获取定位元素
 class getElement(object):
@@ -169,6 +171,24 @@ class selectElement(object):
     def select_element_by_index(self, selem, index):
         return Select(selem).select_by_index(index)
     
+    u'''根据value选择
+        Parameters:
+            - selem:定位带的Select元素
+            - value:select选项中的文本值
+    '''
+    def select_element_by_value(self,selem,value):
+        return Select(selem).select_by_value(value)
+    
+    u'''根据text选择
+            Parameters:
+                - selem:定位带的Select元素
+                - text:select选项中的value值
+        '''
+    
+    def select_element_by_visible_text(self,selem,text):
+        return Select(selem).select_by_visible_text(text)
+        
+    
     u'''获取select中的option数量
         Parameters:
             - selem:定位到的select元素
@@ -248,13 +268,14 @@ class frameElement(object):
         if self.getElem.is_element_exsit("id","content1"):
             self.driver.switch_to_frame("content1")
             
-        if self.getElem.is_element_exsit("id","topFrame"):    
+        if self.getElem.is_element_exsit("id","topFrame"): 
             self.driver.switch_to_frame("topFrame")
 
     u'''定位到mainFrame'''
     def switch_to_main(self):
         if self.getElem.is_element_exsit("id","content1"):
             self.driver.switch_to_frame("content1")
+            
         if self.getElem.is_element_exsit("id","mainFrame"):
             self.driver.switch_to_frame("mainFrame")
     
@@ -274,7 +295,8 @@ class frameElement(object):
     def switch_to_rigth(self):
         self.switch_to_main()
         if self.getElem.is_element_exsit("id","rigthFrame"):
-            self.driver.switch_to_frame("rigthFrame")
+            WebDriverWait(self.driver,20).until(EC.frame_to_be_available_and_switch_to_it((By.ID, "rigthFrame")))
+#            self.driver.switch_to_frame("rigthFrame")
     
         
     u'''定位到bottomFrame'''
@@ -388,8 +410,9 @@ class tableElement(object):
         
         frameElem = frameElement(self.driver)
         #定位到mainFrame上
-        frameElem.switch_to_main()
-        frameElem.from_frame_to_otherFrame("rightFrame")
+        #frameElem.from_frame_to_otherFrame("mainFrame")
+        #frameElem.switch_to_main()
+        #frameElem.from_frame_to_otherFrame("rigthFrame")
         
         tx = "html/body/div[1]/div[7]/div[2]/div[1]/table"
         
@@ -422,7 +445,7 @@ class commonFun(object):
     '''
     def select_role(self,index):
         self.getElem.find_element_wait_and_click("id","js_z")
-        role = self.getElem.find_element_with_wait("id","js_x")
+        role = self.getElem.find_element_with_wait("id","js_x",3)
         selectElem = selectElement(self.driver)
         selectElem.select_element_by_index(role,index)
         
@@ -625,10 +648,7 @@ class commonFun(object):
             - data：excel一行的数据
             - flag:没有检查点的测试项通过标识。Ture为通过，False为未通过           
     '''
-    def test_win_check_point(self,type,elem,data,flag):
-        
-        #获取弹框中的文本内容
-        elemText = self.getElem.find_element_wait_and_get_text(type,elem)
+    def test_win_check_point(self,type,elem,data,flag):        
 
         #检查点为空
         if data[1] == "":
@@ -638,10 +658,13 @@ class commonFun(object):
             else:
                 #测试点没通过
                 self.log.log_detail(data[0],False)
-        else:
+                
         #检查点不为空
+        else:
+            #获取弹框中的文本内容
+            elemText = self.getElem.find_element_wait_and_get_text(type,elem)
             if elemText == data[1]:
-                self.click_login_msg_button(getElem)
+                self.click_login_msg_button()
                 #页面的内容与检查点内容一致，测试点通过
                 self.log.log_detail(data[0],True)
             else:
@@ -661,39 +684,39 @@ class commonFun(object):
         
 
     
-if __name__ == "__main__" :
+#if __name__ == "__main__" :
 #    #启动页面
-    browers = initDriver().open_driver()
+#    browers = initDriver().open_driver()
    
 #登陆操作开始
-    getElem = getElement(browers)
-    a = getElem.find_element_with_wait("id","loginMethod")
+#    getElem = getElement(browers)
+#    a = getElem.find_element_with_wait("id","loginMethod")
     
-    selectElem = selectElement(browers)
-    selectElem.select_element_by_index(a,0)
+#    selectElem = selectElement(browers)
+#    selectElem.select_element_by_index(a,0)
     #print selectElem.get_options_count(a)
     #print cnEncode().cnCode(selectElem.get_option_text(a,0))
     #print cnEncode().cnCode(selectElem.get_all_option_text(a)[0])
     #print cnEncode().cnCode(selectElem.get_all_option_text(a)[1])
 
-    pwd = "html/body/div[2]/div[3]/form/table/tbody[2]/tr[4]/td/input"
+#    pwd = "html/body/div[2]/div[3]/form/table/tbody[2]/tr[4]/td/input"
     #getElem.find_element_and_sendkeys("id","username","isomper")
-    getElem.find_element_wait_and_sendkeys("id","username","a")
-    getElem.find_element_wait_and_sendkeys("xpath",pwd,"1")
-    getElem.find_element_wait_and_click("id","do_login")
+#    getElem.find_element_wait_and_sendkeys("id","username","a")
+#    getElem.find_element_wait_and_sendkeys("xpath",pwd,"1")
+#    getElem.find_element_wait_and_click("id","do_login")
 #登陆操作结束
 
-    frameElem = frameElement(browers)
-    frameElem.switch_to_bottom()
+#    frameElem = frameElement(browers)
+#    frameElem.switch_to_bottom()
     #aa = getElem.find_element("classname","lt")
-    frameElem.from_frame_to_otherFrame("topFrame")
+#    frameElem.from_frame_to_otherFrame("topFrame")
 #    getElem.find_element_and_click("xpath","html/body/div[1]/div/div[2]/ul/li[2]/span/a")
 #    getElem.find_element_and_click("xpath","html/body/div[1]/div/div[2]/ul/li[2]/p/a[1]")
 #    frameElem.from_frame_to_otherFrame("mainFrame")
     
     #登陆后选择用户角色
-    common = commonFun(browers)
-    common.select_role(2)
+#    common = commonFun(browers)
+#    common.select_role(2)
 #    common.select_role(2)
 #    common.select_role(0)
 #    swithvalue = common.switch_status()
@@ -764,7 +787,7 @@ if __name__ == "__main__" :
     #选择菜单
     #common.select_menu(u"系统配置",u"备份还原")
 #    common.select_menu(u"系统配置",u"系统状态",u"关机重启")
-    common.select_menu(u"运维管理",u"用户")
+#    common.select_menu(u"运维管理",u"用户")
     
 #    #用户导入开始
 #    #时间控件
