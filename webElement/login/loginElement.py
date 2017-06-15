@@ -17,10 +17,7 @@ sys.setdefaultencoding('utf-8')
 
 import os
 from selenium import webdriver
-from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 
 sys.path.append("/testIsomp/common/")
 from _initDriver import *
@@ -74,21 +71,14 @@ class loginPage(object):
     #设定登录方式
     def set_login_method(self,index): 
         try:
-            if index != '':
-                index = int(index)
-            else :
-                index = str(index)
-            #self.frameElem.switch_to_content()
-            #button_js = "var btn = document.getElementById(self.LOGIN_METHOD);"
-            #self.driver.execute_script(button_js)
+            reindex = self.cnEnde.is_float(index)
             loginMethod = self.getElem.find_element_with_wait('id',self.LOGIN_METHOD)
-            self.selectElem.select_element_by_index(loginMethod,index)
+            self.selectElem.select_element_by_index(loginMethod,reindex)
         except Exception as e:
             print "login type error:" + str(e)
         
     #填写用户名
     def set_login_username(self,username):
-        #self.frameElem.switch_to_content()
         try:
             reusername = self.cnEnde.is_float(username)
             self.getElem.find_element_with_wait('id',self.LOGIN_USERNAME).clear()
@@ -98,7 +88,6 @@ class loginPage(object):
             
     #填写AD域用户名
     def set_ad_login_username(self,adUsername):
-        #self.frameElem.switch_to_content()
         try:
             reADUsername = self.cnEnde.is_float(adUsername)
             self.getElem.find_element_with_wait('id',self.LOGIN_LDAP_USERNAME).clear()
@@ -108,8 +97,6 @@ class loginPage(object):
         
     #填写口令
     def set_login_pwd(self,pwd):
-        #self.frameElem.switch_to_content()
-        #print pwd
         try:
             repwd = self.cnEnde.is_float(pwd)
             self.getElem.find_element_with_wait('id',self.LOGIN_PWD).clear()
@@ -119,7 +106,6 @@ class loginPage(object):
             
     #填写AD域密码
     def set_ad_login_pwd(self,adPwd):
-        #self.frameElem.switch_to_content()
         try:
             readPwd = self.cnEnde.is_float(adPwd)
             self.getElem.find_element_with_wait('id',self.LOGIN_LDAP_PWD).clear()
@@ -129,7 +115,6 @@ class loginPage(object):
             
     #填写radius密码
     def set_radius_login_pwd(self,radiusPwd):
-        #self.frameElem.switch_to_content()
         try:
             reRadiusPwd = self.cnEnde.is_float(radiusPwd)
             self.getElem.find_element_with_wait('id',self.LOGIN_RADIUS_PWD).clear()
@@ -139,7 +124,6 @@ class loginPage(object):
         
     #点击登录按钮
     def click_login_button(self):
-        #self.frameElem.switch_to_content()
         try:
             login_button_js = "var btn = document.getElementById(self.LOGIN_BUTTON);if(btn != null)btn.click();"
             self.driver.execute_script(login_button_js)
@@ -163,7 +147,6 @@ class loginPage(object):
     #登陆成功
     def is_login_success(self):
         success = False
-        #self.frameElem.switch_to_content()
         try:
             self.frameElem.switch_to_top()
             text = self.getElem.find_element_wait_and_get_text("id","message")
@@ -219,31 +202,18 @@ class loginPage(object):
         self.frameElem.from_frame_to_otherFrame('topFrame')
         self.commElem.select_role(1)
         time.sleep(3)
-        #self.frameElem.from_frame_to_otherFrame('topFrame')
-        #WebDriverWait(self.driver,10).until(EC.frame_to_be_available_and_switch_to_it((By.ID, "topFrame")))
-        #self.driver.find_element_by_xpath("//html/body/div[1]/div[1]/div[2]/u1/li/span/a[1]").click()
-        #self.driver.find_element_by_css_selector("a[value=\"1009030000000\"]")
         self.commElem.select_menu(u"策略配置",u"会话配置")
         self.frameElem.from_frame_to_otherFrame('mainFrame')
         strategy_option = self.getElem.find_element_with_wait('id','fortPasswordStrategyId',2)
         self.selectElem.select_element_by_index(strategy_option,0)
-        #time.sleep(2)
         self.getElem.find_element_with_wait('id',self.ACCESS_MAX_ACCOUNT).clear()
         access_max_account = self.getElem.find_element_wait_and_sendkeys('id',self.ACCESS_MAX_ACCOUNT,3,4)
-        #button_js = "var btn = document.getElementById(self.STRATEGY_SAVE_BUTTON);if(btn != null)btn.click();"
-        #self.driver.execute_script(button_js) 
-        time.sleep(3)    
-        #strategy_save_button = "//form[@id='globalStratoryForm']/div[1]/div[2]/table[1]/tbody/tr[3]/td[2]/input[1]"
+        time.sleep(3)
         #WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.ID, self.STRATEGY_SAVE_BUTTON))).click()   
         self.getElem.find_element_wait_and_click('id',self.STRATEGY_SAVE_BUTTON)
         self.frameElem.switch_to_content()
         self.commElem.click_login_msg_button()
 
-    #RADIUS认证登录
-    def otp_pwd_login(self,driver,loginMethod,username,pwd):
-        pass
-
-    
     #点击退出
     def quit(self):
         self.frameElem.switch_to_content()
