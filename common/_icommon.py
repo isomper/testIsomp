@@ -251,6 +251,11 @@ class selectElement(object):
         
         return [option_value_list.get_attribute("value") for option_value_list in options_list]
     
+    u'''选中select中的所有的option
+        Parameters:
+            - selem:定位到的select元素
+    '''
+    
     def get_option_selected(self,selem):
         #selem = getElem.find_element_with_wait("id","Roles")
         options = selem.find_elements_by_tag_name("option")
@@ -258,10 +263,6 @@ class selectElement(object):
             Select(selem)._setSelected(option)
         
          
-
-
-
-
 
 #frame元素
 class frameElement(object):
@@ -546,6 +547,7 @@ class commonFun(object):
         Parameters:
             - wdateId：日期控件input控件的ID值
             - fxpath：日期控件frame的xpath路径
+            - status: 日期控件是否有时分秒
             - txpath：日期控件table的xpath路径
             - time：设定的日期，格式为2016-9-7 11:42:42
             - type：t代表今天，c代表clear，q代表确定，默认选择今天 
@@ -589,49 +591,49 @@ class commonFun(object):
                 dTitle[0].send_keys(tMon)
                 if txpath is not None:
                 
-                                    table_elem = tableElement(self.driver)
+                    table_elem = tableElement(self.driver)
                                     
-                                    iStatus = False
+                    iStatus = False
                                    
-                                    for itr in range(7):
-                                        if itr != 0:
-                                            for itd in range(7):
-                                                ct = table_elem.get_table_cell_text(txpath,itr,itd)[0]
+                    for itr in range(7):
+                        if itr != 0:
+                            for itd in range(7):
+                                ct = table_elem.get_table_cell_text(txpath,itr,itd)[0]
                                                 
-                                                #排除第一行大于7的
-                                                if itr == 1 and int(ct) > 7:
-                                                    continue
+                                #排除第一行大于7的
+                                if itr == 1 and int(ct) > 7:
+                                    continue
                                                 
-                                                #排除倒数第二行小于15的
-                                                if itr == 5 and int(ct) < 15:
-                                                    continue
+                                #排除倒数第二行小于15的
+                                if itr == 5 and int(ct) < 15:
+                                    continue
                                                 
-                                                #排除最后一行小于15的
-                                                if itr == 6 and int(ct) < 15:
-                                                    continue
+                                #排除最后一行小于15的
+                                if itr == 6 and int(ct) < 15:
+                                    continue
                                                 
-                                                #如果跟给定的日期一致，点击日期
-                                                if int(ct) == int(tDay):
-                                                    table_elem.get_table_cell_text(txpath,itr,itd)[1].click()
-                                                    iStatus = True
-                                                    break
+                                #如果跟给定的日期一致，点击日期
+                                if int(ct) == int(tDay):
+                                    table_elem.get_table_cell_text(txpath,itr,itd)[1].click()
+                                    iStatus = True
+                                    break
                                         
-                                        #找到日期后跳出循环
-                                        if iStatus:
-                                            break
-                
-                if status == '1':
-                    dTime = self.getElem.find_element_with_wait("id","dpTime").find_elements_by_tag_name("input")
-                    #设定小时
-                    dTime[0].clear()
-                    dTime[0].send_keys(tHour)
-                    #设定分钟
-                    dTime[2].clear()
-                    dTime[2].send_keys(tMin)
-                    #设定秒
-                    dTime[4].clear()
-                    dTime[4].send_keys(tSen)
-                    self.getElem.find_element_wait_and_click("id","dpOkInput")
+                                #找到日期后跳出循环
+                                if iStatus:
+                                    break
+        #日期控件是否有时分秒        
+        if status == '1':
+            dTime = self.getElem.find_element_with_wait("id","dpTime").find_elements_by_tag_name("input")
+            #设定小时
+            dTime[0].clear()
+            dTime[0].send_keys(tHour)
+            #设定分钟
+            dTime[2].clear()
+            dTime[2].send_keys(tMin)
+            #设定秒
+            dTime[4].clear()
+            dTime[4].send_keys(tSen)
+            self.getElem.find_element_wait_and_click("id","dpOkInput")
                 
                 
             
@@ -701,12 +703,6 @@ class commonFun(object):
             if checkbox.is_selected() == False:
                 checkbox.click()
 
-    def cancel_first_select(self):
-        checkboxs = self.driver.find_elements_by_css_selector('input[type=checkbox]')
-        checkboxs.pop(0).click()
-        #time.sleep(2)
-          
-        
         
 
     
