@@ -33,9 +33,6 @@ class testLogin(object):
         sheets_name = ['default','ad','pwd_ad','radius']
         for sheetname in sheets_name:
             loginData = dataFile.get_data(loginPath,sheetname)
-        #loginData = dataFile.get_data(loginPath,'default')
-            
-        #print loginData
         
             #实例化login
             loginFun = loginPage(self.driver)
@@ -45,7 +42,6 @@ class testLogin(object):
         
             #登陆的div弹窗的xpath
             loginMes = "html/body/div[1]/div/table/tbody/tr[2]/td[2]/div/table/tbody/tr[2]/td[2]/div"
-            brower_name = self.driver.capabilities['browserName']
         
             #无检查点的测试项标识，如果为True说明通过
             flag = False
@@ -58,7 +54,6 @@ class testLogin(object):
                     if dataRow != 0:
                         if sheetname == 'default':
                             loginFun.login(data)
-                            #if brower_name == 'chrome' or brower_name == 'internet explorer':
                             if dataRow == 1:
                                 loginFun.set_max_login_count()
                         elif sheetname == 'ad':
@@ -80,7 +75,6 @@ class testLogin(object):
                         flag = False
                     
                 except Exception as e: 
-                    #cmf.test_win_check_point("xpath",loginMes,data,flag)
                     print "login type error:" + str(e)
         
         self.log.log_end("login")
