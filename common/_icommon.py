@@ -260,11 +260,16 @@ class selectElement(object):
         options = selem.find_elements_by_tag_name("option")
         for option in options:
             Select(selem)._setSelected(option)
-            
+
+    u'''自定义select中的option
+        Parameters:
+            - selem:定位到的select元素
+            - options_list:option索引数组
+    '''            
     def select_custom_option(self,selem,options_list):
         options = selem.find_elements_by_tag_name("option")
-        for index in options_list:
-            Select(selem)._setSelected(options[index])
+        for option_index in options_list:
+            Select(selem)._setSelected(options[option_index])
 
         
          
