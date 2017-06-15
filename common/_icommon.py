@@ -250,6 +250,14 @@ class selectElement(object):
         options_list = selem.find_elements_by_tag_name("option")
         
         return [option_value_list.get_attribute("value") for option_value_list in options_list]
+    
+    def get_option_selected(self,selem):
+        #selem = getElem.find_element_with_wait("id","Roles")
+        options = selem.find_elements_by_tag_name("option")
+        for option in options:
+            Select(selem)._setSelected(option)
+        
+         
 
 
 
@@ -445,7 +453,7 @@ class commonFun(object):
     '''
     def select_role(self,index):
         self.getElem.find_element_wait_and_click("id","js_z")
-        role = self.getElem.find_element_with_wait("id","js_x",3)
+        role = self.getElem.find_element_with_wait("id","js_x")
         selectElem = selectElement(self.driver)
         selectElem.select_element_by_index(role,index)
         
@@ -681,6 +689,24 @@ class commonFun(object):
     '''
     def table_check_point(self,type,elem,data,flag):
         pass
+    
+    
+    u'''
+    勾选页面上所有checkbox
+    #去掉最后一个checkbox的勾选，checkbox.pop().click()
+    '''
+    def select_all_checkbox(self):
+        checkboxs = self.driver.find_elements_by_css_selector('input[type=checkbox]')
+        for checkbox in checkboxs: 
+            if checkbox.is_selected() == False:
+                checkbox.click()
+
+    def cancel_first_select(self):
+        checkboxs = self.driver.find_elements_by_css_selector('input[type=checkbox]')
+        checkboxs.pop(0).click()
+        #time.sleep(2)
+          
+        
         
 
     
