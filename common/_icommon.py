@@ -254,13 +254,18 @@ class selectElement(object):
     u'''选中select中的所有的option
         Parameters:
             - selem:定位到的select元素
-    '''
-    
-    def get_option_selected(self,selem):
+    '''    
+    def select_all_option(self,selem):
         #selem = getElem.find_element_with_wait("id","Roles")
         options = selem.find_elements_by_tag_name("option")
         for option in options:
             Select(selem)._setSelected(option)
+            
+    def select_custom_option(self,selem,options_list):
+        options = selem.find_elements_by_tag_name("option")
+        for index in options_list:
+            Select(selem)._setSelected(options[index])
+
         
          
 
@@ -304,8 +309,7 @@ class frameElement(object):
     def switch_to_rigth(self):
         self.switch_to_main()
         if self.getElem.is_element_exsit("id","rigthFrame"):
-            WebDriverWait(self.driver,20).until(EC.frame_to_be_available_and_switch_to_it((By.ID, "rigthFrame")))
-#            self.driver.switch_to_frame("rigthFrame")
+            self.driver.switch_to_frame("rigthFrame")
     
         
     u'''定位到bottomFrame'''
