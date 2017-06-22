@@ -275,7 +275,7 @@ class selectElement(object):
     u'''根据value选择
         Parameters:
             - selem:定位带的Select元素
-            - value:select选项中的文本值
+            - value:select选项中的value属性值
     '''
     def select_element_by_value(self,selem,value):
         return Select(selem).select_by_value(value)
@@ -283,7 +283,7 @@ class selectElement(object):
     u'''根据text选择
             Parameters:
                 - selem:定位带的Select元素
-                - text:select选项中的value值
+                - text:select选项中的文本值
         '''
     
     def select_element_by_visible_text(self,selem,text):
@@ -425,6 +425,13 @@ class frameElement(object):
     u'''返回上级frame'''
     def switch_to_content(self):
         self.driver.switch_to_default_content()
+        
+    u'''定位到artIframe'''
+    def switch_to_artIframe(self):
+        self.switch_to_content()
+        if self.getElem.is_element_exsit("id","artIframe"):
+            self.driver.switch_to_frame("artIframe")
+        
     
     u'''从一个frame跳转到其他frame
         Parameters:
@@ -456,6 +463,9 @@ class frameElement(object):
         elif frameName == "rigthFrame":
             #定位到rightFrame            
             self.switch_to_rigth()
+        elif frameName == "artIframe":
+            self.switch_to_artIframe()
+        
 
 #table元素
 class tableElement(object):
@@ -639,16 +649,16 @@ class commonFun(object):
         frameElem.from_frame_to_otherFrame("topFrame")
         
         #点击一级菜单
-        self.getElem.find_element_wait_and_click("link",levelText1)
+        WebDriverWait(self.driver,10).until(EC.element_to_be_clickable((By.LINK_TEXT,levelText1))).click()
         
         #如果有2级菜单，再点击2级菜单
         if levelText2 != 'no':
-            self.getElem.find_element_wait_and_click("link",levelText2)
+            WebDriverWait(self.driver,10).until(EC.element_to_be_clickable((By.LINK_TEXT,levelText2))).click()
         
         #如果有3级菜单，根据名称点击3级菜单
         if levelText3 != 'no':
             frameElem.from_frame_to_otherFrame("leftFrame")
-            self.getElem.find_element_wait_and_click("link",levelText3)
+            WebDriverWait(self.driver,10).until(EC.element_to_be_clickable((By.LINK_TEXT,levelText3))).click()
         
     u'''操作时间控件
         Parameters:
@@ -763,6 +773,7 @@ class commonFun(object):
     '''
     def click_login_msg_button(self):
         #确定按钮
+        self.driver.switch_to_default_content()
         OKBTN = "//div[@id='aui_buttons']/button"
         return self.getElem.find_element_wait_and_click('xpath',OKBTN)
 
@@ -773,7 +784,7 @@ class commonFun(object):
             - data：excel一行的数据
             - flag:没有检查点的测试项通过标识。Ture为通过，False为未通过           
     '''
-    def test_win_check_point(self,type,elem,data,flag):        
+    def test_win_check_point(self,type,elem,data,flag,status=0):        
 
         #检查点为空
         if data[1] == "":
@@ -787,9 +798,15 @@ class commonFun(object):
         #检查点不为空
         else:
             #判断文本内容是否一致
-            elemText = self.getElem.find_element_wait_and_compare_text(type, elem, data)
-            self.click_msg_button(1)
-            if elemText:
+            if status == 0:
+                self.driver.switch_to_default_content()
+                elemText = self.getElem.find_element_wait_and_get_text(type,elem)
+                self.click_login_msg_button()
+            elif status == 1:
+                elemText = self.getElem.find_element_wait_and_compare_text(type, elem, data)
+                self.click_msg_button(1)
+
+            if elemText == data[1]:
                 # 页面的内容与检查点内容一致，测试点通过
                 self.log.log_detail(data[0], True)
             else:
@@ -813,10 +830,15 @@ class commonFun(object):
     #去掉最后一个checkbox的勾选，checkbox.pop().click()
     '''
     def select_all_checkbox(self):
-        checkboxs = self.driver.find_elements_by_css_selector('input[type=checkbox]')
-        for checkbox in checkboxs: 
-            if checkbox.is_selected() == False:
-                checkbox.click()
+        try:
+            checkboxs = self.driver.find_elements_by_css_selector('input[type=checkbox]')
+            for checkbox in checkboxs: 
+                if checkbox.is_selected() == False and \
+                    self.getElem.is_element_exsit('css','input[type=checkbox]') == True:
+                    checkbox.click()
+        except Exception as e:
+            print "checkbox is not visible:" + str(e)
+
 
     u'''点击返回按钮'''
     def back(self):
