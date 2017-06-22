@@ -24,7 +24,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
-
+from selenium.webdriver.support import expected_conditions as EC
+import time
 
 #获取定位元素
 class getElement(object):
@@ -136,6 +137,69 @@ class getElement(object):
         elif type == "plt":
             return WebDriverWait(self.driver,timeout).until(lambda x:x.find_element_by_partial_link_text(value)).text
 
+    u'''等待文本出现并与数据文本比较
+        parameter:
+            - type:定位的类型，如id,name,tag name,class name,css,xpath等
+            - value：页面的元素值
+            - data: 比较文本
+            - timeout:超时前等待的时间
+        return：文本内容一致返回true，文本内容不一致返回false
+    '''
+
+    def find_element_wait_and_compare_text(self, type, value, data, timeout=5):
+	   #如果比较不到文本相同
+		try:
+			if type == "xpath":
+				return WebDriverWait(self.driver, timeout).until(EC.text_to_be_present_in_element((By.XPATH, value), data[1]))
+			elif type == "id":
+				return WebDriverWait(self.driver, timeout).until(EC.text_to_be_present_in_element((By.ID, value), data[1]))
+			elif type == "name":
+				return WebDriverWait(self.driver, timeout).until(EC.text_to_be_present_in_element((By.NAME, value), data[1]))
+			elif type == "tagname":
+				return WebDriverWait(self.driver, timeout).until(EC.text_to_be_present_in_element((By.TAG_NAME, value), data[1]))
+			elif type == "classname":
+				return WebDriverWait(self.driver, timeout).until(EC.text_to_be_present_in_element((By.CLASS_NAME, value), data[1]))
+			elif type == "css":
+				return WebDriverWait(self.driver, timeout).until(EC.text_to_be_present_in_element((By.CSS_SELECTOR, value), data[1]))
+			elif type == "link":
+				return WebDriverWait(self.driver, timeout).until(EC.text_to_be_present_in_element((By.LINK_TEXT, value), data[1]))
+			elif type == "plt":
+				return WebDriverWait(self.driver, timeout).until(EC.text_to_be_present_in_element((By.PARTIAL_LINK_TEXT, value), data[1]))
+		except Exception:
+			return False
+
+    u'''清空文本框的内容
+        parameter:
+            - type:定位的类型，如id,name,tag name,class name,css,xpath等
+            - value：页面的元素值
+            - timeout:超时前等待的时间
+    '''
+    def find_element_wait_and_clear(self, type, value, timeout=5):
+
+		if type == "id":
+			WebDriverWait(self.driver, timeout).until(EC.presence_of_element_located((By.ID, value))).click()
+			WebDriverWait(self.driver, timeout).until(EC.presence_of_element_located((By.ID, value))).clear()
+		elif type == "xpath":
+			WebDriverWait(self.driver, timeout).until(EC.presence_of_element_located((By.XPATH, value))).click()
+			WebDriverWait(self.driver, timeout).until(EC.presence_of_element_located((By.XPATH, value))).clear()
+		elif type == "name":
+			WebDriverWait(self.driver, timeout).until(EC.presence_of_element_located((By.NAME, value))).click()
+			WebDriverWait(self.driver, timeout).until(EC.presence_of_element_located((By.NAME, value))).clear()
+		elif type == "tagname":
+			WebDriverWait(self.driver, timeout).until(EC.presence_of_element_located((By.TAG_NAME, value))).click()
+			WebDriverWait(self.driver, timeout).until(EC.presence_of_element_located((By.TAG_NAME, value))).clear()
+		elif type == "classname":
+			WebDriverWait(self.driver, timeout).until(EC.presence_of_element_located((By.CLASS_NAME, value))).click()
+			WebDriverWait(self.driver, timeout).until(EC.presence_of_element_located((By.CLASS_NAME, value))).clear()
+		elif type == "css":
+			WebDriverWait(self.driver, timeout).until(EC.presence_of_element_located((By.CSS_SELECTOR, value))).click()
+			WebDriverWait(self.driver, timeout).until(EC.presence_of_element_located((By.CSS_SELECTOR, value))).clear()
+		elif type == "link":
+			WebDriverWait(self.driver, timeout).until(EC.presence_of_element_located((By.LINK_TEXT, value))).click()
+			WebDriverWait(self.driver, timeout).until(EC.presence_of_element_located((By.LINK_TEXT, value))).clear()
+		elif type == "plt":
+			WebDriverWait(self.driver, timeout).until(EC.presence_of_element_located((By.PARTIAL_LINK_TEXT, value))).click()
+			WebDriverWait(self.driver, timeout).until(EC.presence_of_element_located((By.PARTIAL_LINK_TEXT, value))).clear()
 
     u'''元素是否存在
         parameter:
@@ -153,8 +217,7 @@ class getElement(object):
             if element != False:
                 isExsit = True
         except Exception as e:
-            print value + " element is not exsit."
-        
+            print(value + " element is not exsit.")
         return isExsit
 
 #select元素
@@ -170,7 +233,45 @@ class selectElement(object):
     '''
     def select_element_by_index(self, selem, index):
         return Select(selem).select_by_index(index)
-    
+
+    u'''根据索引取消选择
+        Parameters:
+            - selem:定位到的select元素
+            - index:select的索引，例0,1,2,从0开始计数
+    '''
+    def deselect_element_by_index(self, selem, index):
+        return Select(selem).deselect_by_index(index)
+
+    u'''判断select元素是否被选中
+        parameter:
+            - type:定位的类型，如id,name,tag name,class name,css,xpath等
+            - value：页面的元素值
+            - timeout:超时前等待的时间
+        return:true代表元素选中，false代表元素没有选中
+    '''
+    def select_element_check(self, type,value,timeout=1):
+        try:
+            if type == "xpath":
+                return WebDriverWait(self.driver, timeout).until(EC.element_located_to_be_selected((By.XPATH, value)))
+            elif type == "id":
+                return WebDriverWait(self.driver, timeout).until(EC.element_located_to_be_selected((By.ID, value)))
+            elif type == "name":
+                return WebDriverWait(self.driver, timeout).until(EC.element_located_to_be_selected((By.NAME, value)))
+            elif type == "tagname":
+                return WebDriverWait(self.driver, timeout).until(EC.element_located_to_be_selected((By.TAG_NAME, value)))
+            elif type == "classname":
+                return WebDriverWait(self.driver, timeout).until(EC.element_located_to_be_selected((By.CLASS_NAME, value)))
+            elif type == "css":
+                return WebDriverWait(self.driver, timeout).until(EC.element_located_to_be_selected((By.CSS_SELECTOR, value)))
+            elif type == "link":
+                return WebDriverWait(self.driver, timeout).until(EC.element_located_to_be_selected((By.LINK_TEXT, value)))
+            elif type == "plt":
+                return WebDriverWait(self.driver, timeout).until(EC.element_located_to_be_selected((By.PARTIAL_LINK_TEXT, value)))
+        except Exception:
+            return False
+
+
+
     u'''根据value选择
         Parameters:
             - selem:定位带的Select元素
@@ -261,18 +362,15 @@ class selectElement(object):
         for option in options:
             Select(selem)._setSelected(option)
 
-    u'''自定义select中的option
+    u'''自定义选择select中的option
         Parameters:
             - selem:定位到的select元素
             - options_list:option索引数组
-    '''            
-    def select_custom_option(self,selem,options_list):
+    '''
+    def select_user_defined_option(self,selem,options_list):
         options = selem.find_elements_by_tag_name("option")
         for option_index in options_list:
             Select(selem)._setSelected(options[option_index])
-
-        
-         
 
 #frame元素
 class frameElement(object):
@@ -358,8 +456,6 @@ class frameElement(object):
         elif frameName == "rigthFrame":
             #定位到rightFrame            
             self.switch_to_rigth()
-        
-
 
 #table元素
 class tableElement(object):
@@ -456,6 +552,8 @@ class commonFun(object):
         self.cn = cnEncode()
         self.log = log()
         self.getElem = getElement(driver)
+        self.frameElem = frameElement(driver)
+        self.selectElem= selectElement(driver)
 
     u'''选择角色
         Parameters:
@@ -643,9 +741,18 @@ class commonFun(object):
             dTime[4].clear()
             dTime[4].send_keys(tSen)
             self.getElem.find_element_wait_and_click("id","dpOkInput")
-                
-                
-            
+
+    u'''点击弹框按钮
+          Parameters:
+              -index数字开关0代表点击取消，1代表点击确定
+    '''
+    
+    def click_msg_button(self, index):
+        if index == 1:
+            return self.getElem.find_element_wait_and_click("classname", "aui_state_highlight")
+        elif index == 0:
+           NOBTN = "/html/body/div[1]/div/table/tbody/tr[2]/td[2]/div/table/tbody/tr[3]/td/div/button[2]"
+           return self.getElem.find_element_wait_and_click('xpath', NOBTN)
 
     u'''弹窗类检查点
         Parameters:
@@ -658,7 +765,6 @@ class commonFun(object):
         #确定按钮
         OKBTN = "//div[@id='aui_buttons']/button"
         return self.getElem.find_element_wait_and_click('xpath',OKBTN)
-
 
     u'''弹窗类检查点
         Parameters:
@@ -680,12 +786,12 @@ class commonFun(object):
                 
         #检查点不为空
         else:
-            #获取弹框中的文本内容
-            elemText = self.getElem.find_element_wait_and_get_text(type,elem)
-            if elemText == data[1]:
-                self.click_login_msg_button()
-                #页面的内容与检查点内容一致，测试点通过
-                self.log.log_detail(data[0],True)
+            #判断文本内容是否一致
+            elemText = self.getElem.find_element_wait_and_compare_text(type, elem, data)
+            self.click_msg_button(1)
+            if elemText:
+                # 页面的内容与检查点内容一致，测试点通过
+                self.log.log_detail(data[0], True)
             else:
                 #页面抓取到的内容与检查点不一致，测试点不通过
                 self.log.log_detail(data[0],False)
@@ -712,23 +818,123 @@ class commonFun(object):
             if checkbox.is_selected() == False:
                 checkbox.click()
 
-        
+    u'''点击返回按钮'''
+    def back(self):
+        try:
+            self.frameElem.switch_to_content()
+            self.frameElem.switch_to_main()
+            self.getElem.find_element_wait_and_click("id", "history_skip")
+        except Exception:
+            print(u"点击返回按钮失败")
 
-    
-#if __name__ == "__main__" :
+    u'''select右边框检查点
+        Parameters:
+            - type：定位右边框中元素的类型
+            - elem：右边框元素的名字或者路径
+            - data：excel一行的数据
+            - flag:没有检查点的测试项通过标识。Ture为通过，False为未通过
+    '''
+    def select_check_point(self, type, elem, data, flag):
+        # 检查点为空
+        if data[1] == "":
+            if flag:
+                # 测试点通过
+                self.log.log_detail(data[0], True)
+            else:
+                # 测试点没通过
+                self.log.log_detail(data[0], False)
+
+        # 检查点不为空
+        else:
+            # 右框中的文本内容
+            optin = self.getElem.find_element_with_wait(type, elem)
+            allText = self.selectElem.get_all_option_text(optin)
+            for num in range(len(allText)):
+                if allText[num] == data[1]:
+                    # 页面的内容与检查点内容一致，测试点通过
+                    self.log.log_detail(data[0], True)
+                else:
+                    # 页面抓取到的内容与检查点不一致，测试点不通过
+                    self.log.log_detail(data[0], False)
+
+    u'''点击批量删除
+        Parameters:
+            - id：定位删除按钮的id
+    '''
+    def bulkdel(self, id):
+        try:
+            self.frameElem.switch_to_content()
+            self.frameElem.switch_to_main()
+            self.getElem.find_element_wait_and_click("id", id)
+        except Exception:
+            print(u"点击批量删除按钮失败")
+
+    u'''勾选全选框'''
+    def check_all(self):
+        try:
+            self.frameElem.switch_to_content()
+            self.frameElem.switch_to_main()
+            self.getElem.find_element_wait_and_click("id", "checkbox")
+        except Exception:
+            print(u"勾选全选框失败")
+
+    u'''判断名称是否存在
+       Parameters:
+          - namevalue:传入的要被查询名称
+          - name:表格列的name属性
+       return：角色名称是否存在
+    '''
+    def is_namevalue_exsit(self, namevalue, name):
+        isExsit = False
+        self.frameElem.switch_to_content()
+        self.frameElem.switch_to_main()
+        try:
+            text_list = self.driver.find_elements_by_name(name)
+            for fortNameValue in text_list:
+                fortNameValue_text = fortNameValue.text
+                if fortNameValue_text == namevalue:
+                    isExsit = True
+                    break
+        except Exception:
+            print namevalue + "is not exsit."
+        return isExsit
+
+    u'''查询已存在名称位于第几行
+       Parameters:
+          - namevalue:传入的要被查询名称
+          - name:表格列的name属性
+       return：定位该角色名称位于第几行
+    '''
+    def find_row_by_name(self, namevalue, name):
+        self.frameElem.switch_to_content()
+        self.frameElem.switch_to_main()
+        row = 0
+        try:
+            if self.is_namevalue_exsit(namevalue, name):
+                text_list = self.driver.find_elements_by_name(name)
+                for fortNameValue in text_list:
+                    row = row + 1
+                    fortNameValue_text = fortNameValue.text
+                    if fortNameValue_text == namevalue:
+                        break
+        except Exception:
+            print namevalue + "is not exsit."
+        return row
+
+# if __name__ == "__main__" :
 #    #启动页面
 #    browers = initDriver().open_driver()
-   
-#登陆操作开始
+
+# 登陆操作开始
 #    getElem = getElement(browers)
 #    a = getElem.find_element_with_wait("id","loginMethod")
-    
+
 #    selectElem = selectElement(browers)
 #    selectElem.select_element_by_index(a,0)
-    #print selectElem.get_options_count(a)
-    #print cnEncode().cnCode(selectElem.get_option_text(a,0))
-    #print cnEncode().cnCode(selectElem.get_all_option_text(a)[0])
-    #print cnEncode().cnCode(selectElem.get_all_option_text(a)[1])
+# print selectElem.get_options_count(a)
+# print cnEncode().cnCode(selectElem.get_option_text(a,0))
+# print cnEncode().cnCode(selectElem.get_all_option_text(a)[0])
+# print cnEncode().cnCode(selectElem.get_all_option_text(a)[1])
 
 #    pwd = "html/body/div[2]/div[3]/form/table/tbody[2]/tr[4]/td/input"
     #getElem.find_element_and_sendkeys("id","username","isomper")

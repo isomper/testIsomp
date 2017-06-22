@@ -29,7 +29,10 @@ RESOURCE_TEST_USER_DATA_URL = "/testSimp/testData/windows_user_test_data.xlsx"
 LOCAL_TEST_DATA_URL = "/testSimp/testData/local_test_data.xlsx"
 
 #网络设备local资源账号excel数据位置
-LOCAL_USER_TEST_DATA_URL = "/testSimp/testData/local_user_test_data.xlsx"
+LOCAL_USER_TEST_DATA_URL = "/testIsomp/testData/local_user_test_data.xlsx"
+
+#角色定义数据文件
+ROLE_TEST_DATA_URL = "/testIsomp/testData/role_test_data.xlsx"
 
 class dataFileName(object):
 
@@ -64,6 +67,10 @@ class dataFileName(object):
     #获取网络设备local资源账号excel中的数据
     def get_local_user_test_data_url(self):
         return LOCAL_USER_TEST_DATA_URL
+
+    u"""获取角色定义数据文件的数据"""
+    def get_role_test_data_url(self):
+        return ROLE_TEST_DATA_URL
 
     #从sheet名称获取登陆数据
     def get_data(self,dataPath,sheetName):
