@@ -762,7 +762,7 @@ class commonFun(object):
     def click_login_msg_button(self):
         #确定按钮
         self.driver.switch_to_default_content()
-        OKBTN = "//div[@id='aui_buttons']/button"
+        OKBTN = "//div[@id='aui_buttons']/button[1]"
         return self.getElem.find_element_wait_and_click('xpath',OKBTN)
     
 
@@ -771,9 +771,9 @@ class commonFun(object):
               -index数字开关0代表点击取消，1代表点击确定
     '''
     
-    def click_msg_button(self, index):
+    def click_msg_button(self,index,type):
         if index == 1:
-            return self.click_login_msg_button()
+                return self.click_login_msg_button()
         elif index == 0:
            NOBTN = "/html/body/div[1]/div/table/tbody/tr[2]/td[2]/div/table/tbody/tr[3]/td/div/button[2]"
            return self.getElem.find_element_wait_and_click('xpath', NOBTN)
@@ -799,6 +799,7 @@ class commonFun(object):
         #检查点不为空
         else:
             #判断文本内容是否一致
+#            self.driver.switch_to_default_content()
             elemText = self.getElem.find_element_wait_and_compare_text(type,elem,data)
             self.click_msg_button(1)
             if elemText:
