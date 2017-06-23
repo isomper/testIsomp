@@ -252,21 +252,21 @@ class selectElement(object):
     def select_element_check(self, type,value,timeout=1):
         try:
             if type == "xpath":
-                return WebDriverWait(self.driver, timeout).until(EC.element_located_to_be_selected((By.XPATH, value)))
+                return WebDriverWait(self.driver,timeout).until(EC.element_located_to_be_selected((By.XPATH,value)))
             elif type == "id":
-                return WebDriverWait(self.driver, timeout).until(EC.element_located_to_be_selected((By.ID, value)))
+                return WebDriverWait(self.driver,timeout).until(EC.element_located_to_be_selected((By.ID,value)))
             elif type == "name":
-                return WebDriverWait(self.driver, timeout).until(EC.element_located_to_be_selected((By.NAME, value)))
+                return WebDriverWait(self.driver,timeout).until(EC.element_located_to_be_selected((By.NAME,value)))
             elif type == "tagname":
-                return WebDriverWait(self.driver, timeout).until(EC.element_located_to_be_selected((By.TAG_NAME, value)))
+                return WebDriverWait(self.driver,timeout).until(EC.element_located_to_be_selected((By.TAG_NAME,value)))
             elif type == "classname":
-                return WebDriverWait(self.driver, timeout).until(EC.element_located_to_be_selected((By.CLASS_NAME, value)))
+                return WebDriverWait(self.driver,timeout).until(EC.element_located_to_be_selected((By.CLASS_NAME,value)))
             elif type == "css":
-                return WebDriverWait(self.driver, timeout).until(EC.element_located_to_be_selected((By.CSS_SELECTOR, value)))
+                return WebDriverWait(self.driver,timeout).until(EC.element_located_to_be_selected((By.CSS_SELECTOR,value)))
             elif type == "link":
-                return WebDriverWait(self.driver, timeout).until(EC.element_located_to_be_selected((By.LINK_TEXT, value)))
+                return WebDriverWait(self.driver,timeout).until(EC.element_located_to_be_selected((By.LINK_TEXT,value)))
             elif type == "plt":
-                return WebDriverWait(self.driver, timeout).until(EC.element_located_to_be_selected((By.PARTIAL_LINK_TEXT, value)))
+                return WebDriverWait(self.driver,timeout).until(EC.element_located_to_be_selected((By.PARTIAL_LINK_TEXT,value)))
         except Exception:
             return False
 
@@ -751,19 +751,7 @@ class commonFun(object):
             dTime[4].clear()
             dTime[4].send_keys(tSen)
             self.getElem.find_element_wait_and_click("id","dpOkInput")
-
-    u'''点击弹框按钮
-          Parameters:
-              -index数字开关0代表点击取消，1代表点击确定
-    '''
-    
-    def click_msg_button(self, index):
-        if index == 1:
-            return self.getElem.find_element_wait_and_click("classname", "aui_state_highlight")
-        elif index == 0:
-           NOBTN = "/html/body/div[1]/div/table/tbody/tr[2]/td[2]/div/table/tbody/tr[3]/td/div/button[2]"
-           return self.getElem.find_element_wait_and_click('xpath', NOBTN)
-
+            
     u'''弹窗类检查点
         Parameters:
             - type：定位弹窗中元素的类型
@@ -776,6 +764,19 @@ class commonFun(object):
         self.driver.switch_to_default_content()
         OKBTN = "//div[@id='aui_buttons']/button"
         return self.getElem.find_element_wait_and_click('xpath',OKBTN)
+    
+
+    u'''点击弹框按钮
+          Parameters:
+              -index数字开关0代表点击取消，1代表点击确定
+    '''
+    
+    def click_msg_button(self, index):
+        if index == 1:
+            return self.click_login_msg_button()
+        elif index == 0:
+           NOBTN = "/html/body/div[1]/div/table/tbody/tr[2]/td[2]/div/table/tbody/tr[3]/td/div/button[2]"
+           return self.getElem.find_element_wait_and_click('xpath', NOBTN)
 
     u'''弹窗类检查点
         Parameters:
@@ -784,7 +785,7 @@ class commonFun(object):
             - data：excel一行的数据
             - flag:没有检查点的测试项通过标识。Ture为通过，False为未通过           
     '''
-    def test_win_check_point(self,type,elem,data,flag,status=0):        
+    def test_win_check_point(self,type,elem,data,flag):        
 
         #检查点为空
         if data[1] == "":
@@ -798,15 +799,9 @@ class commonFun(object):
         #检查点不为空
         else:
             #判断文本内容是否一致
-            if status == 0:
-                self.driver.switch_to_default_content()
-                elemText = self.getElem.find_element_wait_and_get_text(type,elem)
-                self.click_login_msg_button()
-            elif status == 1:
-                elemText = self.getElem.find_element_wait_and_compare_text(type, elem, data)
-                self.click_msg_button(1)
-
-            if elemText == data[1]:
+            elemText = self.getElem.find_element_wait_and_compare_text(type,elem,data)
+            self.click_msg_button(1)
+            if elemText:
                 # 页面的内容与检查点内容一致，测试点通过
                 self.log.log_detail(data[0], True)
             else:
