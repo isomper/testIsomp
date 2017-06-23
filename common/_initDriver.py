@@ -60,6 +60,26 @@ class initDriver:
         if "0"  in fileList[2].strip('\n'):
             driver.get("javascript:document.getElementById('overridelink').click();")
         return driver
+    
+        u'''web自定义驱动初始化'''
+    def remote_open_driver(self,host,brower):
+        driver = Remote(command_executor=host,
+                        desired_capabilities={'platform':'ANY',
+                                                'browserName':brower,
+    #                                               'version':'',
+                                                'javascriptEnabled':True,
+                                                'marionette':False
+                                            }
+                        )
+        ipAdd = jsonTranscoding().get_app_ip().strip()
+        driver.maximize_window()
+        driver.get("https://" + ipAdd + "/fort")
+            
+        if brower == "internet explorer":
+                #https访问时弹出安全警告页面后点击继续，0代表有安全警告，1代表没有安全警告            
+            driver.get("javascript:document.getElementById('overridelink').click();")
+        return driver
+    
         
     def close_driver(self,driver):        
         u'''关闭驱动以及所有被关联的windows进程'''
