@@ -771,12 +771,12 @@ class commonFun(object):
               -index数字开关0代表点击取消，1代表点击确定
     '''
     
-    def click_msg_button(self,index,type):
+    def click_msg_button(self,index):
         if index == 1:
-                return self.click_login_msg_button()
+            return self.click_login_msg_button()
         elif index == 0:
-           NOBTN = "/html/body/div[1]/div/table/tbody/tr[2]/td[2]/div/table/tbody/tr[3]/td/div/button[2]"
-           return self.getElem.find_element_wait_and_click('xpath', NOBTN)
+            NOBTN = "/html/body/div[1]/div/table/tbody/tr[2]/td[2]/div/table/tbody/tr[3]/td/div/button[2]"
+            return self.getElem.find_element_wait_and_click('xpath', NOBTN)
 
     u'''弹窗类检查点
         Parameters:
