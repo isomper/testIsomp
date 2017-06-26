@@ -26,6 +26,7 @@ from _icommon import commonFun
 from _icommon import log
 from _fileRead import fileRead
 from _initDriver import initDriver
+from _log import log
 
 class testLogin(object):
     
@@ -85,7 +86,8 @@ class testLogin(object):
                         flag = False
                     
                 except Exception as e: 
-                    print "login type error:" + str(e)
+                    self.log.print_detail("login type error",e)
+#                    print "login type error:" + str(e)
         
         self.log.log_end("login")
         
