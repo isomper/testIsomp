@@ -217,7 +217,8 @@ class getElement(object):
             if element != False:
                 isExsit = True
         except Exception as e:
-            print(value + " element is not exsit.")
+            self.log.print_detail("login type error",value)
+#            print(value + " element is not exsit.")
         return isExsit
 
 #select元素
@@ -833,7 +834,8 @@ class commonFun(object):
                     self.getElem.is_element_exsit('css','input[type=checkbox]') == True:
                     checkbox.click()
         except Exception as e:
-            print "checkbox is not visible:" + str(e)
+            self.log.print_detail("checkbox is not visible",e)
+#            print "checkbox is not visible:" + str(e)
 
 
     u'''点击返回按钮'''
@@ -843,7 +845,7 @@ class commonFun(object):
             self.frameElem.switch_to_main()
             self.getElem.find_element_wait_and_click("id", "history_skip")
         except Exception:
-            print("Click the return button to fail")
+            print("Click the return button to fail")            
 
     u'''select右边框检查点
         Parameters:
@@ -885,7 +887,7 @@ class commonFun(object):
             self.frameElem.switch_to_main()
             self.getElem.find_element_wait_and_click("id", id)
         except Exception:
-            print("Failed to hit the batch delete button")
+            print("Failed to hit the batch delete button")            
 
     u'''勾选全选框'''
     def check_all(self):
@@ -895,6 +897,7 @@ class commonFun(object):
             self.getElem.find_element_wait_and_click("id", "checkbox")
         except Exception:
             print("Select the check box failure")
+                        
 
     u'''判断名称是否存在
        Parameters:
