@@ -843,7 +843,7 @@ class commonFun(object):
             self.frameElem.switch_to_main()
             self.getElem.find_element_wait_and_click("id", "history_skip")
         except Exception:
-            print(u"点击返回按钮失败")
+            print("Click the return button to fail")
 
     u'''select右边框检查点
         Parameters:
@@ -885,7 +885,7 @@ class commonFun(object):
             self.frameElem.switch_to_main()
             self.getElem.find_element_wait_and_click("id", id)
         except Exception:
-            print(u"点击批量删除按钮失败")
+            print("Failed to hit the batch delete button")
 
     u'''勾选全选框'''
     def check_all(self):
@@ -894,7 +894,7 @@ class commonFun(object):
             self.frameElem.switch_to_main()
             self.getElem.find_element_wait_and_click("id", "checkbox")
         except Exception:
-            print(u"勾选全选框失败")
+            print("Select the check box failure")
 
     u'''判断名称是否存在
        Parameters:
