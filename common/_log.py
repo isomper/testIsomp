@@ -90,7 +90,7 @@ class log(object):
             self.logger.info(unPassMsg)
         
     def print_detail(self,msg_,errorMsg):
-        msg = self.cn.cnCode(msg_) + self.cn.cnCode(errorMsg)
+        msg = self.cn.cnCode(msg_) + str(errorMsg)
         self.logger.info(msg)
             
 
