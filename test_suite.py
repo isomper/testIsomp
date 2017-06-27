@@ -30,7 +30,7 @@ class testSuite(unittest.TestCase):
 #        print brower_type
 
         #定义测试报告的输出页面
-        reportFile = "f:/testIsomp/report/" + str(brower_type.strip()) + "testReport.html"
+        reportFile = "/testIsomp/report/" + str(brower_type.strip()) + "testReport.html"
         rf = file(reportFile,'wb')
         
         loader = unittest.TestLoader()
