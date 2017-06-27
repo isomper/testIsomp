@@ -217,7 +217,7 @@ class getElement(object):
             if element != False:
                 isExsit = True
         except Exception as e:
-            self.log.print_detail("login type error",value)
+            self.log.print_detail("element is not exsit:",value)
 #            print(value + " element is not exsit.")
         return isExsit
 
