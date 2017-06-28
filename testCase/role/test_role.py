@@ -9,18 +9,17 @@
 #修改日期：
 #修改内容：
 '''
-import sys
+import sys,time
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
 sys.path.append("/testIsomp/testData/")
 from _testDataPath import dataFileName
 sys.path.append("/testIsomp/common")
-from _icommon import commonFun,getElement,selectElement
+from _icommon import commonFun,getElement,selectElement,frameElement
 from _log import log
 sys.path.append("/testIsomp/webElement/role/")
 from test_roledf import Role
-import time
 
 class testRole(object):
 
@@ -99,6 +98,8 @@ class testRole(object):
 					self.role.edit_rolename(data[2])
 					self.role.edit_shortname(data[3])
 					self.role.level()
+					self.role.frameElem.switch_to_content()
+					self.role.frameElem.switch_to_main()
 					self.role.select_dptrole()
 					self.role.save_button()
 					self.role.frameElem.switch_to_content()
@@ -165,7 +166,9 @@ class testRole(object):
 					self.cmf.select_check_point("id", roleMsg, data, flag)
 					self.role.save_button()
 					self.role.frameElem.switch_to_content()
-					self.cmf.click_msg_button(1)
+					self.role.click_ok_button()
+					self.role.frameElem.switch_to_content()
+					self.role.frameElem.switch_to_main()
 					self.cmf.back()
 			except Exception as e:
 				print ("Edit managed roles fail:" + str(e))
@@ -190,7 +193,9 @@ class testRole(object):
 					self.cmf.select_check_point("id", roleMsg, data, flag)
 					self.role.save_button()
 					self.role.frameElem.switch_to_content()
-					self.cmf.click_msg_button(1)
+					self.role.click_ok_button()
+					self.role.frameElem.switch_to_content()
+					self.role.frameElem.switch_to_main()
 					self.cmf.back()
 			except Exception as e:
 				print("Edit other permissions fail:" + str(e))

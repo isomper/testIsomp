@@ -13,24 +13,22 @@ import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
-sys.path.append("/testIsomp/testData/")
-from _testDataPath import dataFileName
-
 #导入驱动
 sys.path.append("/testIsomp/common/")
 from _initDriver import initDriver
+from _globalVal import globalValue
 from _icommon import getElement,selectElement,frameElement
 sys.path.append("/testIsomp/testCase/role/")
 from test_role import testRole
 #导入登录
 sys.path.append("/testIsomp/webElement/login/")
 from loginElement import loginPage
-
 import unittest
 class testRoleSuite(unittest.TestCase):
 
 	def setUp(self):
-		self.browser = initDriver().open_driver()
+		driver_lists = globalValue().get_value()
+		self.browser = initDriver().remote_open_driver(driver_lists[0],driver_lists[1])
 
 	def test_role(self):
 		self.getElem = getElement(self.browser)
@@ -72,5 +70,6 @@ class testRoleSuite(unittest.TestCase):
 	def tearDown(self):
 		initDriver().close_driver(self.browser)
 
-if __name__ == "__main__":
-	unittest.main()
+
+# if __name__ == "__main__":
+# 	unittest.main()
