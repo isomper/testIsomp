@@ -8,7 +8,7 @@ class jsonTranscoding():
     
     u'''读取文件'''
     def loadFont(self):
-        f = open("\\testIsomp\\common\\config1.json","r")
+        f = open("\\testIsomp\\common\\config.json","r")
         setting = json.load(f)
         return setting
     
