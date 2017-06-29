@@ -1,50 +1,67 @@
-# -*- coding: utf-8 -*-
+#coding=utf-8
 '''
 发送html文本邮件
 '''
+import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
+
+import os
 import smtplib  
 from email.mime.text import MIMEText   
 from email.mime.multipart import MIMEMultipart  
 from email.mime.image import MIMEImage  
+from email.mime.application import MIMEApplication
 
+sys.path.append("/testIsomp/common/")
+from _log import log
+
+u'''发送邮件'''
 class sendMail:
-    def send_mail(self):
-        
-        msg = MIMEMultipart()
-        #发送方邮箱
-        sender = ["susuzhuan0321@163.com"] 
-       
-        #mailto_list=["qingniao0321@sina.com"] 
-        #接收方邮箱
-        to_list = ["tyu1850@163.com","26001698@qq.com"]
-        #msg['To']=";".join(to_list) 
-        #设置服务器
-        mail_host="smtp.163.com"
-        #用户名
-        mail_user="susuzhuan0321"
-        
-        #口令    
-        mail_pass="susu321" 
-       
-        #发件箱的后缀  
-        mail_postfix="163.com" 
+	def __init__(self):
+		self.log = log()
 
-        msgRoot = MIMEMultipart('related')  
-        msgRoot['Subject'] = '测试itt' 
-          
-        #构造附件  
-        #读取HTML
-        att = MIMEText(open('G:\\testIsomp\\report\\testReport.html', 'rb').read(), 'base64', 'utf-8')  
-        att["Content-Type"] = 'application/octet-stream'  
-        att["Content-Disposition"] = 'attachment; filename="testReport.html"'  
-        msgRoot.attach(att) 
-#        print "a" 
+	def send_mail(self):
+		#设置发送服务器
+		server  = "smtp.sbr-info.com"
+		#登录人账号
+		username = 'xxxxx@sbr-info.com'
+		#设置登录人密码
+		password = 'xxxxxx'
+		#设置发送人
+		sender = username
+		#设置接收人
+		toList = ['xxxx@sbr-info.com']
+		#设置邮件标题
+		content = 'python unit test !'
+		msg = MIMEMultipart()
+		msg['Subject'] = content
+		msg['From'] = sender
+		msg['To'] = ','.join(toList)
+		#遍历报表名称
+		rootdir = "\\testIsomp\\report\\"
+		try:
+			for filename in os.listdir(rootdir):
+				fp = open(rootdir+filename,'rb')
+				htmlpart = MIMEApplication(fp.read())
+				htmlpart.add_header('Content-Disposition', 'attachment', filename=filename)
+				msg.attach(htmlpart)
+				fp.close()
+		except Exception:
+			print "report filepath is not exist!"
+		
+		#发送邮件
+		try:
+			smtp = smtplib.SMTP()
+			smtp.connect(server)
+			smtp.login(username,password)
+			smtp.sendmail(sender,toList,msg.as_string())
+			print ('email has send out')
+		except Exception as msg:
+			self.log.print_detail("email send fail:",msg)
+#			print msg
+		finally:
+			smtp.quit()
 
-        smtp = smtplib.SMTP()  
-        smtp.connect('smtp.163.com')
-        smtp.login(mail_user, mail_pass)  
-        smtp.sendmail(sender,to_list, msgRoot.as_string())  
-        smtp.quit() 
-        
 #if __name__ == "__main__":
-#    sendMail().send_mail()
+#	sendMail().send_mail()
