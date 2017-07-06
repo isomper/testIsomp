@@ -280,18 +280,10 @@ class selectElement(object):
     u'''根据文本值取消选择
         Parameters:
             - selem:定位到的select元素
-            - value：页面的文本值
+            - text：页面的文本值
     '''
-    def deselect_text_element(self, selem, value):
-        Select(selem).deselect_by_visible_text(value)
-        
-    u'''根据文本值取消选择
-        Parameters:
-            - selem:定位到的select元素
-            - text：option的文本值
-    '''    
-    def deselect_element_by_visible_text(self,selem,text):
-        return Select(selem).deselect_by_visible_text(text)
+    def deselect_element_by_text(self, selem, text):
+        Select(selem).deselect_by_visible_text(text)
 
     u'''判断select元素是否被选中
         parameter:
