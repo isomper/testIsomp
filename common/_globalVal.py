@@ -11,7 +11,11 @@ from _initDriver import initDriver
 u'''设置全局变量'''
 class globalValue():
 	
-	#设置全局变量
+	u'''设置全局变量
+			parameters:
+				hostUrl : 访问的主机的url
+				browerType : 浏览器类型
+	'''
 	def set_value(self,hostUrl,browerType):
 		global host
 		global brower
