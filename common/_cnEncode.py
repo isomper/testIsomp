@@ -25,7 +25,7 @@ class cnEncode:
         else:
             return cnStr.decode('utf-8').encode('GBK')
     
-    u'''将浮点类型的数字或者字符串转换为整型
+    u'''将浮点类型的对象转换为字符型
         Parameters:
             - enStr：转变的字符串
     '''        
