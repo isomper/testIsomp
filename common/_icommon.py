@@ -170,7 +170,7 @@ class getElement(object):
             - timeout:超时前等待的时间
         return：定位元素并点击该元素
     '''
-    def find_element_wait_and_click_EC(self,type,value,timeout=1):
+    def find_element_wait_and_click_EC(self,type,value,timeout=10):
             if type == "id":
                 WebDriverWait(self.driver, timeout).until(EC.presence_of_element_located((By.ID, value))).click()
             elif type == "xpath":
@@ -293,7 +293,7 @@ class getElement(object):
             if element != False:
                 isExsit = True
         except Exception as e:
-            self.log.print_detail("element is not exsit:",value)
+            self.log.error_detail("element is not exsit:",value)
 #            print(value + " element is not exsit.")
         return isExsit
 
@@ -936,7 +936,7 @@ class commonFun(object):
                     self.getElem.is_element_exsit('css','input[type=checkbox]') == True:
                     checkbox.click()
         except Exception as e:
-            self.log.print_detail("checkbox is not visible",e)
+            self.log.error_detail("checkbox is not visible",e)
 #            print "checkbox is not visible:" + str(e)
 
 
