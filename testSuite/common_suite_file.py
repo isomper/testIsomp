@@ -247,6 +247,12 @@ class CommonSuiteData():
             if dataRow != 0:
                 self.set_user_basic_info(data)
 #                self.userElem.click_back_button()
+
+    #使用新添加的用户登录
+    def use_new_user_login(self):
+        login_data = self.get_table_data("common_user")
+        logindata = login_data[1]
+        self.loginElem.login(logindata)
     
     def user_quit(self):
         self.loginElem.quit()
