@@ -987,7 +987,7 @@ class commonFun(object):
         try:
             self.frameElem.switch_to_content()
             self.frameElem.switch_to_main()
-            self.getElem.find_element_wait_and_click("id", id)
+            self.getElem.find_element_wait_and_click_EC("id", id)
         except Exception:
             print("Failed to hit the batch delete button")            
 
@@ -996,7 +996,7 @@ class commonFun(object):
         try:
             self.frameElem.switch_to_content()
             self.frameElem.switch_to_main()
-            self.getElem.find_element_wait_and_click("id", "checkbox")
+            self.getElem.find_element_wait_and_click_EC("id", "checkbox")
         except Exception:
             print("Select the check box failure")
                         
