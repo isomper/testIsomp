@@ -750,8 +750,9 @@ class UserPage():
     u'''填写用户基本信息
             parameters:
                 data : 用户列表数据
+                roleText : 用户角色
     '''
-    def set_user_basic_info(self,data):
+    def set_user_basic_info(self,data,roleText):
         self.cmf.select_menu(u"运维管理")
         self.cmf.select_menu(u"运维管理",u"用户")			
         self.frameElem.from_frame_to_otherFrame("mainFrame")
@@ -767,25 +768,21 @@ class UserPage():
         self.set_user_phone(data[10])
         self.set_user_email(data[11])
         self.set_user_address(data[12])
-        #点击高级选项
-        self.click_advanced_option()
-        self.set_auth_method_rule(data[13])
-        
-        #访问方式不是默认方式
-        if int(data[13]) != 2:
-            self.userElem.set_ad_name(data[14])
+        if data[13] != "":
+            #点击高级选项
+            self.click_advanced_option()
+            self.set_auth_method_rule(data[13])
+            
+            #访问方式不是默认方式
+            if int(data[13]) != 2:
+                self.userElem.set_ad_name(data[14])
+        if data[15] != "":
+            self.set_user_role(roleText)
+            self.click_role_add_button()
+
         self.userElem.save_button()
         self.cmf.click_login_msg_button()
-        
-    u'''选择角色
-            parameters:
-                data : 角色名称
-    '''
-    def select_user_role(self,roleText):
-        self.set_user_role(roleText)
-        self.click_role_add_button()
-        self.save_button()
-        self.cmf.click_login_msg_button()
+        self.click_back_button()
 
     u'''用户状态改变为关'''
     def change_user_status_off(self,account):
