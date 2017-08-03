@@ -42,8 +42,11 @@ DEPARTMENT_TEST_DATA_URL = r"/testIsomp/testData/department_test_data.xlsx"
 #认证方式数据文件
 AUTH_METHOD_TEST_DATA_URL = r"/testIsomp/testData/auth_method_test_data.xlsx"
 
-#资源数据文件
+#linux资源数据文件
 LINUX_RESOURCE_TEST_DATA_URL = r"/testIsomp/testData/linux_resource_test_data.xlsx"
+
+#网络设备资源数据位置
+NETWORK_RESOURCE_TEST_DATA_URL = r"/testIsomp/testData/network_resource_test_data.xlsx"
 
 #资源组数据文件
 REGROUP_TEST_DATA_URL = r"/testIsomp/testData/regroup_test_data.xlsx"
@@ -112,6 +115,10 @@ class dataFileName(object):
     u"""获取用户组文件的数据"""
     def get_usergroup_test_data_url(self):
         return USERGROUP_TEST_DATA_URL
+
+    u"""获取网络设备资源文件的数据"""
+    def get_network_resource_test_data_url(self):
+        return NETWORK_RESOURCE_TEST_DATA_URL
 
     #从sheet名称获取登陆数据
     def get_data(self,dataPath,sheetName):
