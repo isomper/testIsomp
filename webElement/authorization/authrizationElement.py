@@ -263,7 +263,8 @@ class AuthorizationPage():
             index : 操作功能按钮对应的input位置
     '''
     def auth_operate_list(self,name,index):
-        row = self.cmf.find_row_by_name(name, "fortAuthorizationName")
+        reName = self.cnEnde.is_float(name)
+        row = self.cmf.find_row_by_name(reName, "fortAuthorizationName")
         
         update_xpath = "//table[@id='content_table']/tbody/tr[" + str(row-1) + "]/td[6]/input[" + index + "]"
         self.click_button_common('xpath',update_xpath)
@@ -605,8 +606,7 @@ class AuthorizationPage():
     '''
     def select_user_group(self,userGroupName):
         self.click_show_user_dep()
-#        self.click_depmt_tree_checkbox("userGroup",depName,"switch")
-        self.click_depmt_tree_checkbox("userGroup",userGroupName,"check")
+        self.click_depmt_tree_checkbox("userGroup",userGroupName)
 
     u'''点击添加资源按钮'''
     def click_add_res(self):
