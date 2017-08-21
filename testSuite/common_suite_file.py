@@ -190,8 +190,10 @@ class CommonSuiteData():
         self.frameElem.from_frame_to_otherFrame("mainFrame")
         self.userElem.select_all_button()
         self.userElem.del_button()
+        self.frameElem.switch_to_content()
         self.cmf.click_login_msg_button()
         self.cmf.click_login_msg_button()
+
     
     u'''用户退出'''
     def user_quit(self):
@@ -328,6 +330,7 @@ class CommonSuiteData():
         self.resource.set_resource_name(data[1])
         self.resource.set_resource_ip(data[2])
         if data[3] != 'no':
+            time.sleep(5)
             self.resource.set_depart(data[3])
         #选择协议
         if data[4] != "":
@@ -343,6 +346,8 @@ class CommonSuiteData():
             self.resource.set_super_confirm_pwd(data[9])
         self.resource.click_save_button()
         self.cmf.click_login_msg_button()
+        time.sleep(3)
+#        self.driver.implicitly_wait(3)
         self.cmf.back()
     
     u'''删除资源'''
@@ -512,6 +517,7 @@ class CommonSuiteData():
     def use_new_user_login(self):
         login_data = self.get_table_data("common_user")
         logindata = login_data[1]
+        time.sleep(2)
         self.loginElem.login(logindata)
     
     u'''添加认证配置'''
@@ -888,6 +894,37 @@ class CommonSuiteData():
         self.switch_to_moudle(u"运维管理", u"组织定义")
 
     def usergroup_module_post_condition(self):
+        #切换至系统级角色
+        self.dep_switch_to_sys()
+        self.module_common_post_condition()
+
+#------------------------------流程前置条件-----------------------------------
+    def process_module_prefix_condition(self):
+        self.module_common_prefix_condition()
+        self.add_user_with_role()
+        #添加用户
+        self.add_user_data_module([2,3,5,11])
+        #退出
+        self.user_quit()
+        #使用添加的用户登录并切换至部门级角色
+        self.login_and_switch_to_dep()
+        #切换到资源
+        self.switch_to_moudle(u"运维管理", u"资源")
+        #添加资源
+        self.add_resource()
+        #添加资源账号
+        self.add_res_account()
+        #切换到授权
+        self.switch_to_moudle(u'运维管理', u'授权')
+        self.add_authrization([1])
+
+    def process_module_post_condition(self):
+        #用户登录切换部门角色
+        self.login_and_switch_to_dep()
+        #删除授权
+        self.del_authorization()
+        #删除资源
+        self.del_resource()
         #切换至系统级角色
         self.dep_switch_to_sys()
         self.module_common_post_condition()
