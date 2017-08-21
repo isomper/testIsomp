@@ -42,6 +42,18 @@ DEPARTMENT_TEST_DATA_URL = r"/testIsomp/testData/department_test_data.xlsx"
 #认证方式数据文件
 AUTH_METHOD_TEST_DATA_URL = r"/testIsomp/testData/auth_method_test_data.xlsx"
 
+#授权数据文件
+AUTHORIZATION_TEST_DATA_URL = r"/testIsomp/testData/authorization_test_data.xlsx"
+
+#客户端配置文件
+CLIENT_TEST_DATA_URL = r"/testIsomp/testData/client_test_data.xlsx"
+
+#应用发布数据文件
+APP_TEST_DATA_URL = r"/testIsomp/testData/application_test_data.xlsx"
+
+#sso数据文件
+SSO_TEST_DATA_URL = r"/testIsomp/testData/sso_test_data.xlsx"
+
 #linux资源数据文件
 LINUX_RESOURCE_TEST_DATA_URL = r"/testIsomp/testData/linux_resource_test_data.xlsx"
 
@@ -50,6 +62,9 @@ NETWORK_RESOURCE_TEST_DATA_URL = r"/testIsomp/testData/network_resource_test_dat
 
 #Windows资源数据位置
 WINDOWS_RESOURCE_TEST_DATA_URL = r"/testIsomp/testData/windows_resource_test_data.xlsx"
+
+#数据库资源位置
+DATABASE_TEST_DATA_URL = r"/testIsomp/testData/database_resource_test_data.xlsx"
 
 #资源组数据文件
 REGROUP_TEST_DATA_URL = r"/testIsomp/testData/regroup_test_data.xlsx"
@@ -80,6 +95,26 @@ class dataFileName(object):
     def get_person_test_data_url(self):
         return USER_TEST_DATA_URL
     
+    #获取授权excel中的数据
+    def get_authorization_test_data_url(self):
+        return AUTHORIZATION_TEST_DATA_URL
+    
+    #获取客户端配置中的数据
+    def get_client_test_data_url(self):
+        return CLIENT_TEST_DATA_URL
+    
+    #应用发布数据
+    def get_app_test_data_url(self):
+        return APP_TEST_DATA_URL
+    
+    #数据库数据
+    def get_database_test_url(self):
+        return DATABASE_TEST_DATA_URL
+    
+    #SSO数据
+    def get_sso_test_url(self):
+        return SSO_TEST_DATA_URL    
+    
     #获取unix资源excel中数据
     def get_unix_test_data_url(self):
         return UNIX_TEST_DATA_URL
@@ -99,7 +134,6 @@ class dataFileName(object):
     #获取资源用户中excel中的数据
     def get_resource_test_user_data_url(self):
         return RESOURCE_TEST_USER_DATA_URL
-    
     
     #获取网络设备local资源账号excel中的数据
     def get_local_user_test_data_url(self):
