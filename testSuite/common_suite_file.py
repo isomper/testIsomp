@@ -88,7 +88,7 @@ class CommonSuiteData():
         self.usergroup = Usergroup(self.driver)
         self.regroup = Regroup(self.driver)
         self.appElem = AppPage(self.driver)
-        self.authoElem = AuthorizationPage(self.driver)
+        self.authorizationElem = AuthorizationPage(self.driver)
         self.testAutho = testAuthorization(self.driver)
 
     u'''切换模块
@@ -380,7 +380,31 @@ class CommonSuiteData():
         self.account.click_save_account()
         self.cmf.click_login_msg_button()
 
-#------------------------------应用发布--------------------------------------
+#-----------------------------授权----------------------------------------
+    u'''填写授权基本信息
+            parameters:
+                data[1]:授权名称
+                data[2]:部门名称
+                data[3]:状态
+    '''
+    def set_authorization(self, data):
+        self.switch_to_moudle(u'运维管理', u'授权')
+        self.authElem.add_button()
+        self.authElem.set_auth_name(data[1])
+        self.authElem.set_dep(data[2], data[3])
+        self.authElem.click_add_user()
+        self.authElem.set_select_user_search_button()
+        self.authElem.set_user_check_all_button()
+        self.authElem.set_ok_button()
+        #添加资源
+        self.authElem.click_add_res()
+        self.authElem.set_select_res_search_button()
+        self.authElem.set_res_check_all_button()
+        self.authElem.set_ok_button()
+        self.authElem.save_button()
+        self.cmf.click_login_msg_button()
+        self.cmf.back()
+
     u'''填写应用发布信息'''
     def set_application_info(self,data):
         self.switch_to_moudle(u"系统配置",u"关联服务")
@@ -413,15 +437,16 @@ class CommonSuiteData():
         self.authoElem.res_account_status()
         self.authoElem.save_button()
         self.cmf.click_login_msg_button()
-    
+
     u'''删除授权'''
-    def del_autho(self):
-        self.switch_to_moudle(u"运维管理",u"授权")
+    def del_authorization(self):
+        self.switch_to_moudle(u"运维管理", u"授权")
         self.frameElem.from_frame_to_otherFrame("mainFrame")
         self.authoElem.check_all()
         self.authoElem.del_button()
         self.cmf.click_login_msg_button()
         self.cmf.click_login_msg_button()
+
         
 #-----------------------------数据----------------------------------------
     u'''获取数据
@@ -507,7 +532,7 @@ class CommonSuiteData():
     u'''切换至系统级'''    
     def dep_switch_to_sys(self):
         roleList = self.login_and_switch_to_common("login")
-        self.cmf.select_role_by_text(roleList[0])
+        self.cmf.select_role_by_text(roleList[0]) 
     
     u'''切换至运维操作员'''
     def switch_to_operation(self):
@@ -635,7 +660,15 @@ class CommonSuiteData():
             data = res_group_data[dataRow]
             if dataRow != 0:
                 self.set_del_res_group(data)
-    
+
+    u'''添加授权'''
+    def add_authrization(self, rowList):
+        auth_data = self.get_table_data("add_authorization")
+        for dataRow in rowList:
+            data = auth_data[dataRow]
+            if dataRow != 0:
+                self.set_authorization(data)
+
     u'''添加授权数据模板'''
     def add_autho_module(self,rowList):
         autho_data = self.get_table_data("add_autho")
@@ -731,9 +764,12 @@ class CommonSuiteData():
         self.login_and_switch_to_dep()
         self.add_resource()
         self.add_res_account()
+
         self.add_authorization_user()
+
         self.add_res_group()
         self.add_user_group()
+
         self.switch_to_moudle(u'运维管理',u'授权')
         
     def authori_module_post_condition(self):
@@ -944,7 +980,6 @@ class CommonSuiteData():
 #    commonDataElem.login_and_switch_to_sys()
 #    commonDataElem.add_login_data()
 #    commonDataElem.login_and_switch_to_dep()
-#    commonDataElem.add_sso_autho()
 #    commonDataElem.add_res_group()
 #    commonDataElem.del_res_group()
 #    
