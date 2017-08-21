@@ -806,8 +806,7 @@ class AuthorizationPage():
         elif restatus == '4':
             return self.search_direct_by_res_account(condition)
     
-
-    #---------------------------------------------------------------
+#------------------------------------------------------------------------
     
     u'''获取指定属性的文本内容
             parameters:
@@ -927,6 +926,17 @@ class AuthorizationPage():
     u'''设置动态运行开关状态为关'''
     def set_switch_off(self):
         self.switch_status_common(0)
+    
+    u'''资源账号开关状态'''
+    def res_account_status(self):
+        self.frameElem.from_frame_to_otherFrame("mainFrame")
+#        time.sleep(1)
+        self.driver.execute_script("window.scrollBy(1000,0)","")
+        parent_elem = self.getElem.find_element_with_wait_EC("id","add_account_page")
+        elems = parent_elem.find_elements_by_class_name("switch_off")
+        for elem in elems:
+            if elem.is_displayed():
+                elem.click()
             
     u'''获取value值'''
     def get_value(self,type,value):
