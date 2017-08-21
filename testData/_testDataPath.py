@@ -113,7 +113,7 @@ class dataFileName(object):
     
     #SSO数据
     def get_sso_test_url(self):
-        return SSO_TEST_DATA_URL    
+        return SSO_TEST_DATA_URL
     
     #获取unix资源excel中数据
     def get_unix_test_data_url(self):
@@ -135,6 +135,7 @@ class dataFileName(object):
     def get_resource_test_user_data_url(self):
         return RESOURCE_TEST_USER_DATA_URL
     
+    
     #获取网络设备local资源账号excel中的数据
     def get_local_user_test_data_url(self):
         return LOCAL_USER_TEST_DATA_URL
@@ -146,34 +147,34 @@ class dataFileName(object):
     u"""获取组织定义部门文件的数据"""
     def get_depart_test_data_url(self):
         return DEPARTMENT_TEST_DATA_URL
-
+    
     u"""获取linux资源文件的数据"""
     def get_linux_resource_test_data_url(self):
         return LINUX_RESOURCE_TEST_DATA_URL
-
+    
     u"""获取资源组文件的数据"""
     def get_regroup_test_data_url(self):
         return REGROUP_TEST_DATA_URL
-
+    
     u"""获取用户组文件的数据"""
     def get_usergroup_test_data_url(self):
-        return USERGROUP_TEST_DATA_URL
-
+        return USERGROUP_TEST_DATA_URL   
+    
     u"""获取网络设备资源文件的数据"""
     def get_network_resource_test_data_url(self):
         return NETWORK_RESOURCE_TEST_DATA_URL
-
+    
     u"""获取windows资源文件的数据"""
     def get_windows_resource_test_data_url(self):
         return WINDOWS_RESOURCE_TEST_DATA_URL
-
+     
     u"""获取访问审批文件的数据"""
     def get_accapproval_test_data_url(self):
         return ACCAPPROVAL_TEST_DATA_URL
-
+    
     u"""获取双人授权文件的数据"""
     def get_double_license_test_data_url(self):
-        return DOUBLE_LICENSE_TEST_DATA_URL
+        return DOUBLE_LICENSE_TEST_DATA_URL     
 
     #从sheet名称获取登陆数据
     def get_data(self,dataPath,sheetName):
@@ -183,7 +184,7 @@ class dataFileName(object):
         return data
     
 #dataFile = dataFileName()
-#login_data = dataFileName().get_data(dataFileName().get_auth_method_test_data_url(),'add_auth_method')
+#login_data = dataFileName().get_data(dataFileName().get_sso_test_url(),'sso')
 #for dataRow in range(len(login_data)):
 #    data = login_data[dataRow]
 #    print data
