@@ -113,7 +113,6 @@ class CommonSuiteData():
         self.roleElem.edit_rolename(list[0])
         self.roleElem.edit_shortname(list[1])
         
-        
     u'''系统级角色模板
             parameter : 
                 list : 角色数据列表
@@ -193,7 +192,6 @@ class CommonSuiteData():
         self.frameElem.switch_to_content()
         self.cmf.click_login_msg_button()
         self.cmf.click_login_msg_button()
-
     
     u'''用户退出'''
     def user_quit(self):
@@ -267,7 +265,6 @@ class CommonSuiteData():
         self.usergroup.usergroup_click_basic_operation(int(data[0]), data[1], data[2])
         self.cmf.click_login_msg_button()
         self.cmf.click_login_msg_button()
-        
         
 #-----------------------------资源组------------------------------------------    
     u'''添加资源到资源组'''
@@ -389,22 +386,22 @@ class CommonSuiteData():
     '''
     def set_authorization(self, data):
         self.switch_to_moudle(u'运维管理', u'授权')
-        self.authElem.add_button()
-        self.authElem.set_auth_name(data[1])
-        self.authElem.set_dep(data[2], data[3])
-        self.authElem.click_add_user()
-        self.authElem.set_select_user_search_button()
-        self.authElem.set_user_check_all_button()
-        self.authElem.set_ok_button()
+        self.authorizationElem.add_button()
+        self.authorizationElem.set_auth_name(data[1])
+        self.authorizationElem.set_dep(data[2], data[3])
+        self.authorizationElem.click_add_user()
+        self.authorizationElem.set_select_user_search_button()
+        self.authorizationElem.set_user_check_all_button()
+        self.authorizationElem.set_ok_button()
         #添加资源
-        self.authElem.click_add_res()
-        self.authElem.set_select_res_search_button()
-        self.authElem.set_res_check_all_button()
-        self.authElem.set_ok_button()
-        self.authElem.save_button()
+        self.authorizationElem.click_add_res()
+        self.authorizationElem.set_select_res_search_button()
+        self.authorizationElem.set_res_check_all_button()
+        self.authorizationElem.set_ok_button()
+        self.authorizationElem.save_button()
         self.cmf.click_login_msg_button()
         self.cmf.back()
-
+#---------------------------------填写应用发布信息----------------------------
     u'''填写应用发布信息'''
     def set_application_info(self,data):
         self.switch_to_moudle(u"系统配置",u"关联服务")
@@ -427,23 +424,23 @@ class CommonSuiteData():
         self.cmf.click_login_msg_button()
         self.cmf.click_login_msg_button()
     
-#------------------------------授权---------------------------------------
+#------------------------------资源账号授权---------------------------------------
     u'''添加用户和资源账号类型的授权'''
-    def set_autho_info(self,data):
+    def set_authorization_info(self,data):
         self.switch_to_moudle(u"运维管理",u"授权")
         self.testAutho.common_part(data)
         self.testAutho.add_user(data)
         self.testAutho.add_res_account(data)
-        self.authoElem.res_account_status()
-        self.authoElem.save_button()
+        self.authorizationElem.res_account_status()
+        self.authorizationElem.save_button()
         self.cmf.click_login_msg_button()
 
     u'''删除授权'''
     def del_authorization(self):
         self.switch_to_moudle(u"运维管理", u"授权")
         self.frameElem.from_frame_to_otherFrame("mainFrame")
-        self.authoElem.check_all()
-        self.authoElem.del_button()
+        self.authorizationElem.check_all()
+        self.authorizationElem.del_button()
         self.cmf.click_login_msg_button()
         self.cmf.click_login_msg_button()
 
@@ -473,7 +470,7 @@ class CommonSuiteData():
         logindata = login_data[1]
         self.loginElem.login(logindata)
     
-    u'''添加系统级角色'''    
+    u'''添加系统级角色'''   
     def add_sys_role(self):
         role_data = self.get_table_data("add_role")
         roleData = role_data[1]
@@ -670,18 +667,18 @@ class CommonSuiteData():
                 self.set_authorization(data)
 
     u'''添加授权数据模板'''
-    def add_autho_module(self,rowList):
-        autho_data = self.get_table_data("add_autho")
+    def add_authorization_module(self,rowList):
+        autho_data = self.get_table_data("add_account_auth")
         for dataRow in rowList:
             data = autho_data[dataRow]
             if dataRow != 0:
-                self.set_autho_info(data)
-                self.authoElem.back_button()
+                self.set_authorization_info(data)
+                self.authorizationElem.back_button()
                 
     u'''添加单点登录授权'''
-    def add_sso_autho(self):
+    def add_sso_authorization(self):
         rowList = [1]
-        self.add_autho_module(rowList)
+        self.add_authorization_module(rowList)
 
 #-------------------------------前置条件---------------------------------------
     u'''前置条件通用'''
@@ -826,7 +823,7 @@ class CommonSuiteData():
         self.login_and_switch_to_dep()
         self.add_sso_resource()
         self.add_sso_res_account()
-        self.add_sso_autho()
+        self.add_sso_authorization()
         self.switch_to_operation()
 #        self.user_quit()
 #        self.login_and_switch_to_common()
@@ -836,7 +833,7 @@ class CommonSuiteData():
         self.user_quit()
         self.login_and_switch_to_dep()
         self.del_resource()
-        self.del_autho()
+        self.del_authorization()
         self.auth_method_post_condition()
 
 #------------------------------角色前置条件-----------------------------------
