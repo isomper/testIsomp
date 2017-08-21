@@ -18,8 +18,8 @@ from _testDataPath import dataFileName
 sys.path.append("/testIsomp/webElement/authorization")
 from authrizationElement import AuthorizationPage
 
-sys.path.append("/testIsomp/testSuite")
-from common_suite_file import CommonSuiteData,setDriver
+#sys.path.append("/testIsomp/testSuite")
+#from common_suite_file import CommonSuiteData,setDriver
 
 class testAuthorization():
 	def __init__(self,driver):
