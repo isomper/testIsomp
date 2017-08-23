@@ -92,7 +92,6 @@ class SsoPage():
         resname_xpath = "//table[@id='content_table']/tbody/tr[" + str(2*row-1) + \
         "]/td[5]"
 #        time.sleep(1)
-        self.driver.implicitly_wait(10)
         resElem = self.getElem.find_element_with_wait_EC("xpath",resname_xpath)
         self.action.click_and_hold(resElem)
 #        self.action.move_to_element(resElem).click(resElem).perform()
@@ -106,6 +105,7 @@ class SsoPage():
         img_elem = self.getElem.find_element_with_wait_EC("xpath",img_xpath)
         self.action.click_and_hold(img_elem)
         self.getElem.find_element_wait_and_click_EC("xpath",img_xpath)
+        self.driver.implicitly_wait(10)
         #self.action.move_to_element(img_elem).click(img_elem).perform()
     
     u'''选择登录协议
