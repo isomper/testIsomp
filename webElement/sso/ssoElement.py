@@ -140,8 +140,9 @@ class SsoPage():
         rename = self.cnEnde.is_float(username)
         rePwd = self.cnEnde.is_float(pwd)
         recmdList = self.cnEnde.is_float(cmdList)
+        reList = str(recmdList)
         os.system(exePath + " " + iconType + " " + username + " " + pwd + " " \
-        + cmdList)
+        + reList)
     
     u'''根据浏览器类型进行单点登录'''
     def choice_browser(self,iconType,username,pwd,cmdList):
@@ -149,17 +150,14 @@ class SsoPage():
         browserType = fileList[1].strip('\n')
         if browserType == '1':
             self.execute_chrome_key()
-        #elif browserType != '0' or browserType != '1' :
-            #self.opt_cmd("\\testIsomp\\webElement\\sso\\sso_firefox.exe","", \
-            #"","","")
-        else:
+        elif browserType != '0' or browserType != '1' :
             self.opt_cmd("\\testIsomp\\webElement\\sso\\sso_firefox.exe","", \
             "","","")
+#        else:
+#            self.opt_cmd("\\testIsomp\\webElement\\sso\\sso_firefox.exe","", \
+#            "","","")
         self.opt_cmd("\\testIsomp\\webElement\\sso\\sso_client.exe",iconType, \
         username,pwd,cmdList)
-        
-    def refresh_windows(self):
-        self.driver.refresh()
  
             
         

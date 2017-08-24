@@ -101,7 +101,7 @@ class testSso():
 			data = sso_data[dataRow]
 			try:
 				#如果不是第一行标题，则读取数据
-				if 8 < dataRow <= 10:
+				if 4 < dataRow <= 6:
 					self.sso_common_func(data)
 			except Exception as e:
 				print ("niming SSO login fail: ") + str(e)
@@ -119,7 +119,7 @@ class testSso():
 			data = sso_data[dataRow]
 			try:
 				#如果不是第一行标题，则读取数据
-				if  4 < dataRow <= 8 :
+				if  6 < dataRow <= 10 :
 					self.sso_common_func(data)
 			except Exception as e:
 				print ("hauwei SSO login fail: ") + str(e)
