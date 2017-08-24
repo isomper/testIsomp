@@ -343,6 +343,8 @@ class CommonSuiteData():
             self.resource.set_super_confirm_pwd(data[9])
         self.resource.click_save_button()
         self.cmf.click_login_msg_button()
+        time.sleep(3)
+#        self.driver.implicitly_wait(3)
         self.cmf.back()
     
     u'''删除资源'''
