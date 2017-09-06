@@ -40,6 +40,8 @@ from test_regroup_ment import Regroup
 from test_usergroup_ment import Usergroup
 sys.path.append("/testIsomp/webElement/client_conf")
 from clientConfElement import ClientPage
+sys.path.append("/testIsomp/webElement/rule")
+from test_command_rule_ment import CommandRule
 
 #导入应用发布
 sys.path.append("/testIsomp/webElement/application")
@@ -98,6 +100,7 @@ class CommonSuiteData():
         self.authorizationElem = AuthorizationPage(self.driver)
         self.testAutho = testAuthorization(self.driver)
         self.clientElem = ClientPage(self.driver)
+        self.command = CommandRule(self.driver)
 
     u'''切换模块
             parameter:
@@ -1120,6 +1123,59 @@ class CommonSuiteData():
         #切换至系统级角色
         self.dep_switch_to_sys()
         self.module_common_post_condition()
+
+#------------------------------命令规则前置条件-----------------------------------
+    def commandrule_module_prefix_condition(self):
+        self.module_common_prefix_condition()
+        self.add_user_with_role()
+        #添加用户
+        self.add_user_data_module([2])
+        #退出
+        self.user_quit()
+        #使用添加的用户登录并切换至部门级角色
+        self.login_and_switch_to_dep()
+        #切换到资源
+        self.switch_to_moudle(u"运维管理", u"资源")
+        #添加资源
+        self.add_resource_modele([3])
+        #添加资源账号
+        self.add_res_account_module([4])
+        #切换到授权
+        self.switch_to_moudle(u'运维管理', u'授权')
+        self.add_authorization_module([1])
+        #切换到规则定义
+        self.switch_to_moudle(u'运维管理', u'规则定义')
+        self.command.click_left_rule(0)
+
+    def commandrule_module_post_condition(self):
+        #删除授权
+        self.del_authorization()
+        #删除资源
+        self.del_resource()
+        #切换至系统级角色
+        self.dep_switch_to_sys()
+        self.module_common_post_condition()
+
+#------------------------------时间规则前置条件-----------------------------------
+    def timerule_module_prefix_condition(self):
+        self.module_common_prefix_condition()
+        self.add_user_with_role()
+        #添加用户
+        self.add_user_data_module([2,3,5,11,14])
+        #退出
+        self.user_quit()
+        #使用添加的用户登录并切换至部门级角色
+        self.login_and_switch_to_dep()
+        #切换到规则定义
+        self.switch_to_moudle(u'运维管理', u'规则定义')
+        self.command.click_left_rule(1)
+
+    def timerule_module_post_condition(self):
+        #切换至系统级角色
+        self.dep_switch_to_sys()
+        self.module_common_post_condition()
+
+
 
 
 #if __name__ == "__main__":
