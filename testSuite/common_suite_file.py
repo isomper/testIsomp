@@ -1012,7 +1012,7 @@ class CommonSuiteData():
         #self.login_and_switch_to_dep()
         self.add_database_res_module([1,2,3])
         self.add_res_account_module([11,12,13])
-        self.add_authorization_module([8])#,9
+        self.add_authorization_module([9])#,9
         self.switch_to_operation()
 #        self.user_quit()
 #        self.login_and_switch_to_common()
