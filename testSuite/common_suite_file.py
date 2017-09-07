@@ -981,7 +981,7 @@ class CommonSuiteData():
         #self.login_and_switch_to_dep()
         self.add_resource_modele([2,7,8])
         self.add_res_account_module([3,9,10])
-        self.add_authorization_module([6,7])
+        self.add_authorization_module([3,4])
         self.switch_to_operation()
         #self.user_quit()
         #self.login_and_switch_to_common()
@@ -1012,10 +1012,8 @@ class CommonSuiteData():
         #self.login_and_switch_to_dep()
         self.add_database_res_module([1,2,3])
         self.add_res_account_module([11,12,13])
-        self.add_authorization_module([9])#,9
+        self.add_authorization_module([5])
         self.switch_to_operation()
-#        self.user_quit()
-#        self.login_and_switch_to_common()
     
     u'''数据库单点登录后置条件'''
     def database_sso_post_condition(self):
@@ -1143,7 +1141,7 @@ class CommonSuiteData():
         self.add_res_account_module([3,8])
         #切换到授权
         self.switch_to_moudle(u'运维管理', u'授权')
-        self.add_authrization([1])
+        self.add_authrization([2])
 
     def process_module_post_condition(self):
         #用户登录切换部门角色
@@ -1174,7 +1172,7 @@ class CommonSuiteData():
         self.add_res_account_module([4])
         #切换到授权
         self.switch_to_moudle(u'运维管理', u'授权')
-        self.add_authorization_module([1])
+        self.add_authorization_module([2])
         #切换到规则定义
         self.switch_to_moudle(u'运维管理', u'规则定义')
         self.command.click_left_rule(0)
