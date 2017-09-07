@@ -939,7 +939,7 @@ class CommonSuiteData():
         self.del_application()
         self.auth_method_post_condition()
     
-#------------------------------单点登录前置条件------------------------------
+#------------------------------命令单点登录前置条件----------------------------
     u'''单点登录前置条件'''
     def sso_prefix_condition(self):
         self.module_common_prefix_condition()
@@ -966,6 +966,35 @@ class CommonSuiteData():
         #self.del_one_resource("yunei")
         self.del_resource()
         self.auth_method_post_condition()
+        
+#------------------------------windows单点登录前置条件-------------------------
+    u'''windows单点登录前置条件'''
+    def windows_sso_prefix_condition(self):
+        self.module_common_prefix_condition()
+        self.add_user_with_role()
+        self.user_quit()
+        self.login_and_switch_to_sys()
+        #配置认证方式
+        self.add_meth_method()
+        self.add_user_data_module([6])
+        self.sys_switch_to_dep()
+        #self.login_and_switch_to_dep()
+        self.add_resource_modele([2,7,8])
+        self.add_res_account_module([3,9,10])
+        self.add_authorization_module([6,7])
+        self.switch_to_operation()
+        #self.user_quit()
+        #self.login_and_switch_to_common()
+    
+    u'''单点登录后置条件'''
+    def windows_sso_post_condition(self):
+        self.user_quit()
+        self.login_and_switch_to_dep()
+        self.del_authorization()
+        self.del_one_resource("yunei")
+        self.del_resource()
+        self.auth_method_post_condition()
+
         
 #------------------------------数据库单点登录前置条件-------------------------
     u'''数据库单点登录前置条件'''

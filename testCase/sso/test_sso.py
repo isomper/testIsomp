@@ -169,7 +169,7 @@ class testSso():
 	def windows_sso_login_005(self):
 		#日志开始记录
 		self.log.log_start("windowsssoLogin")
-		self.commSuite.sso_user_login(11)
+		#self.commSuite.sso_user_login(11)
 		sso_data = self.get_table_data("windows_sso")
 		#无检查点的测试项标识，如果为True说明通过
 		flag = False
@@ -200,14 +200,14 @@ class testSso():
 					self.windows_common_func(data)					
 			except Exception as e:
 				print ("Domain SSO login fail: ") + str(e)
-		self.commSuite.user_quit()
+		#self.commSuite.user_quit()
 		self.log.log_end("DomainssoLogin")
 	
 	u'''域内资源单点登录'''
 	def yunei_sso_login_007(self):
 		#日志开始记录
 		self.log.log_start("yuneissoLogin")
-		self.commSuite.sso_user_ad_login(13)
+		#self.commSuite.sso_user_ad_login(13)
 		sso_data = self.get_table_data("yunei_sso")
 		#无检查点的测试项标识，如果为True说明通过
 		flag = False
