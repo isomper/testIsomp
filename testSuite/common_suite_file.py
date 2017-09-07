@@ -412,7 +412,7 @@ class CommonSuiteData():
     def set_res_account(self,data):
         self.switch_to_moudle(u"运维管理",u"资源")
         self.account.click_account_manage_button(data[0])
-        self.account.click_account_add()
+        self.account.click_account_add_edit_button(data[2])
         self.account.select_edit_way(data[1])
         if data[2] != "no":
             self.account.set_account_name(data[2])
