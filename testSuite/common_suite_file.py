@@ -694,7 +694,8 @@ class CommonSuiteData():
     
     u'''添加sso资源'''
     def add_sso_resource(self):
-        rowList = [1,2,3,4,5,7,8]
+        #rowList = [1,2,3,4,5,7,8]
+        rowList = [1,3,4,5]
         self.add_resource_modele(rowList)
     
     u'''添加依附操作系统'''
@@ -717,7 +718,8 @@ class CommonSuiteData():
     
     u'''添加sso资源账号'''
     def add_sso_res_account(self):
-        rowList = [1,2,3,4,5,6,7,9,10]
+        rowList = [1,2,4,5,6,7]
+        #rowList = [1,2,3,4,5,6,7,9,10]
         self.add_res_account_module(rowList)
         
     u'''添加用户组'''
@@ -771,7 +773,8 @@ class CommonSuiteData():
                 
     u'''添加单点登录授权'''
     def add_sso_authorization(self):
-        rowList = [1,2,3,4,5,6,7]
+        rowList = [1]
+        #rowList = [1,2,3,4,5,6,7]
         self.add_authorization_module(rowList)
     
     u'''添加客户端数据模板'''
@@ -942,12 +945,12 @@ class CommonSuiteData():
         self.module_common_prefix_condition()
         self.add_user_with_role()
         self.user_quit()
-        self.login_and_switch_to_sys()
+#        self.login_and_switch_to_sys()
         #配置认证方式
-        self.add_meth_method()
-        self.add_sso_user()
-        self.sys_switch_to_dep()
-        #self.login_and_switch_to_dep()
+#        self.add_meth_method()
+#        self.add_sso_user()
+#        self.sys_switch_to_dep()
+        self.login_and_switch_to_dep()
         self.add_sso_resource()
         self.add_sso_res_account()
         self.add_sso_authorization()
@@ -960,7 +963,7 @@ class CommonSuiteData():
         self.user_quit()
         self.login_and_switch_to_dep()
         self.del_authorization()
-        self.del_one_resource("yunei")
+        #self.del_one_resource("yunei")
         self.del_resource()
         self.auth_method_post_condition()
         
