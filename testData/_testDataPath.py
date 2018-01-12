@@ -54,6 +54,9 @@ APP_TEST_DATA_URL = r"/testIsomp/testData/application_test_data.xlsx"
 #sso数据文件
 SSO_TEST_DATA_URL = r"/testIsomp/testData/sso_test_data.xlsx"
 
+#AD域抽取数据文件
+AD_EXTRACT_DATA_URL = r"/testIsomp/testData/ad_extract_data.xlsx"
+
 #linux资源数据文件
 LINUX_RESOURCE_TEST_DATA_URL = r"/testIsomp/testData/linux_resource_test_data.xlsx"
 
@@ -124,6 +127,10 @@ class dataFileName(object):
     #SSO数据
     def get_sso_test_url(self):
         return SSO_TEST_DATA_URL
+    
+    #AD域抽取数据
+    def get_ad_extract_test_url(self):
+        return AD_EXTRACT_DATA_URL
     
     #获取unix资源excel中数据
     def get_unix_test_data_url(self):
