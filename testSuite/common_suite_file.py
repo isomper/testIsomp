@@ -124,6 +124,7 @@ class CommonSuiteData():
     def set_role_basic_info(self,list):
 #        self.cmf.select_menu(u'角色管理',u'角色定义')
         self.switch_to_moudle(u'角色管理',u'角色定义')
+        time.sleep(1)
         self.roleElem.add()
         self.roleElem.edit_rolename(list[0])
         self.roleElem.edit_shortname(list[1])
@@ -1034,12 +1035,12 @@ class CommonSuiteData():
     u'''数据库单点登录后置条件'''
     def database_sso_post_condition(self):
         self.user_quit()
-        self.login_and_switch_to_sys()
-        self.del_application()
-        self.sys_switch_to_dep()
+        #self.login_and_switch_to_sys()
+        self.login_and_switch_to_dep()
         self.del_authorization()
         self.del_resource()
         self.dep_switch_to_sys()
+        self.del_application()
         self.del_client_module([1,2])
         self.auth_method_post_condition()
 
