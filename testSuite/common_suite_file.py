@@ -872,6 +872,8 @@ class CommonSuiteData():
         self.login_and_switch_to_sys()
         #配置认证方式
         self.add_meth_method()
+        self.user_quit()
+        self.login_and_switch_to_sys()
         #配置最大登录数
         self.set_login_max_num()
         #添加登录用户数据
@@ -1149,7 +1151,7 @@ class CommonSuiteData():
         self.module_common_prefix_condition()
         self.add_user_with_role()
         #添加用户
-        self.add_user_data_module([2,3,5,11])
+        self.add_user_data_module([2,5,11,12])
         #退出
         self.user_quit()
         #使用添加的用户登录并切换至部门级角色
@@ -1166,7 +1168,7 @@ class CommonSuiteData():
 
     def process_module_post_condition(self):
         #用户登录切换部门角色
-        self.login_and_switch_to_dep()
+        # self.login_and_switch_to_dep()
         #删除授权
         self.del_authorization()
         #删除资源
