@@ -172,17 +172,17 @@ class ServiceNtp():
         
         
         
-if __name__ == "__main__":
-    setDriver = setDriver()
-    browser = setDriver.set_local_driver()
-    commonSuite = CommonSuiteData(browser)
-    commonSuite.login_and_switch_to_sys()
-    commonSuite.switch_to_moudle(u"系统配置", u"关联服务")
-    service = ServiceNtp(browser)
-    
-    
-    service.edit_ntp_001()
-    service.check_ntp_002()
-    service.update_ntp_003()
+#if __name__ == "__main__":
+#    setDriver = setDriver()
+#    browser = setDriver.set_local_driver()
+#    commonSuite = CommonSuiteData(browser)
+#    commonSuite.login_and_switch_to_sys()
+#    commonSuite.switch_to_moudle(u"系统配置", u"关联服务")
+#    service = ServiceNtp(browser)
+#    
+#    
+#    service.edit_ntp_001()
+#    service.check_ntp_002()
+#    service.update_ntp_003()
 
 
