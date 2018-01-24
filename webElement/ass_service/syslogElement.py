@@ -57,7 +57,6 @@ class Syslog:
         self.frameElem = frameElement(driver)
         self.cmf = commonFun(driver)
         self.cnEnde = cnEncode()
-        self.ntp = NtpService(driver)
             
     u'''填写变量内容
         parameters:
@@ -101,8 +100,8 @@ class Syslog:
         parameters:
             setIdent : 标识
     '''
-    def set_ident(self,setPort):
-        return self.set_common_func(setPort,self.IDENT)
+    def set_ident(self,setIdent):
+        return self.set_common_func(setIdent,self.IDENT)
     
     u'''选择机制
             Parameters:
@@ -144,8 +143,10 @@ class Syslog:
         except Exception as e:
             print ("Change  button status  error: ") + str(e)
 
-    
+
         
+        
+    
     
     
     
