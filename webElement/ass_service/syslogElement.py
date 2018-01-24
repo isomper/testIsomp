@@ -56,6 +56,7 @@ class Syslog:
         self.select = selectElement(driver)
         self.frameElem = frameElement(driver)
         self.cmf = commonFun(driver)
+        self.ntp = NtpService(driver)
         self.cnEnde = cnEncode()
             
     u'''填写变量内容
