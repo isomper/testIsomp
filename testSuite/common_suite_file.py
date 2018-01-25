@@ -44,8 +44,6 @@ sys.path.append("/testIsomp/webElement/rule")
 from test_command_rule_ment import CommandRule
 sys.path.append("/testIsomp/webElement/ass_service")
 from ntpElement import NtpService
-sys.path.append("/testIsomp/webElement/password_strategy/")
-from pwdStrategyElement import PwdStrategy
 
 
 #导入应用发布
@@ -1385,10 +1383,10 @@ class CommonSuiteData():
         self.module_common_post_condition()
 
 #------------------------------密码策略前置条件--------------------------------	
-	def pwdstr_module_prefix_condition(self):
+    def pwdstr_module_prefix_condition(self):
         self.module_common_prefix_condition()
         #添加系统级和部门级角色的用户
-		self.add_user_with_role()
+        self.add_user_with_role()
         #添加用户
         self.add_user_data_module([2])
         #用户退出
@@ -1400,7 +1398,7 @@ class CommonSuiteData():
         #切换到系统级
         self.dep_switch_to_sys()        
         self.switch_to_moudle(u"策略配置", u"密码策略")
-		
+
     def pwdstr_module_post_condition(self):
         self.sys_switch_to_dep() 
         self.switch_to_moudle(u"运维管理", u"资源")
