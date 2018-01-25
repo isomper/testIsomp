@@ -112,6 +112,8 @@ PASSWORD_STRATRGY_TEST_DATA_URL = r"/testIsomp/testData/password_strategy_test_d
 
 #syslog服务数据文件
 SYSLOG_TEST_DATA_URL = r"/testIsomp/testData/syslog_test_data.xlsx"
+#邮件配置数据文件
+MAIL_TEST_DATE = r"/testIsomp/testData/mail_test_data.xlsx"
 
 class dataFileName(object):
     #获取通用excel中的数据
@@ -255,6 +257,9 @@ class dataFileName(object):
     def get_syslog_test_data_url(self):
         return SYSLOG_TEST_DATA_URL
 	
+    u'''获取邮件数据'''
+    def mail_test_date_url(self):
+        return MAIL_TEST_DATE
 
 
     #从sheet名称获取登陆数据
