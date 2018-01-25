@@ -44,6 +44,8 @@ sys.path.append("/testIsomp/webElement/rule")
 from test_command_rule_ment import CommandRule
 sys.path.append("/testIsomp/webElement/ass_service")
 from ntpElement import NtpService
+sys.path.append("/testIsomp/webElement/password_strategy/")
+from pwdStrategyElement import PwdStrategy
 
 
 #导入应用发布
@@ -185,6 +187,8 @@ class CommonSuiteData():
         self.userElem.set_user_pwd(data[4])
         self.userElem.set_user_enquire_pwd(data[5])
         self.userElem.set_start_time(data[6])
+        if data[12] != "":
+            self.userElem.set_user_email(data[12])
         if data[10] != "":
             self.userElem.set_dep(data[10])
         if data[7] !="":
@@ -910,7 +914,41 @@ class CommonSuiteData():
         self.del_res_group()
         self.del_user_group()
         self.auth_method_post_condition()
-    
+
+#-----------------------------配置报表前置条件---------------------------------
+    def conf_report_module_prefix_condition(self):
+        self.module_common_prefix_condition()
+        self.add_user_with_role()
+        self.user_quit()
+        self.login_and_switch_to_dep()
+        self.add_user_data_module([9])
+        self.add_user_group()
+        self.user_quit()
+        self.login_and_switch_to_sys()
+        self.switch_to_moudle(u"报表管理", u"审计报表")
+        
+    def conf_report_module_post_condition(self):
+        self.sys_switch_to_dep()
+        self.del_user_group()
+        self.auth_method_post_condition()
+#-----------------------------行为报表前置条件---------------------------------
+    def opt_report_module_prefix_condition(self):
+        self.module_common_prefix_condition()
+        self.add_user_with_role()
+        self.user_quit()
+        self.login_and_switch_to_dep()
+        self.add_user_data_module([9])
+        self.add_resource_modele([7])
+        self.add_res_group()
+        self.add_user_group()
+        self.user_quit()
+        self.login_and_switch_to_sys()
+        self.switch_to_moudle(u"报表管理", u"审计报表")
+        
+    def opt_report_module_post_condition(self):
+        self.sys_switch_to_dep()
+        self.authori_module_post_condition()
+
 #-----------------------------客户端配置前置条件------------------------------
     def client_module_prefix_condition(self):
         self.module_common_prefix_condition()
@@ -1327,7 +1365,48 @@ class CommonSuiteData():
 
     def audit_mount_module_post_condition(self):
         self.module_common_post_condition()
+        
+#-------------------------------SYSLOG前置条件---------------------------------
+    def syslog_module_prefix_condition(self):
+        self.module_common_prefix_condition()
+        self.add_user_with_role()
+        #添加用户
+        self.add_user_data_module([0])
+        #退出
+        self.user_quit()
+        time.sleep(1)
+        #使用添加的用户登录并切换至系统级角色
+        self.login_and_switch_to_sys()
+        #切换到NTP服务
+        self.switch_to_moudle(u'系统配置', u'关联服务')
+        self.ntp.click_left_moudle(1)
+        
+    def syslog_module_post_condition(self):
+        self.module_common_post_condition()
 
+#------------------------------密码策略前置条件--------------------------------	
+	def pwdstr_module_prefix_condition(self):
+        self.module_common_prefix_condition()
+        #添加系统级和部门级角色的用户
+		self.add_user_with_role()
+        #添加用户
+        self.add_user_data_module([2])
+        #用户退出
+        self.user_quit()
+        #使用新用户登录并切换到系统级
+        self.login_and_switch_to_dep()
+        self.switch_to_moudle(u"运维管理", u"资源")
+        self.add_resource_modele([7])
+        #切换到系统级
+        self.dep_switch_to_sys()        
+        self.switch_to_moudle(u"策略配置", u"密码策略")
+		
+    def pwdstr_module_post_condition(self):
+        self.sys_switch_to_dep() 
+        self.switch_to_moudle(u"运维管理", u"资源")
+        self.del_resource()
+        self.dep_switch_to_sys()
+        self.module_common_post_condition()
 
 
 #if __name__ == "__main__":
