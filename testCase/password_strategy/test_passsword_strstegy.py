@@ -284,6 +284,8 @@ class PasswordStr():
                     self.switch_to_session_module()
                     self.frameElem.from_frame_to_otherFrame("mainFrame")
                     self.PwdStr.set_pwd_strategy(data[4])
+                    self.session.add_session(data[2])
+                    self.session.add_locking_time(data[3])
                     self.session.save_global_button()
                     self.frameElem.switch_to_content()
                     self.cmf.test_win_check_point("xpath", saveMsg, data, flag)
