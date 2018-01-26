@@ -50,7 +50,7 @@ class TestNtpSuite(unittest.TestCase):
         self.pwdstr.check_strategy_003()
         #密码策略检索
         self.pwdstr.search_strategy_004()
-        #删除单挑密码策略
+        #删除单条密码策略
         self.pwdstr.del_sing_policy_005()
         #配置全局密码策略
         self.pwdstr.session_association_007()
@@ -58,7 +58,7 @@ class TestNtpSuite(unittest.TestCase):
         self.pwdstr.user_association_008()
         #与密码策略关联的资源
         self.pwdstr.resource_association_009()
-        #与密码策略关丽娜的资源账号
+        #与密码策略关联的资源账号
         self.pwdstr.resource_account_association_010()
         #删除所有密码策略
         self.pwdstr.del_all_policy_006()
