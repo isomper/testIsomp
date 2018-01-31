@@ -49,9 +49,10 @@ class NetworkCardSuite(unittest.TestCase):
         self.net.del_network_card_002()
         #校验网卡
         self.net.check_network_card_003()
-        
+       
+    def tearDown(self):
         #后置条件
-        self.commonSuite.ntp_module_post_condition()
+        self.commonSuite.network_card_module_post_condition()
         #关闭浏览器
         self.initDriver.close_driver(self.browser)
         
