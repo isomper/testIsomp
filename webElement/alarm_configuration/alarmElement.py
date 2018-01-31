@@ -169,17 +169,14 @@ class AlarmPage():
     def check_all_button(self):
         try:
             self.click_button_common('id',self.CHECK_ALL_BUTTON)
-            #time.sleep(1)
         except Exception as e:
             print("Click checkall button error: ") + str(e)
             
     u'''左边框点击告警配置'''
     def click_left_config_test(self):
         self.frameElem.from_frame_to_otherFrame("leftFrame")
-        #time.sleep(1)
         self.getElem.find_element_wait_and_click_EC("id", "url1")
-        #time.sleep(1)
-    
+   
     u'''左边框点击告警归纳'''
     def click_left_Induce_test(self):
         self.frameElem.from_frame_to_otherFrame("leftFrame")
