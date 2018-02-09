@@ -1436,8 +1436,20 @@ class CommonSuiteData():
 
     def audit_mount_module_post_condition(self):
         self.module_common_post_condition()
-        
-#-------------------------------网卡配置前置条件-------------------------------
+
+#------------------------------备份还原前置条件-----------------------------------
+    def backup_restore_module_prefix_condition(self):
+        self.module_common_prefix_condition()
+        self.add_user_with_role()
+        #退出
+        self.user_quit()
+        #使用添加的用户登录并切换至系统级角色
+        self.login_and_switch_to_sys()
+
+    def backup_restore_module_post_condition(self):
+        self.module_common_post_condition()
+	
+	#-------------------------------网卡配置前置条件-------------------------------
     def network_card_module_prefix_condition(self):
         self.module_common_prefix_condition()
         self.add_user_with_role()
@@ -1451,7 +1463,7 @@ class CommonSuiteData():
         #切换到网卡配置
         self.switch_to_moudle(u'系统配置', u'网络配置')
         
-    def syslog_module_post_condition(self):
+    def network_card_module_post_condition(self):
         self.module_common_post_condition()
         
 #-------------------------------SYSLOG前置条件---------------------------------
