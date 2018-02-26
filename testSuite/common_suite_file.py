@@ -580,7 +580,7 @@ class CommonSuiteData():
     u'''添加用户数据模板'''
     def add_user_data_module(self,rowList):
         self.switch_to_moudle(u"运维管理",u"用户")
-        user_data = self.get_table_data("common_user")
+        user_data = self.get_table_data("add_user")
         for dataRow in rowList:
             data = user_data[dataRow]
             if dataRow != 0:
@@ -597,7 +597,7 @@ class CommonSuiteData():
                 login_status ：'no'(登录状态：没有登录)
     '''
     def login_and_switch_to_common(self,login_status='no'):
-        login_data = self.get_table_data("common_user")
+        login_data = self.get_table_data("add_user")
         logindata = login_data[1]
         if login_status == 'no':
             self.loginElem.login(logindata)
@@ -632,14 +632,14 @@ class CommonSuiteData():
     
     #使用新添加的用户登录
     def use_new_user_login(self):
-        login_data = self.get_table_data("common_user")
+        login_data = self.get_table_data("add_user")
         logindata = login_data[1]
         time.sleep(2)
         self.loginElem.login(logindata)
     
     u'''运维管理员登录'''
     def sso_user_login(self,rowList):
-        login_data = self.get_table_data("common_user")
+        login_data = self.get_table_data("add_user")
         logindata = login_data[rowList]
         time.sleep(1)
         self.loginElem.login(logindata)
@@ -841,6 +841,20 @@ class CommonSuiteData():
             data = database_data[dataRow]
             if dataRow != 0:
                 self.set_database_res_info(data)
+
+    u'''删除用户数据模板'''
+    def del_user_data_module(self,rowList):
+        self.switch_to_moudle(u"运维管理",u"用户")
+        self.frameElem.from_frame_to_otherFrame("mainFrame")
+        user_data = self.get_table_data("add_user")
+        for dataRow in rowList:
+            data = user_data[dataRow]
+            if dataRow != 0:
+                self.switch_to_moudle(u"运维管理",u"用户")
+                self.userElem.operate_delete(data[1])
+                self.frameElem.switch_to_content()
+                self.cmf.click_login_msg_button()
+                self.cmf.click_login_msg_button()
 
 #-------------------------------前置条件---------------------------------------
     u'''前置条件通用'''
@@ -1171,7 +1185,7 @@ class CommonSuiteData():
 
     def role_module_post_condition(self):
         #用初始化用户登录删除用户
-        self.del_user()
+        self.del_user_data_module([2])
         #用户退出
         self.user_quit()
 
