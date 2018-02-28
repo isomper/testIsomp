@@ -47,6 +47,8 @@ from ntpElement import NtpService
 sys.path.append("/testIsomp/webElement/mail")
 from test_mail_ment import MailPage
 
+sys.path.append("/testIsomp/webElement/passwd_envelope")
+from test_passwd_envelope_ment import EnvelopePage
 
 sys.path.append("/testIsomp/webElement/sso")
 from ssoElement import SsoPage
@@ -122,6 +124,7 @@ class CommonSuiteData():
         self.syslog = Syslog(driver)
         self.ssoElem = SsoPage(self.driver)
         self.alarm = AlarmPage(self.driver)
+        self.passwdenvelope = EnvelopePage(self.driver)
 
     u'''切换模块
             parameter:
@@ -1590,6 +1593,22 @@ class CommonSuiteData():
     def alarm_strategy_module_post_condition(self):
         self.module_common_post_condition()
 
+    #------------------------------密码信封前置条件---------------------------------
+    def passwd_envelope_module_prefix_condition(self):
+        self.module_common_prefix_condition()
+        self.add_user_with_role()
+        #添加用户
+        self.add_user_data_module([0])
+        #退出
+        self.user_quit()
+        #使用添加的用户登录并切换至系统级角色
+        self.login_and_switch_to_sys()
+        #切换到邮件服务
+        self.switch_to_moudle(u'系统配置', u'关联服务')
+        self.passwdenvelope.click_left_moudle_envelope()
+
+    def passwd_envelope_module_post_condition(self):
+        self.module_common_post_condition()
 
 #if __name__ == "__main__":
 #    driver = setDriver().set_local_driver()
