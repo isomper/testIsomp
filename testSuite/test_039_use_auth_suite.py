@@ -53,7 +53,7 @@ class UseAuthSuite(unittest.TestCase):
         self.useAuthCase.check_logo_upgrade_004()
 
     def tearDown(self):
-        self.commonSuite.alarm_strategy_module_post_condition()
+        self.commonSuite.use_auth_module_post_condition()
         self.initDriver.close_driver(self.browser)
 
 
