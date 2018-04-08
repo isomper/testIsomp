@@ -64,7 +64,7 @@ class UseAuth():
     #点击上传按钮
     def up_logo_button(self):
         try:
-            self.getElem.find_element_with_wait_clickable_and_click('id',self.UP_LOAD)
+            self.getElem.find_element_with_wait_clickable_and_click('id',self.UP_LOGO)
         except Exception as e:
             print ("up logo button error: ") + str(e)
     
