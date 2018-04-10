@@ -1585,7 +1585,6 @@ class CommonSuiteData():
 
     def passwd_envelope_module_post_condition(self):
         self.user_quit()
-        self.user_quit()
 
 #if __name__ == "__main__":
 #    driver = setDriver().set_local_driver()
