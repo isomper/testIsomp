@@ -99,9 +99,9 @@ class UseAuth():
         try:
             self.frameElem.from_frame_to_otherFrame("mainFrame")
             if index == 1:
-                value = "D://UseOfAuthorization/logo.png"
+                value = "H://testIsomp/testData/envelope_image.png"
             elif index == 2:
-                value = "D://UseOfAuthorization/logo_or_upgrade.xlsx"
+                value = "H://testIsomp/testData/use_of_authorization.xlsx"
             self.getElem.find_element_wait_and_sendkeys('id',self.LOGO_IMAGE,value)
         except Exception as e:
             print ("click  and check up logo button error: ") + str(e)
